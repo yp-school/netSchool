@@ -1,0 +1,116 @@
+<style>
+    #classroomInfo-add {
+        padding: 20px 25px 25px 0;
+    }
+    #classroomInfo-add .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="classroomInfo-add">
+    <form class="layui-form" action="" lay-filter="classroomInfo-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">学校名称：</label>
+            <div class="layui-input-block">
+                <select name="schoolId" id="schoolId">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">位置：</label>
+            <div class="layui-input-block">
+                <input type="text" name="location" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+<!--        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">推流地址：</label>
+            <div class="layui-input-block ">
+                <input type="text" name="url" id="url" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">播放地址：</label>
+            <div class="layui-input-block ">
+                <input type="text" name="playUrl" id="playUrl" class="layui-input">
+            </div>
+        </div>-->
+        <div class="layui-form-item" style="text-align:right">
+            <button class="layui-btn" lay-submit="" lay-filter="classroomInfo-add-form-submit" id="submit">提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#classroomInfo-add'),
+            // classroomInfo = [[${classroomInfo}]],
+            school=$('#schoolId'),
+            validate = layui.validate;
+        // alert(classroomInfo.url);
+        getSchool();
+        initClassroomInfoValue();
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+        formSelects.config('classroomInfo-add-role', {
+            searchUrl: ctx + 'role',
+            response: {
+                statusCode: 200
+            },
+            beforeSuccess: function (id, url, searchVal, result) {
+                var data = result.data;
+                var tranData = [];
+                for (var i = 0; i < data.length; i++) {
+                    tranData.push({
+                        name: data[i].roleName,
+                        value: data[i].roleId
+                    })
+                }
+                result.data = tranData;
+                return result;
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                febs.alert.error('获取角色列表失败');
+            }
+        });
+
+        function initClassroomInfoValue() {
+            // form.val("classroomInfo-add-form", {
+            //     "url": classroomInfo.url
+            // });
+        }
+
+        function getSchool() {
+            febs.get(ctx+'school/web/list',null,function (res) {
+                var items=res.data;
+                if (items.total==0){
+                    school.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //school.append('<option value="' + items.rows[0].schoolId + '">' + items.rows[0].schoolName+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                            school.append('<option value='+ items.rows[i].schoolId + '>' + items.rows[i].schoolName + '</option>');
+                    }
+                }
+                form.render('select');
+            });
+        }
+
+        form.on('submit(classroomInfo-add-form-submit)', function (data) {
+            $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'classroomInfo', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('新增教室成功');
+                $('#febs-classroomInfo').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

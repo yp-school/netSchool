@@ -1,0 +1,332 @@
+<style>
+    #school-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #school-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="school-update">
+    <form class="layui-form" action="" lay-filter="school-update-form">
+        <div class="layui-form-item" hidden = 'true'>
+            <label class="layui-form-label febs-form-item-require">学校部门编号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="deptId" minlength="4" maxlength="10"
+                       autocomplete="off" class="layui-input" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">学校名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="schoolName" minlength="4" maxlength="10"
+                        autocomplete="off" class="layui-input" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">学校简介：</label>
+            <div class="layui-input-block">
+                <textarea name="introduce" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">学校类别：</label>
+            <div class="layui-input-block"  style="width: 180px;">
+                <select name="schoolCategory" id="schoolCate">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">学校类型：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="schoolType" value="主校" title="主校" disabled>
+                <input type="radio" name="schoolType" value="分校" title="分校" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">芙蓉学校：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="fuRong"  value="1" title="是" >
+                <input type="radio" name="fuRong"  value="0" title="否" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">所属主校：</label>
+            <div class="layui-input-block">
+                <select name="belongId"
+                        lay-verify="required"
+                        xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="schoolTimetable-update-school"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">主负责人：</label>
+            <div class="layui-input-block">
+                <input type="text" name="linkMan" minlength="2" maxlength="10"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话：</label>
+            <div class="layui-input-block">
+                <input type="tel" name="linkPhone" lay-verify="phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" id="area-picker">
+            <label class="layui-form-label">所属地区：</label>
+            <div class="layui-input-block" style="width:180px;float:left;margin:0px;">
+                <!--<input name="provinceDeptId" class="layui-input" lay-filter="city-1" placeholder="请选择省" id="provinceDeptId" readonly/>-->
+                <select name="provinceDeptId" id="provinceDeptId" readonly="readonly">
+                </select>
+            </div>
+            <div class="layui-input-block" style="width:180px;float:left;margin-left:5px;">
+                <!--<input name="cityDeptId" class="layui-input" lay-filter="city-1" placeholder="请选择市" id="cityDeptId" readonly/>-->
+                <select name="cityDeptId" id="cityDeptId" readonly="readonly">
+                </select>
+            </div>
+            <div class="layui-input-block" style="width:180px;float:left;margin-left:5px;">
+                <!--<input name="countryDeptId" class="layui-input" lay-filter="city-1" placeholder="请选择区/县" id="countryDeptId" readonly/>-->
+                <select name="countryDeptId" id="countryDeptId" readonly="readonly">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学校地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="address"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮编：</label>
+            <div class="layui-input-block">
+                <input type="text" name="postCode"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片资源：</label>
+            <div class="layui-input-block">
+                <input type="text" id = "picture" name="picture"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传照片</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+            </div>
+            预览图：
+            <div class="layui-upload-list" id="demo2"></div>
+
+            <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
+            <div class="layui-form-item" style="text-align: right">
+                <button class="layui-btn" lay-submit="" lay-filter="school-update-form-submit" id="submit">提交</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="./mods/layarea.js"></script>
+<script data-th-inline="javascript">
+
+    layui.use(['febs', "jquery",'form', 'formSelects', 'laydate','validate','upload', 'treeSelect',"element"], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            laydate = layui.laydate,
+            form = layui.form,
+            upload = layui.upload,
+            layarea = layui.layarea,
+            $form = $('form'),
+            school = [[${school}]],
+            schoolCategory=$('#schoolCate'),
+            $view = $('#school-update'),
+            $remove=$view.find('#remove'),
+            validate = layui.validate;
+            laydate.render({
+            elem: '#createTime',
+            type: 'datetime',
+        });
+        getschoolCategory();
+        getSchoolprovince(school.provinceDeptId);
+        getSchoolcityDeptId(school.cityDeptId);
+        getSchoolcountryDeptId(school.countryDeptId);
+        form.verify(validate);
+        form.render();
+        initUserValue();
+        //学校所属地区省
+        function getSchoolprovince(provinceDeptId){
+            $.ajax({
+                type:'get',
+                url: ctx+"dept/get?deptId="+provinceDeptId,
+                success:function (res) {
+                    var items=res.data;
+                    $('#provinceDeptId').append('<option value='+ items.deptId + '>' + items.deptName + '</option>');
+                    form.render('select');
+                }
+            });
+        }
+        //学校所属地区市
+        function getSchoolcityDeptId(cityDeptId){
+            $.ajax({
+                type:'get',
+                url: ctx+"dept/get?deptId="+cityDeptId,
+                success:function (res) {
+                    var items=res.data;
+                    $('#cityDeptId').append('<option value='+ items.deptId + '>' + items.deptName + '</option>');
+                    form.render('select');
+                }
+            });
+        }
+        //学校所属地区县
+        function getSchoolcountryDeptId(countryDeptId){
+            $.ajax({
+                type:'get',
+                url: ctx+"dept/get?deptId="+countryDeptId,
+                success:function (res) {
+                    var items=res.data;
+                    $('#countryDeptId').append('<option value='+ items.deptId + '>' + items.deptName + '</option>');
+                    form.render('select');
+                }
+            });
+        }
+
+        //学校类型
+        function getschoolCategory() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=category",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        schoolCategory.append('<option value="'+""+'">'+""+'</option>');
+                    }else{
+                        for (var i=0;i<items.length;i++) {
+                            if (items[i].v===school.schoolCategory){
+                                $('#schoolCate').append('<option value=' + items[i].v + ' selected="selected">' + items[i].v + '</option>');
+                            }else{
+                                $('#schoolCate').append('<option value=' + items[i].v + '>' + items[i].v + '</option>');
+                            }
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+
+        var imgurls = "";
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload'
+            , size: 1000
+            , multiple: true
+            , number: 7
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    // $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name
+                        + '"height="100px" width="100px" class="layui-upload-img uploadImgPreView">')
+                });
+            }
+            , done: function (res) {
+                imgurls = imgurls + "" + res.data.src + ",";
+                $('#imgUrls').val(imgurls);
+                if(imgurls != ""){
+                    $('#picture').val(imgurls);
+                }
+            }
+            , error: function () {
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        //所属主校
+        formSelects.config('schoolTimetable-update-school', {
+            searchUrl: ctx + 'school?schoolType=主校',
+            response: {
+                statusCode: 200
+            },
+            beforeSuccess: function (id, url, searchVal, result) {
+                var data = result.data;
+                var tranData = [];
+                for (var i = 0; i < data.length; i++) {
+                    tranData.push({
+                        name: data[i].schoolName,
+                        value: data[i].schoolId
+                    })
+                }
+                result.data = tranData;
+                return result;
+            },
+            success: function () {
+                formSelects.value('schoolTimetable-update-school', [school.belongId]);
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                febs.alert.error('获取学校列表失败');
+            }
+        });
+
+        function initUserValue() {
+            var dateee = new Date(school.createTime).toJSON();
+            var date = new Date(+new Date(dateee)+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'');
+            form.val("school-update-form", {
+                "schoolName": school.schoolName,
+                "introduce": school.introduce,
+                "schoolType": school.schoolType,
+                "fuRong":school.fuRong,
+                "belongId":school.belongId,
+                "linkMan": school.linkMan,
+                "linkPhone": school.linkPhone,
+                "postCode": school.postCode,
+                "areaCode":school.areaCode,
+                "address":school.address,
+                "createTime":date,
+                "picture":school.picture,
+                "provinceDeptId":school.provinceDeptId,
+                "cityDeptId":school.cityDeptId,
+                "countryDeptId":school.countryDeptId,
+                "schoolCategory":school.schoolCategory,
+                "deptId":school.deptId
+            });
+        }
+        layarea.render({
+            elem: '#area-picker',
+             data: {
+                 provinceDeptId: school.provinceDeptId,
+                 cityDeptId: school.cityDeptId,
+                 countryDeptId: school.countryDeptId,
+            },
+        });
+
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+        form.on('submit(school-update-form-submit)', function (data) {
+        	data.field.schoolId=school.schoolId;
+        	console.log(data.field);
+            if (febs.nativeEqual(data.field, school)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+            $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'school/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success(' 学校信息修改成功');
+                $('#febs-school').find('#reset').click();
+            });
+            return false;
+        });
+
+    });
+</script>

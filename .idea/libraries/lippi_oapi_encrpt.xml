@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="lippi-oapi-encrpt">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/resources/lib/lippi-oapi-encrpt.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

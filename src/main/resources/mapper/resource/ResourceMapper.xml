@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.resource.mapper.ResourceMapper">
+
+    <resultMap id="resourceMap" type="cc.mrbird.febs.resource.entity.Resource">
+        <id column="resource_id" jdbcType="DECIMAL" property="resourceId"/>
+        <result column="resource_name" jdbcType="VARCHAR" property="resourceName"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
+        <result column="province_id" jdbcType="VARCHAR" property="provinceId"/>
+        <result column="city_id" jdbcType="VARCHAR" property="cityId"/>
+        <result column="country_id" jdbcType="VARCHAR" property="countryId"/>
+        <result column="grade_id" jdbcType="INTEGER" property="gradeId"/>
+        <result column="subject_id" jdbcType="INTEGER" property="subjectId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="star" jdbcType="INTEGER" property="star"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="read_count" jdbcType="INTEGER" property="readCount"/>
+        <result column="comment_count" jdbcType="INTEGER" property="commentCount"/>
+        <result column="order_num" jdbcType="DECIMAL" property="orderNum"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+        <result column="grade_name" jdbcType="VARCHAR" property="gradeName"/>
+        <result column="subject_name" jdbcType="VARCHAR" property="subjectName"/>
+    </resultMap>
+    
+    <update id="increaseCommentCount">
+		update r_resource
+		<set>comment_count = comment_count + #{num}</set>
+		where resource_id = #{resourceId}
+	</update>
+	<update id="increaseReadCount">
+		update r_resource
+		<set>read_count = read_count + #{num}</set>
+		where resource_id = #{resourceId}
+	</update>
+	<select id="findDetails" resultMap="resourceMap">
+        SELECT
+        r.*,
+        c.category_name,
+        d.dept_name,
+        g.v grade_name,
+        subj.v subject_name
+        FROM
+        r_resource r
+        LEFT JOIN r_category c ON r.category_id = c.category_id
+        LEFT JOIN t_dept d ON r.dept_id = d.dept_id   
+        LEFT JOIN t_dict g ON r.grade_id = g.k AND g.field = 'grade'
+        LEFT JOIN t_dict subj ON r.subject_id = subj.k AND subj.field = 'subject'
+        WHERE 1 = 1
+        <if test="resource.resourceName != null and resource.resourceName != ''">
+            AND r.resource_name like CONCAT('%',#{resource.resourceName},'%')
+        </if>
+        <if test="resource.creator != null and resource.creator != ''">
+            AND r.creator = #{resource.creator}
+        </if>
+        <if test="resource.categoryId != null and resource.categoryId != ''">
+            AND r.category_id = #{resource.categoryId}
+        </if>
+        <if test="resource.deptId != null and resource.deptId != ''">
+            AND r.dept_id = #{resource.deptId}
+        </if>
+        <if test="resource.gradeId != null and resource.gradeId != ''">
+            AND r.grade_id = #{resource.gradeId}
+        </if>
+        <if test="resource.subjectId != null and resource.subjectId != ''">
+            AND r.subject_id = #{resource.subjectId}
+        </if>
+        <if test="resource.status != null and resource.status != ''">
+            AND r.status = #{resource.status}
+        </if>
+        <if test="resource.createTimeFrom != null and resource.createTimeFrom !=''">
+            And r.create_time &gt; #{resource.createTimeFrom}
+        </if>
+        <if test="resource.createTimeTo!= null and resource.createTimeTo !=''">
+            And r.create_time &lt; #{resource.createTimeTo}
+        </if>
+            AND (r.dept_id or r.province_id or r.city_id or r.country_id in (#{resource.deptIds}))
+
+    </select>
+    
+    <select id="findDetailById" parameterType="long" resultMap="resourceMap">
+        SELECT
+        r.*,
+        c.category_name,
+        d.dept_name,
+        g.v grade_name,
+        subj.v subject_name
+        FROM
+        r_resource r
+        LEFT JOIN r_category c ON r.category_id = c.category_id
+        LEFT JOIN t_dept d ON r.dept_id = d.dept_id   
+        LEFT JOIN t_dict g ON r.grade_id = g.k AND g.field = 'grade'
+        LEFT JOIN t_dict subj ON r.subject_id = subj.k AND subj.field = 'subject'
+        WHERE r.resource_id = #{resourceId}
+    </select>
+
+    <select id="getResourceCount" resultType="integer">
+        SELECT count(1) FROM r_resource r
+        WHERE  1 = 1
+        <if test = "deptId != null">
+            and r.city_id = #{deptId}
+        </if>
+        <if test="timeTo != null and timeTo !=''">
+            and r.create_time &lt; #{timeTo}
+        </if>
+    </select>
+
+
+    <select id="getResourceCountById" resultType="integer">
+        SELECT count(1) FROM r_resource r
+        WHERE  1 = 1
+        <if test = "provinceId != null">
+            and r.province_id = #{provinceId}
+        </if>
+        <if test = "cityId != null">
+            and r.city_id = #{cityId}
+        </if>
+        <if test = "countryId != null">
+            and r.country_id = #{countryId}
+        </if>
+    </select>
+</mapper>

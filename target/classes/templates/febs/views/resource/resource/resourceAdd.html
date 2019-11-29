@@ -1,0 +1,184 @@
+<style>
+    #resource-add {
+        padding: 20px 25px 25px 0;
+    }
+    #resource-add .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-anim {
+    	-webkit-animation-duration: 1s!important;
+    	animation-duration: 1s!important;
+    }
+</style>
+<div class="layui-fluid" id="resource-add">
+    <form class="layui-form" action="" lay-filter="resource-add-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">资源名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="resourceName" minlength="2" maxlength="100" lay-verify="range|resourceName"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">关键字：</label>
+            <div class="layui-input-block">
+                <input type="text" name="keywords" maxlength="255" lay-verify="range|keywords"
+                	   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">资源地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" minlength="2" maxlength="255" lay-verify="range"
+                	   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">展示图片：</label>
+            <div class="layui-input-block">
+                <input type="text" name="pic" maxlength="255" lay-verify="range|resourceName"
+                	   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源格式：</label>
+            <div class="layui-input-block">
+                <select name="fileType"
+                        xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-add-fileType"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门：</label>
+            <div class="layui-input-block">
+                <select name="deptId" id="resource-add-dept"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-add-dept"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">适用年级：</label>
+            <div class="layui-input-block">
+                <select name="gradeId"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-add-grade"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">科目：</label>
+            <div class="layui-input-block">
+                <select name="subjectId"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-add-subject"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类别：</label>
+            <div class="layui-input-block">
+                <input type="text" name="categoryId" id="resource-add-category" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">资源介绍：</label>
+            <div class="layui-input-block">
+                <textarea name="description" maxlength="500" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align:center">
+            <button class="layui-btn" lay-submit lay-filter="resource-add-form-submit" id="submit">
+            	提交 <i id="submit-loading" style="display: none;" class="layui-icon layui-icon-loading-2 layui-anim layui-anim-rotate layui-anim-loop">&#xe63d;</i> 
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            depts = [[${depts}]],
+            grades = [[${grades}]],
+            subjects = [[${subjects}]],
+            fileTypes = [[${fileTypes}]],
+            formSelects = layui.formSelects,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#resource-add'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+        initSelects();
+
+        treeSelect.render({
+            elem: $view.find('#resource-add-category'),
+            type: 'get',
+            data: ctx + 'category/select/tree',
+            placeholder: '请选择',
+            search: false
+        });       
+            
+        form.on('submit(resource-add-form-submit)', function (data) {
+        	$('#submit').attr("disabled",true);
+        	$('#submit-loading').show();
+            febs.post(ctx + 'resource', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('新增资源成功');
+                $('#febs-resource').find('#query').click();
+                $('#submit').attr("disabled",false);
+                $('#submit-loading').hide()
+            },
+            function (r) {
+	            $('#submit').attr("disabled",false);
+	            $('#submit-loading').hide()
+		    })
+            return false;
+        });
+        function initSelects() {
+        	selectDepts = [];
+        	depts.forEach(function(d){  
+        		selectDepts.push({"name": d.deptName, "value": d.deptId});
+        	});
+        	selectGrades = [];
+        	grades.forEach(function(d){  
+        		selectGrades.push({"name": d.v, "value": d.k});
+        	});
+        	selectSubjects = [];
+        	subjects.forEach(function(d){  
+        		selectSubjects.push({"name": d.v, "value": d.k});
+        	});
+        	selectFileTypes = [];
+        	fileTypes.forEach(function(d){  
+        		selectFileTypes.push({"name": d.v, "value": d.k});
+        	});      	
+        	formSelects.data('resource-add-dept', 'local', {
+                arr: selectDepts
+            });
+        	formSelects.data('resource-add-grade', 'local', {
+                arr: selectGrades
+            });
+        	formSelects.data('resource-add-subject', 'local', {
+                arr: selectSubjects
+            });
+        	formSelects.data('resource-add-fileType', 'local', {
+                arr: selectFileTypes
+            });
+        }
+    });
+</script>

@@ -1,0 +1,208 @@
+<style>
+    #resource-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #resource-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="resource-update">
+    <form class="layui-form" action="" lay-filter="resource-update-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label febs-form-item-require">资源id：</label>
+            <div class="layui-input-block">
+                <input type="text" name="resourceId" data-th-value="${resource.resourceId}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">资源名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="resourceName" minlength="2" maxlength="100" lay-verify="range|resourceName"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">资源地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" minlength="2" maxlength="255" lay-verify="range|resourceName"
+                	   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">展示图片：</label>
+            <div class="layui-input-block">
+                <input type="text" name="pic" maxlength="255" lay-verify="range|resourceName"
+                	   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源格式：</label>
+            <div class="layui-input-block">
+                <select name="fileType"
+                        xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-update-fileType"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门：</label>
+            <div class="layui-input-block">
+                <select name="deptId"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-update-dept"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">适用年级：</label>
+            <div class="layui-input-block">
+                <select name="gradeId"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-update-grade"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">科目：</label>
+            <div class="layui-input-block">
+                <select name="subjectId"
+                		xm-select-radio
+                        xm-select-direction="down"
+                        xm-select="resource-update-subject"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类别：</label>
+            <div class="layui-input-block">
+                <input type="text" name="categoryId" id="resource-update-category" 
+                lay-filter="resource-update-category" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">资源介绍：</label>
+            <div class="layui-input-block">
+                <textarea name="description" maxlength="500" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: right">
+        <button class="layui-btn" lay-submit="" lay-filter="resource-update-form-submit" id="submit">提交</button>
+        <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+</div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            resource = [[${resource}]],
+            depts = [[${depts}]],
+            grades = [[${grades}]],
+            subjects = [[${subjects}]],
+            fileTypes = [[${fileTypes}]],
+            $view = $('#resource-update'),
+            $remove=$view.find('#remove'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        initResourceValue();
+
+        formSelects.render();
+        initSelects();
+
+        treeSelect.render({
+            elem: $view.find('#resource-update-category'),
+            type: 'get',
+            data: ctx + 'category/select/tree',
+            placeholder: '请选择',
+            search: false,
+            success: function () {
+            	if(resource.categoryId)
+                	treeSelect.checkNode('resource-update-category', resource.categoryId);
+            }
+        });
+
+        function initResourceValue() {
+            form.val("resource-update-form", {
+                "resourceName": resource.resourceName,
+                "url": resource.url,
+                "pic": resource.pic,
+                "fileType": resource.fileType,
+                "deptId": resource.deptId,
+                "gradeId": resource.gradeId,
+                "subjectId": resource.subjectId,
+                "categoryId": resource.categoryId,
+                "description": resource.description
+            });
+        }
+
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+        form.on('submit(resource-update-form-submit)', function (data) {
+            if (febs.nativeEqual(data.field, resource)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+
+            $('#submit').attr("disabled",true);
+            febs.post(ctx + 'resource/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('资源数据修改成功');
+                $('#febs-resource').find('#query').click();
+            });
+            return false;
+        });
+        
+        function initSelects() {
+        	selectDepts = [];
+        	depts.forEach(function(d){  
+        		selectDepts.push({"name": d.deptName, "value": d.deptId});
+        	});
+        	selectGrades = [];
+        	grades.forEach(function(d){  
+        		selectGrades.push({"name": d.v, "value": d.k});
+        	});
+        	selectSubjects = [];
+        	subjects.forEach(function(d){  
+        		selectSubjects.push({"name": d.v, "value": d.k});
+        	});
+        	selectFileTypes = [];
+        	fileTypes.forEach(function(d){  
+        		selectFileTypes.push({"name": d.v, "value": d.k});
+        	});      	
+        	formSelects.data('resource-update-dept', 'local', {
+                arr: selectDepts
+            });
+        	formSelects.data('resource-update-grade', 'local', {
+                arr: selectGrades
+            });
+        	formSelects.data('resource-update-subject', 'local', {
+                arr: selectSubjects
+            });
+        	formSelects.data('resource-update-fileType', 'local', {
+                arr: selectFileTypes
+            });
+        	formSelects.value('resource-update-dept', [resource.deptId]);
+        	formSelects.value('resource-update-subject', [resource.subjectId]);
+        	formSelects.value('resource-update-grade', [resource.gradeId]);
+        	formSelects.value('resource-update-fileType', [resource.fileType]);
+        }
+    });
+</script>

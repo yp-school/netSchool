@@ -1,0 +1,118 @@
+<style>
+    #resource-export {
+        padding: 20px 25px 25px 0;
+    }
+    #resource-export .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-anim {
+    	-webkit-animation-duration: 1s!important;
+    	animation-duration: 1s!important;
+    }
+</style>
+<div class="layui-fluid" id="resource-export">
+    <form class="layui-form" action="" lay-filter="resource-export-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门：</label>
+            <div class="layui-input-block">
+                <select name="deptId" id="resource-export-dept"
+                        lay-verify="required"
+                        xm-select-direction="down"
+                        xm-select="resource-export-dept"
+                        xm-select-skin="default">
+                </select>
+            </div>
+        </div>
+
+
+
+
+        <div class="layui-form-item" style="text-align:center">
+            <button class="layui-btn" type="button" lay-filter="resource-export-form-submit" id="exportExcel">
+                提交 <i id="submit-loading" style="display: none;" class="layui-icon layui-icon-loading-2 layui-anim layui-anim-rotate layui-anim-loop">&#xe63d;</i>
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            depts = [[${depts}]],
+            grades = [[${grades}]],
+            subjects = [[${subjects}]],
+            fileTypes = [[${fileTypes}]],
+            formSelects = layui.formSelects,
+            treeSelect = layui.treeSelect,
+            exportExcel = $('#exportExcel'),
+            form = layui.form,
+            $view = $('#resource-export'),
+            $searchForm = $view.find('form'),
+            sortObject = {field: 'createTime', type: null},
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+        initSelects();
+
+        treeSelect.render({
+            elem: $view.find('#resource-export-category'),
+            type: 'get',
+            data: ctx + 'category/select/tree',
+            placeholder: '请选择',
+            search: false
+        });
+
+
+        function initSelects() {
+        	selectDepts = [];
+        	depts.forEach(function(d){
+        		selectDepts.push({"name": d.deptName, "value": d.deptId});
+        	});
+        	selectGrades = [];
+        	grades.forEach(function(d){
+        		selectGrades.push({"name": d.v, "value": d.k});
+        	});
+        	selectSubjects = [];
+        	subjects.forEach(function(d){
+        		selectSubjects.push({"name": d.v, "value": d.k});
+        	});
+        	selectFileTypes = [];
+        	fileTypes.forEach(function(d){
+        		selectFileTypes.push({"name": d.v, "value": d.k});
+        	});
+        	formSelects.data('resource-export-dept', 'local', {
+                arr: selectDepts
+            });
+        	formSelects.data('resource-export-grade', 'local', {
+                arr: selectGrades
+            });
+        	formSelects.data('resource-export-subject', 'local', {
+                arr: selectSubjects
+            });
+        	formSelects.data('resource-export-fileType', 'local', {
+                arr: selectFileTypes
+            });
+        }
+
+        function getQueryParams() {
+            return {
+                deptIds: $searchForm.find('input[name="deptId"]').val(),
+                invalidate_ie_cache: new Date()
+            };
+        }
+
+        exportExcel.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+            params.pageNum = $view.find(".layui-laypage-em").next().html();
+            febs.download(ctx + 'resource/excel', params, '资源信息表.xlsx');
+            layer.closeAll();
+        });
+    });
+</script>

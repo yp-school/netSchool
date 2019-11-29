@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>FEBS 权限系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet"  th:href="@{febs/css/login.css}" />
+    <link rel="stylesheet" th:href="@{febs/css/bootstrap.min.css}">
+    <script th:src="@{layui/jquery-1.12.4.js}"></script>
+    <script src="http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+</head>
+<body style="background: url('febs/images/avatar/be.jpg');">
+<div class="navbar navbar-fixed-top" id="top">
+    <span>湖南省网络联校管理系统</span>
+</div>
+<div class="container">
+    <div class="row">
+        <div id="comment" class="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-2 col-sm-12">
+            <div id='logo'>
+                <img th:src="@{febs/images/avatar/hunan.png}" class="img-responsive col-sm-12"/>
+            </div>
+        </div>
+        <div id="mainde" class="col-lg-2 col-md-offset-1 col-sm-12 col-md-1 col-md-offset-1 col-xs-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#sao" data-toggle="tab">扫码登录</a></li>
+                <li><a href="#mi" data-toggle="tab">密码登录</a></li>
+            </ul>
+            <!--选项卡面板-->
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="sao">
+                    <div id='erweima'>
+                        <!--请将二维码放置在此-->
+                        <div id="login_container"></div>
+                    </div><br />
+                </div>
+                <div class="tab-pane fade " id="mi">
+                    <form method="post" action="login">
+                        <div id="input_group">
+                            <p class="name">用户名:</p>
+                            <input type="text" placeholder="2-8位用户名" name="username" id="username"/><span id="username_hint"></span>
+                        </div>
+                        <div id="input_foot">
+                            <p class="pwd">密   码:</p>
+                            <input type="password" placeholder="6-16位密码" name="pwd" id="pwd"/><span id="password_hint"></span><br /><br />
+                            <p class="tcode">验证码:</p>
+                            <input type="text" class="input-code" placeholder="请输入验证码">
+                            <span class="code"  title='点击切换'></span>
+                            <input type="button" value="登录" onclick="btn()" name="login" id="login"/>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar navbar-fixed-bottom" id="foot">
+    <p >版权公告：2014-2019 云畔及其关联公司 版权所有 | ICP备案：浙ICP备18037475号-1</p>
+</div>
+<script th:src="@{layui/bootstrap.min.js}"></script>
+<script th:src="@{layui/jquery.min.js}"></script>
+<script th:src="@{layui/code.js}"></script>
+<script th:src="@{layui/login.js}"></script>
+<script>
+    //用户验证登录
+var password_Boolean = false;
+var user_Boolean = false;
+function getPath(){
+        var curWwwPath = window.document.location.href;
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName);
+        var localhostPaht = curWwwPath.substring(0, pos);
+        return localhostPaht;
+}
+$('#username').blur(function(){
+	if ((/^[a-z0-9\u4e00-\u9fa5]{2,8}$/).test($("#username").val())){
+		$('#username_hint').html("✔").css("color","green");
+		user_Boolean = true;
+	}else {
+		$('#username_hint').html("×").css("color","red");
+		user_Boolean = false;
+	}
+});
+// password
+$('#pwd').blur(function(){
+	if ((/^[a-z0-9_-]{6,16}$/).test($("#pwd").val())){
+		$('#password_hint').html("✔").css("color","green");
+		password_Boolean = true;
+	}else {
+		$('#password_hint').html("×").css("color","red");
+		password_Boolean = false;
+	}
+});
+    //验证码
+    $(function () {
+        $('.code').createCode({
+            len:4
+        });
+    });
+    $('.input-code').blur(function () {
+        if($(this).val().toLowerCase()!==$('.code').children('input').val().toLowerCase()){
+            $('.input-code').html('验证码错误').css('color','red');
+            code_Boolean=false;
+        }else{
+            $('.input-code').html('验证码错误').css('color','black');
+            code_Boolean=true;
+        }
+    });
+    $('#login').disable = false;
+    function btn() {
+        var username = $('#username').val().trim();
+        var pwd = $('#pwd').val().trim();
+        if (username != '' && username != null && pwd != '' && pwd != null) {
+            $.ajax({
+                url: getPath() + "/login",
+                method: 'post',
+                data: {
+                    "username": username,
+                    "password": pwd,
+                },
+                datatype: "json",
+                success: function (data) {
+                    window.location.href = '/index';
+                    $('#login').disable = false;
+                },
+                error: function (data) {
+                    alert('登陆失败')
+                    window.location.back();
+                }
+            });
+
+        } else {
+            alert('请完善用户密码信息');
+        }
+    }
+</script>
+</body>
+</html>

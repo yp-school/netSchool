@@ -1,0 +1,116 @@
+<style>
+    #classroomInfo-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #classroomInfo-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="classroomInfo-update">
+    <form class="layui-form" action="" lay-filter="classroomInfo-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">学校名称：</label>
+            <div class="layui-input-block">
+                <select name="schoolId" id="schoolId">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置：</label>
+            <div class="layui-input-block">
+                <input type="text" name="location" id = "location" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">推流地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" id="url" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">播放地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="playUrl" id="playUrl" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: right">
+            <button class="layui-btn" lay-submit="" lay-filter="classroomInfo-update-form-submit" id="submit">提交</button>
+            <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $form = $('form'),
+            school=$('#schoolId'),
+            $view = $('#classroomInfo-update'),
+            $remove=$view.find('#remove'),
+            classroomInfo = [[${classroomInfo}]],
+            validate = layui.validate;
+        getSchool();
+        initUserValue();
+        form.verify(validate);
+        form.render();
+
+        function getSchool() {
+            febs.get(ctx+'school/web/list',null,function (res) {
+                var items=res.data;
+                if (items.total==0){
+                    school.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //school.append('<option value="' + items.rows[0].schoolId + '">' + items.rows[0].schoolName+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                        if (items.rows[i].schoolId===classroomInfo.schoolId){
+                            school.append('<option selected="selected" value=' + items.rows[i].schoolId + '>' + items.rows[i].schoolName+ '</option>');
+                        }
+                        else{
+                            school.append('<option value='+ items.rows[i].schoolId + '>' + items.rows[i].schoolName + '</option>');
+                        }
+                    }
+
+                }
+                form.render('select');
+            });
+        }
+        
+        function initUserValue() {
+            form.val("classroomInfo-update-form", {
+                "schoolId":classroomInfo.schoolId,
+                "location": classroomInfo.location,
+                "url": classroomInfo.url,
+                "playUrl": classroomInfo.playUrl,
+                "subject": classroomInfo.subject,
+                "grade": classroomInfo.grade
+            });
+        }
+        
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+         form.on('submit(classroomInfo-update-form-submit)', function (data) {
+        	data.field.schoolId=$("#schoolId option:selected").val();
+        	data.field.id = classroomInfo.id;
+            data.field.grade=$("#classInfo option:selected").val();
+            if (febs.nativeEqual(data.field, classroomInfo)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'classroomInfo/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('教室信息修改成功');
+                $('#febs-classroomInfo').find('#query').click();
+            });
+            return false;
+        }); 
+    });
+</script>

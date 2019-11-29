@@ -1,0 +1,1 @@
+2019-11-28 09:25:15.675 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{OzDqU-_GRqmFcBk7tcyfew}{127.0.0.1}{127.0.0.1:9300}]

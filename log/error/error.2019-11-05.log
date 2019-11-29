@@ -1,0 +1,46 @@
+2019-11-05 08:49:55.563 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{WtCikPzrTaOlvsUo0F41Cw}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 08:59:06.185 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{9i_Df5woRnOsYxLh917mQA}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 10:01:33.437 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{HkVMyZNYT0ac6fwz6zHCoQ}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 10:26:40.184 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{s7hN0pqlRAGp6usmcEVb5Q}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 11:13:00.698 febs [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'thirdAppAbutmentController' defined in file [D:\frontend2\target\classes\cc\mrbird\febs\basicInfo\controller\ThirdAppAbutmentController.class]: Post-processing of merged bean definition failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [cc.mrbird.febs.basicInfo.controller.ThirdAppAbutmentController] from ClassLoader [sun.misc.Launcher$AppClassLoader@18b4aac2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:570)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:849)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:877)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:139)
+	at cc.mrbird.febs.FebsApplication.main(FebsApplication.java:25)
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [cc.mrbird.febs.basicInfo.controller.ThirdAppAbutmentController] from ClassLoader [sun.misc.Launcher$AppClassLoader@18b4aac2]
+	at org.springframework.util.ReflectionUtils.getDeclaredFields(ReflectionUtils.java:785)
+	at org.springframework.util.ReflectionUtils.doWithLocalFields(ReflectionUtils.java:717)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.buildResourceMetadata(CommonAnnotationBeanPostProcessor.java:365)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.findResourceMetadata(CommonAnnotationBeanPostProcessor.java:350)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessMergedBeanDefinition(CommonAnnotationBeanPostProcessor.java:298)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyMergedBeanDefinitionPostProcessors(AbstractAutowireCapableBeanFactory.java:1061)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:567)
+	... 14 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: Lcc/mrbird/febs/basicInfo/service/ISchoolService;
+	at java.lang.Class.getDeclaredFields0(Native Method)
+	at java.lang.Class.privateGetDeclaredFields(Class.java:2583)
+	at java.lang.Class.getDeclaredFields(Class.java:1916)
+	at org.springframework.util.ReflectionUtils.getDeclaredFields(ReflectionUtils.java:780)
+	... 20 common frames omitted
+Caused by: java.lang.ClassNotFoundException: cc.mrbird.febs.basicInfo.service.ISchoolService
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:382)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:349)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 24 common frames omitted
+2019-11-05 16:07:57.986 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{5ING9wzwRbOcwniCA2IrvA}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 16:13:50.726 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{zbq5o-j-SRqANE0XwUqkBg}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 16:43:53.739 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{4wO1QSBZRjqyZ6RoG8nV3Q}{127.0.0.1}{127.0.0.1:9300}]
+2019-11-05 17:17:04.133 febs [main] ERROR o.s.d.e.r.s.AbstractElasticsearchRepository - failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{rwQcpvYtRuCLb_uIF2To-A}{127.0.0.1}{127.0.0.1:9300}]
