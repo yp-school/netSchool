@@ -45,7 +45,7 @@ public class GeneratorController extends BaseController {
     @GetMapping("tables/info")
     @RequiresPermissions("generator:view")
     public FebsResponse tablesInfo(String tableName, QueryRequest request) {
-        Map<String, Object> dataTable = getDataTable(generatorService.getTables(tableName, request, GeneratorConstant.DATABASE_TYPE, GeneratorConstant.DATABASE_NAME));
+        Map<String, Object> dataTable = getDataTable(generatorService.getTables(tableName, request, GeneratorConstant.DATABASE_TYPE, GeneratorConstant.netSchool_DATABASE_NAME));
         return new FebsResponse().success().data(dataTable);
     }
 

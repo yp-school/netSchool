@@ -56,6 +56,8 @@ public class ViewController extends BaseController {
     @Autowired
     private ThirdAppAbutmentService thirdAppAbutmentService;
 
+    @Autowired
+    private ISchoolTeacheinfoService schoolTeacheinfoService;
 
     //==============================================START==================================================
 
@@ -154,6 +156,28 @@ public class ViewController extends BaseController {
         return FebsUtil.view("basicInfo/area/area");
     }
 
+    //==============================================END==================================================
+
+    //==============================================START==================================================
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo")
+    @RequiresPermissions("schoolTeacherinfo:view")
+    public String basicInfoTeacher() {
+        return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherinfo");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo/teacherInfoAdd")
+    @RequiresPermissions("schoolTeacherinfo:add")
+    private String teacherAdd(){
+        return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo/update/{schoolTeacherinfoId}")
+    @RequiresPermissions("schoolTeacherinfo:update")
+    public String schoolTeacherinfoUpdate(@PathVariable Integer schoolTeacherinfoId, Model model) {
+        resolveTeacherModel(schoolTeacherinfoId,model, true);
+        return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherUpdate");
+    }
     //==============================================END==================================================
 
     //==============================================START==================================================
@@ -300,7 +324,10 @@ public class ViewController extends BaseController {
         model.addAttribute("classroomInfo", classroomInfo);
     }
 
-
+    private void resolveTeacherModel(Integer schoolTeacherinfoId, Model model, Boolean transform){
+        SchoolTeacheinfo schoolTeacherinfo = this.schoolTeacheinfoService.getById(schoolTeacherinfoId);
+        model.addAttribute("schoolTeacherinfo",schoolTeacherinfo);
+    }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {
         ClassInfo classInfo = this.classInfoService.getById(classInfoId);
