@@ -1,0 +1,160 @@
+<style>
+    #pictureNews-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #pictureNews-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="pictureNews-update">
+    <form class="layui-form" action="" lay-filter="pictureNews-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">新闻标题：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="pictureId">
+                <input type="text" name="newsTitle" minlength="2" maxlength="10"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">新闻内容：</label>
+            <div class="layui-input-block">
+                <textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片资源：</label>
+            <div class="layui-input-block">
+                <input type="text" id = "pictureUrl" name="pictureUrl"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传照片</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+            </div>
+            预览图：
+            <div class="layui-upload-list" id="demo2"></div>
+
+            <input type="text" id="pictureUrlSelect" name="pictureUrlSelect" style="display: none;" class="layui-input">
+        </div>
+
+        <div class="layui-form-item" style="text-align: right">
+            <button class="layui-btn" lay-submit="" lay-filter="pictureNews-update-form-submit" id="submit">提交</button>
+            <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+        </div>
+    </form>
+</div>
+<script src="./mods/layarea.js"></script>
+<script data-th-inline="javascript">
+
+
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $form = $('form'),
+            upload = layui.upload,
+            grade=$('#pictureNews'),
+            pictureNews = [[${pictureNews}]],
+            $view = $('#pictureNews-update'),
+            $remove=$view.find('#remove'),
+            validate = layui.validate;
+
+        getGrade();
+        initUserValue();
+        form.verify(validate);
+        form.render();
+
+        var pictureUrlSelect = "";
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload'
+            , size: 1000
+            , multiple: true
+            , number: 7
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    // $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name
+                        + '"height="100px" width="100px" class="layui-upload-img uploadImgPreView">')
+                });
+            }
+            , done: function (res) {
+                pictureUrlSelect = pictureUrlSelect + "" + res.data.src + ",";
+                $('#pictureUrlSelect').val(pictureUrlSelect);
+                if(pictureUrlSelect != ""){
+                    $('#pictureUrl').val(pictureUrlSelect);
+                }
+            }
+            , error: function () {
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        function getGrade() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=grade",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        grade.append('<option value="'+""+'">'+""+'</option>');
+                    }else{
+                        for (var i=0;i<items.length;i++) {
+                            if (items[i].v===pictureNews.grade){
+                                grade.append('<option selected="selected">' + items[i].v + '</option>');
+                            }
+                            else{grade.append('<option>' + items[i].v + '</option>');}
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+        function initUserValue() {
+            form.val("pictureNews-update-form", {
+                "pictureId": pictureNews.pictureId,
+                "newsTitle": pictureNews.newsTitle,
+                "newsContent": pictureNews.newsContent,
+                "pictureUrl": pictureNews.pictureUrl
+            });
+        }
+
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+        form.on('submit(pictureNews-update-form-submit)', function (data) {
+
+            if (febs.nativeEqual(data.field, pictureNews)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+
+            $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'pictureNews/pictureNews/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success(' 图片新闻修改成功');
+                $('#febs-pictureNews').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>
+<style>
+    .layui-form-select dl{
+        position: relative;
+        top:0;
+    }
+</style>
