@@ -1,9 +1,9 @@
-<div class="layui-fluid layui-anim febs-anim" id="febs-schoolTeacherinfo" lay-title="教师管理">
+<div class="layui-fluid layui-anim febs-anim" id="febs-pictureNews" lay-title="图片新闻">
     <div class="layui-row febs-container">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body febs-table-full">
-                    <form class="layui-form layui-table-form" lay-filter="schoolTeacherinfo-table-form">
+                    <form class="layui-form layui-table-form" lay-filter="pictureNews-table-form">
                         <div class="layui-row">
                             <div class="layui-col-md10">
                                 <div class="layui-form-item">
@@ -30,7 +30,7 @@
                                     <i class="layui-icon">&#xe79b;</i>
                                 </div>
                                 <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
-                                     shiro:hasAnyPermissions="schoolTeacherinfo:add,schoolTeacherinfo:update">
+                                     shiro:hasAnyPermissions="pictureNews:add,pictureNews:update">
                                     <i class="layui-icon">&#xe875;</i>
                                 </div>
                             </div>
@@ -44,13 +44,13 @@
 </div>
 
 <script type="text/html" id="schoolTeacherinfo-option">
-    <span shiro:lacksPermission="schoolTeacherinfo:view,schoolTeacherinfo:update,schoolTeacherinfo:delete">
+    <span shiro:lacksPermission="pictureNews:view,pictureNews:update,pictureNews:delete">
         <span class="layui-badge-dot febs-bg-orange"></span> 无权限
     </span>
 
-    <a lay-event="update" shiro:hasPermission="schoolTeacherinfo:update"><i
+    <a lay-event="update" shiro:hasPermission="pictureNews:update"><i
             class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
-    <a lay-event="del" shiro:hasPermission="schoolTeacherinfo:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
+    <a lay-event="del" shiro:hasPermission="pictureNews:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
 </script>
 <script data-th-inline="none" type="text/javascript">
     layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
@@ -61,7 +61,7 @@
             table = layui.table,
             treeSelect = layui.treeSelect,
             dropdown = layui.dropdown,
-            $view = $('#febs-schoolTeacherinfo'),
+            $view = $('#febs-pictureNews'),
             $query = $view.find('#query'),
             $reset = $view.find('#reset'),
             $searchForm = $view.find('form'),
@@ -101,21 +101,21 @@
             click: function (name, elem, event) {
                 var checkStatus = table.checkStatus('gradeTable');
                 if (name === 'add') {
-                    febs.modal.open('新增教师', 'basicInfo/teacherInfo/teacherInfoAdd', {
+                    febs.modal.open('新增新闻', 'basicInfo/pictureNews/pictureNewsAdd', {
                         area: $(window).width() <= 750 ? '95%' : '50%',
                     });
                 }
                 if (name === 'delete') {
                     if (!checkStatus.data.length) {
-                        febs.alert.warn('请选择需要删除的教师');
+                        febs.alert.warn('请选择需要删除的新闻');
                     } else {
-                        febs.modal.confirm('删除教师', '确定删除该教师？', function () {
-                            var teacherIds = [];
+                        febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
+                            var pictureIds = [];
                             layui.each(checkStatus.data, function (key, item) {
-                                teacherIds.push(item.teacherId)
+                                pictureIds.push(item.pictureId)
                             });
-                            //alert(teacherIds);
-                            deleteTeacher(teacherIds.join(','));
+                            //alert(pictureIds);
+                            deletePictureNews(pictureIds.join(','));
                         });
                     }
                 }
@@ -128,11 +128,11 @@
             },
             options: [{
                 name: 'add',
-                title: '新增教师',
+                title: '新增新闻',
                 perms: 'schoolTeacherinfo:add'
             }, {
                 name: 'delete',
-                title: '删除教师',
+                title: '删除新闻',
                 perms: 'schoolTeacherinfo:delete'
             }
             ]
@@ -142,12 +142,12 @@
             var data = obj.data;
                 layEvent = obj.event;
             if (layEvent === 'del') {
-                febs.modal.confirm('删除教师', '确定删除该教师？', function () {
-                    deleteTeacher(data.teacherId);
+                febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
+                    deletePictureNews(data.pictureId);
                 });
             }
             if (layEvent === 'update') {
-                febs.modal.open('修改教师', 'basicInfo/teacherInfo/update/' + data.teacherId, {
+                febs.modal.open('修改新闻', 'basicInfo/pictureNews/update/' + data.pictureId, {
                     area: $(window).width() <= 750 ? '90%' : '50%'
                 });
             }
@@ -179,13 +179,14 @@
             tableIns = febs.table.init({
                 elem: $view.find('table'),
                 id: 'gradeTable',
-                url: ctx + 'schoolTeacherinfo/schoolTeacherinfo/list',
+                url: ctx + 'pictureNews/pictureNews/list',
                 cols: [[
                     {type: 'checkbox'},
-                    {field: 'teacherName', title: '教师名称', minWidth: 150},
-                    {field: 'sex', title: '教师性别',minWidth: 100},
-                    {field: 'teacherIntroduction', title: '教师简介',minWidth: 100},
-                    {field: 'telephone', title: '教师电话',minWidth: 100},
+                    {field: 'newsTitle', title: '新闻标题', minWidth: 150},
+                    {field: 'newsContent', title: '新闻内容',minWidth: 100},
+                    {field: 'pictureUrl', title: '图片路径',minWidth: 100},
+                    {field: 'editorName', title: '编辑人姓名',minWidth: 100},
+                    {field: 'publishTime', title: '发布时间',minWidth: 100},
                     {title: '操作', toolbar: '#schoolTeacherinfo-option', minWidth: 140}
                 ]]
             });
@@ -199,9 +200,9 @@
             };
         }
 
-        function deleteTeacher(teacherId) {
-            febs.get(ctx + 'schoolTeacherinfo/schoolTeacherinfo/delete/' + teacherId, null, function () {
-                febs.alert.success('删除教师成功');
+        function deletePictureNews(pictureIds) {
+            febs.get(ctx + 'pictureNews/pictureNews/delete/' + pictureIds, null, function () {
+                febs.alert.success('删除新闻成功');
                 $query.click();
             });
         }

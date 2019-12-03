@@ -59,6 +59,9 @@ public class ViewController extends BaseController {
     @Autowired
     private ISchoolTeacheinfoService schoolTeacheinfoService;
 
+    @Autowired
+    private IPictureNewsService pictureNewsService;
+
     //==============================================START==================================================
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/classroomInfo")
@@ -179,6 +182,29 @@ public class ViewController extends BaseController {
         return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherUpdate");
     }
     //==============================================END==================================================
+
+    //==============================================START==================================================
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews")
+    @RequiresPermissions("pictureNews:view")
+    public String basicInfoPictureNews() {
+        return FebsUtil.view("basicInfo/pictureNews/pictureNews");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews/pictureNewsAdd")
+    @RequiresPermissions("pictureNews:add")
+    private String pictureNewsAdd(){
+        return FebsUtil.view("basicInfo/pictureNews/pictureNewsAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews/update/{pictureNewsId}")
+    @RequiresPermissions("schoolTeacherinfo:update")
+    public String pictureNewsUpdate(@PathVariable Integer pictureNewsId, Model model) {
+        resolvePictureNewsModel(pictureNewsId,model, true);
+        return FebsUtil.view("basicInfo/pictureNews/pictureNewsUpdate");
+    }
+    //==============================================END==================================================
+
 
     //==============================================START==================================================
 
@@ -327,6 +353,11 @@ public class ViewController extends BaseController {
     private void resolveTeacherModel(Integer schoolTeacherinfoId, Model model, Boolean transform){
         SchoolTeacheinfo schoolTeacherinfo = this.schoolTeacheinfoService.getById(schoolTeacherinfoId);
         model.addAttribute("schoolTeacherinfo",schoolTeacherinfo);
+    }
+
+    private void resolvePictureNewsModel(Integer pictureNewsId, Model model, Boolean transform){
+        PictureNews pictureNews = this.pictureNewsService.getById(pictureNewsId);
+        model.addAttribute("pictureNews",pictureNews);
     }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {

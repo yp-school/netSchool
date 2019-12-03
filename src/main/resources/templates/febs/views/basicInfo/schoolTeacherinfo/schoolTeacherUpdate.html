@@ -39,7 +39,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">图片资源：</label>
             <div class="layui-input-block">
-                <input type="text" id = "picture" name="picture"  autocomplete="off" class="layui-input">
+                <input type="text" id = "imgUrls" name="imgUrls"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -53,7 +53,7 @@
             预览图：
             <div class="layui-upload-list" id="demo2"></div>
 
-            <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
+            <input type="text" id="imgUrlsSelect" name="imgUrlsSelect" style="display: none;" class="layui-input">
         </div>
 
         <div class="layui-form-item" style="text-align: right">
@@ -85,7 +85,7 @@
         form.verify(validate);
         form.render();
 
-        var imgurls = "";
+        var imgUrlsSelect = "";
         //拖拽上传
         var uploadInst = upload.render({
             elem: '#headImg'
@@ -102,10 +102,10 @@
                 });
             }
             , done: function (res) {
-                imgurls = imgurls + "" + res.data.src + ",";
-                $('#imgUrls').val(imgurls);
-                if(imgurls != ""){
-                    $('#picture').val(imgurls);
+                imgUrlsSelect = imgUrlsSelect + "" + res.data.src + ",";
+                $('#imgUrlsSelect').val(imgUrlsSelect);
+                if(imgUrlsSelect != ""){
+                    $('#imgUrls').val(imgUrlsSelect);
                 }
             }
             , error: function () {
@@ -141,7 +141,7 @@
                 "teacherName": schoolTeacherinfo.teacherName,
                 "sex": schoolTeacherinfo.sex,
                 "teacherIntroduction": schoolTeacherinfo.teacherIntroduction,
-                "picture": schoolTeacherinfo.imgUrls,
+                "imgUrls": schoolTeacherinfo.imgUrls,
                 "telephone": schoolTeacherinfo.telephone
             });
         }
