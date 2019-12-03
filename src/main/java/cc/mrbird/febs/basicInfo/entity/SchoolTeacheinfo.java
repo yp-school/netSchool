@@ -50,8 +50,11 @@ public class SchoolTeacheinfo {
     @TableField("telephone")
     private String telephone;
 
-
-
+    /**
+     * 老师相册
+     */
+    @TableField("img_urls")
+    private String imgUrls;
 
 
 

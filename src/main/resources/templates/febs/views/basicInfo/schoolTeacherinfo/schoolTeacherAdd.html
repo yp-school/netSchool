@@ -34,6 +34,21 @@
                 <input type="tel" name="telephone" lay-verify="phone" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传照片</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+                <button type="button" class="layui-btn" id="cleanImgs"> <i class="fa fa-trash-o fa-lg"></i>清空图片预览</button>
+            </div>
+            预览图：
+            <div class="layui-upload-list" id="demo2"></div>
+
+            <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
+        </div>
+
 
         <div class="layui-form-item" style="text-align:right">
             <button class="layui-btn" lay-submit="" lay-filter="grade-add-form-submit" id="submit">提交</button>
@@ -54,12 +69,46 @@
             layarea = layui.layarea,
             validate = layui.validate,
             classInfo=$('#classInfo'),
+            upload = layui.upload,
             treeSelect = layui.treeSelect,
             sortObject = {field: 'createTime', type: null};
 
         form.verify(validate);
         form.render();
         formSelects.render();
+
+        $("#cleanImgs").click(function(){
+            //alert("222");
+            $('#demo2').html("");
+            $('#imgUrls').val("");
+        });
+
+        var imgurls = "";
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload'
+            , size: 1000
+            , multiple: true
+            , number: 7
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    // $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name
+                        + '"height="100px" width="100px" class="layui-upload-img uploadImgPreView">')
+                });
+            }
+            , done: function (res) {
+                imgurls = imgurls + "" + res.data.src + ",";
+                $('#imgUrls').val(imgurls);
+            }
+            , error: function () {
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
 
         form.on('submit(grade-add-form-submit)', function (data) {
             data.field.grade=$("#classInfo option:selected").val();

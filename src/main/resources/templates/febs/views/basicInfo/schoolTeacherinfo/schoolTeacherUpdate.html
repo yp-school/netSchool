@@ -36,6 +36,26 @@
                 <input type="tel" name="telephone" lay-verify="phone" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片资源：</label>
+            <div class="layui-input-block">
+                <input type="text" id = "picture" name="picture"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传照片</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+            </div>
+            预览图：
+            <div class="layui-upload-list" id="demo2"></div>
+
+            <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
+        </div>
+
         <div class="layui-form-item" style="text-align: right">
             <button class="layui-btn" lay-submit="" lay-filter="schoolTeacherinfo-update-form-submit" id="submit">提交</button>
             <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
@@ -46,13 +66,14 @@
 <script data-th-inline="javascript">
 
 
-    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'treeSelect'], function () {
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect'], function () {
         var $ = layui.$,
             febs = layui.febs,
             layer = layui.layer,
             formSelects = layui.formSelects,
             form = layui.form,
             $form = $('form'),
+            upload = layui.upload,
             grade=$('#schoolTeacherinfo'),
             schoolTeacherinfo = [[${schoolTeacherinfo}]],
             $view = $('#teacher-update'),
@@ -64,6 +85,35 @@
         form.verify(validate);
         form.render();
 
+        var imgurls = "";
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload'
+            , size: 1000
+            , multiple: true
+            , number: 7
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    // $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name
+                        + '"height="100px" width="100px" class="layui-upload-img uploadImgPreView">')
+                });
+            }
+            , done: function (res) {
+                imgurls = imgurls + "" + res.data.src + ",";
+                $('#imgUrls').val(imgurls);
+                if(imgurls != ""){
+                    $('#picture').val(imgurls);
+                }
+            }
+            , error: function () {
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
 
         function getGrade() {
             $.ajax({
@@ -91,6 +141,7 @@
                 "teacherName": schoolTeacherinfo.teacherName,
                 "sex": schoolTeacherinfo.sex,
                 "teacherIntroduction": schoolTeacherinfo.teacherIntroduction,
+                "picture": schoolTeacherinfo.imgUrls,
                 "telephone": schoolTeacherinfo.telephone
             });
         }

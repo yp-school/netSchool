@@ -8,5 +8,6 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
         <result column="teacher_introduction" jdbcType="VARCHAR" property="teacherIntroduction"/>
         <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="img_urls" jdbcType="VARCHAR" property="imgUrls"/>
     </resultMap>
 </mapper>
