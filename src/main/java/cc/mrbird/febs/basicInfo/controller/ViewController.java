@@ -62,6 +62,9 @@ public class ViewController extends BaseController {
     @Autowired
     private IPictureNewsService pictureNewsService;
 
+    @Autowired
+    private INoticeAnnouncementService noticeAnnouncementService;
+
     //==============================================START==================================================
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/classroomInfo")
@@ -162,7 +165,7 @@ public class ViewController extends BaseController {
     //==============================================END==================================================
 
     //==============================================START==================================================
-
+    //教师信息
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo")
     @RequiresPermissions("schoolTeacherinfo:view")
     public String basicInfoTeacher() {
@@ -184,7 +187,29 @@ public class ViewController extends BaseController {
     //==============================================END==================================================
 
     //==============================================START==================================================
+    //通知公告
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice")
+    @RequiresPermissions("noticeAnnouncement:view")
+    public String basicInfoNotice() {
+        return FebsUtil.view("basicInfo/notice/notice");
+    }
 
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice/noticeAdd")
+    @RequiresPermissions("noticeAnnouncement:add")
+    private String noticeAdd(){
+        return FebsUtil.view("basicInfo/notice/noticeAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice/update/{noticeId}")
+    @RequiresPermissions("noticeAnnouncement:update")
+    public String noticeUpdate(@PathVariable Integer noticeId, Model model) {
+        resolveNoticeModel(noticeId,model, true);
+        return FebsUtil.view("basicInfo/notice/noticeUpdate");
+    }
+    //==============================================END==================================================
+
+    //==============================================START==================================================
+    //图片新闻
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews")
     @RequiresPermissions("pictureNews:view")
     public String basicInfoPictureNews() {
@@ -353,6 +378,13 @@ public class ViewController extends BaseController {
     private void resolveTeacherModel(Integer schoolTeacherinfoId, Model model, Boolean transform){
         SchoolTeacheinfo schoolTeacherinfo = this.schoolTeacheinfoService.getById(schoolTeacherinfoId);
         model.addAttribute("schoolTeacherinfo",schoolTeacherinfo);
+    }
+
+    private void resolveNoticeModel(Integer noticeId, Model model, Boolean transform){
+        NoticeAnnouncement noticeAnnouncement = this.noticeAnnouncementService.getById(noticeId);
+        model.addAttribute("notice",noticeAnnouncement);
+        if (noticeAnnouncement.getNoticeTime() != null)
+            model.addAttribute("specialTime", noticeAnnouncement.getNoticeTime().substring(0,noticeAnnouncement.getNoticeTime().length()-3).replace(" ","T"));
     }
 
     private void resolvePictureNewsModel(Integer pictureNewsId, Model model, Boolean transform){

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cc.mrbird.febs.app.mapper.SchoolTeacheinfoMapper">
+<mapper namespace="cc.mrbird.febs.basicInfo.mapper.SchoolTeacheinfoMapper">
 
     <resultMap id="schoolTeacheinfo" type="cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo">
         <id column="teacher_id" jdbcType="BIGINT" property="teacherId"/>

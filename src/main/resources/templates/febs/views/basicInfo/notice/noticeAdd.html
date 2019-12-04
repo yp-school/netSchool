@@ -1,28 +1,34 @@
 <style>
-    #pictureNews-add {
+    #notice-add {
         padding: 20px 25px 25px 0;
     }
-    #pictureNews-add .layui-treeSelect .ztree li a, .ztree li span {
+    #notice-add .layui-treeSelect .ztree li a, .ztree li span {
         margin: 0 0 2px 3px !important;
     }
 </style>
-<div class="layui-fluid" id="pictureNews-add">
-    <form class="layui-form" action="" lay-filter="pictureNews-add-form" id="fm" enctype="multipart/form-data">
+<div class="layui-fluid" id="notice-add">
+    <form class="layui-form" action="" lay-filter="notice-add-form" id="fm" enctype="multipart/form-data">
         <div class="layui-form-item">
-            <label class="layui-form-label febs-form-item-require">新闻标题：</label>
+            <label class="layui-form-label febs-form-item-require">公告标题：</label>
             <div class="layui-input-block">
-                <input type="text" name="newsTitle" minlength="2" maxlength="10"
+                <input type="text" name="noticeTitle" minlength="2" maxlength="10"
                        autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">新闻内容：</label>
+            <label class="layui-form-label">公告内容：</label>
             <div class="layui-input-block">
-                <textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <textarea name="noticeContent" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">上传新闻图片</label>
+            <label class="layui-form-label febs-form-item-require">公告时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="noticeTime" lay-verify="noticeTime" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传公告图片</label>
             <div class="layui-input-inline uploadHeadImage">
                 <div class="layui-upload-drag" id="headImg">
                     <i class="layui-icon">&#xe67c;</i>
@@ -33,12 +39,12 @@
             预览图：
             <div class="layui-upload-list" id="demo2"></div>
 
-            <input type="text" id="pictureUrl" name="pictureUrl" style="display: none;" class="layui-input">
+            <input type="text" id="noticePicture" name="noticePicture" style="display: none;" class="layui-input">
         </div>
 
 
         <div class="layui-form-item" style="text-align:right">
-            <button class="layui-btn" lay-submit="" lay-filter="grade-add-form-submit" id="submit">提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="notice-add-form-submit" id="submit">提交</button>
             <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
         </div>
     </form>
@@ -52,7 +58,7 @@
             formSelects = layui.formSelects,
             form = layui.form,
             $form = $('form'),
-            $view = $('#pictureNews-add'),
+            $view = $('#notice-add'),
             layarea = layui.layarea,
             validate = layui.validate,
             upload = layui.upload,
@@ -66,10 +72,10 @@
         $("#cleanImgs").click(function(){
             //alert("222");
             $('#demo2').html("");
-            $('#pictureUrl').val("");
+            $('#noticePicture').val("");
         });
 
-        var pictureUrl = "";
+        var noticePicture = "";
         //拖拽上传
         var uploadInst = upload.render({
             elem: '#headImg'
@@ -86,8 +92,8 @@
                 });
             }
             , done: function (res) {
-                pictureUrl = pictureUrl + "" + res.data.src + ",";
-                $('#pictureUrl').val(pictureUrl);
+                noticePicture = noticePicture + "" + res.data.src + ",";
+                $('#noticePicture').val(noticePicture);
             }
             , error: function () {
                 demoText.find('.demo-reload').on('click', function () {
@@ -96,13 +102,13 @@
             }
         });
 
-        form.on('submit(grade-add-form-submit)', function (data) {
+        form.on('submit(notice-add-form-submit)', function (data) {
             data.field.grade=$("#classInfo option:selected").val();
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
-            febs.post(ctx+'pictureNews/pictureNews',data.field,function () {
+            febs.post(ctx+'notice/noticeAnnouncement',data.field,function () {
                 layer.closeAll();
-                febs.alert.success('新增教师成功');
-                $('#febs-pictureNews').find('#query').click();
+                febs.alert.success('新增公告成功');
+                $('#febs-notice').find('#query').click();
             });
 
             return false;

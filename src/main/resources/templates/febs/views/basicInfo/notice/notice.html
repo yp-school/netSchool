@@ -1,9 +1,9 @@
-<div class="layui-fluid layui-anim febs-anim" id="febs-pictureNews" lay-title="图片新闻">
+<div class="layui-fluid layui-anim febs-anim" id="febs-notice" lay-title="通知公告">
     <div class="layui-row febs-container">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body febs-table-full">
-                    <form class="layui-form layui-table-form" lay-filter="pictureNews-table-form">
+                    <form class="layui-form layui-table-form" lay-filter="notice-table-form">
                         <div class="layui-row">
                             <div class="layui-col-md10">
                                 <div class="layui-form-item">
@@ -30,27 +30,27 @@
                                     <i class="layui-icon">&#xe79b;</i>
                                 </div>
                                 <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
-                                     shiro:hasAnyPermissions="pictureNews:add,pictureNews:update">
+                                     shiro:hasAnyPermissions="noticeAnnouncement:add,noticeAnnouncement:update">
                                     <i class="layui-icon">&#xe875;</i>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <table lay-filter="pictureNewsTable" lay-data="{id: 'pictureNewsTable'}" id="LAY_table_user"></table>
+                    <table lay-filter="noticeTable" lay-data="{id: 'noticeTable'}" id="LAY_table_user"></table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/html" id="pictureNews-option">
-    <span shiro:lacksPermission="pictureNews:view,pictureNews:update,pictureNews:delete">
+<script type="text/html" id="notice-option">
+    <span shiro:lacksPermission="noticeAnnouncement:view,noticeAnnouncement:update,noticeAnnouncement:delete">
         <span class="layui-badge-dot febs-bg-orange"></span> 无权限
     </span>
 
-    <a lay-event="update" shiro:hasPermission="pictureNews:update"><i
+    <a lay-event="update" shiro:hasPermission="noticeAnnouncement:update"><i
             class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
-    <a lay-event="del" shiro:hasPermission="pictureNews:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
+    <a lay-event="del" shiro:hasPermission="noticeAnnouncement:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
 </script>
 <script data-th-inline="none" type="text/javascript">
     layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
@@ -61,7 +61,7 @@
             table = layui.table,
             treeSelect = layui.treeSelect,
             dropdown = layui.dropdown,
-            $view = $('#febs-pictureNews'),
+            $view = $('#febs-notice'),
             $query = $view.find('#query'),
             $reset = $view.find('#reset'),
             $searchForm = $view.find('form'),
@@ -99,23 +99,23 @@
         dropdown.render({
             elem: $view.find('.action-more'),
             click: function (name, elem, event) {
-                var checkStatus = table.checkStatus('pictureNewsTable');
+                var checkStatus = table.checkStatus('noticeTable');
                 if (name === 'add') {
-                    febs.modal.open('新增新闻', 'basicInfo/pictureNews/pictureNewsAdd', {
+                    febs.modal.open('新增公告', 'basicInfo/notice/noticeAdd', {
                         area: $(window).width() <= 750 ? '95%' : '50%',
                     });
                 }
                 if (name === 'delete') {
                     if (!checkStatus.data.length) {
-                        febs.alert.warn('请选择需要删除的新闻');
+                        febs.alert.warn('请选择需要删除的公告');
                     } else {
-                        febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
-                            var pictureIds = [];
+                        febs.modal.confirm('删除公告', '确定删除该公告？', function () {
+                            var noticeIds = [];
                             layui.each(checkStatus.data, function (key, item) {
-                                pictureIds.push(item.pictureId)
+                                noticeIds.push(item.noticeId)
                             });
-                            //alert(pictureIds);
-                            deletePictureNews(pictureIds.join(','));
+                            //alert(noticeIds);
+                            deleteNotice(noticeIds.join(','));
                         });
                     }
                 }
@@ -128,31 +128,31 @@
             },
             options: [{
                 name: 'add',
-                title: '新增新闻',
-                perms: 'schoolTeacherinfo:add'
+                title: '新增公告',
+                perms: 'noticeAnnouncement:add'
             }, {
                 name: 'delete',
-                title: '删除新闻',
-                perms: 'schoolTeacherinfo:delete'
+                title: '删除公告',
+                perms: 'noticeAnnouncement:delete'
             }
             ]
         });
 
-        table.on('tool(pictureNewsTable)', function (obj) {
+        table.on('tool(noticeTable)', function (obj) {
             var data = obj.data;
                 layEvent = obj.event;
             if (layEvent === 'del') {
-                febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
-                    deletePictureNews(data.pictureId);
+                febs.modal.confirm('删除公告', '确定删除该公告？', function () {
+                    deleteNotice(data.noticeId);
                 });
             }
             if (layEvent === 'update') {
-                febs.modal.open('修改新闻', 'basicInfo/pictureNews/update/' + data.pictureId, {
+                febs.modal.open('修改公告', 'basicInfo/notice/update/' + data.noticeId, {
                     area: $(window).width() <= 750 ? '90%' : '50%'
                 });
             }
         });
-        table.on('sort(pictureNewsTable)', function (obj) {
+        table.on('sort(noticeTable)', function (obj) {
             sortObject = obj;
             tableIns.reload({
                 initSort: obj,
@@ -178,16 +178,17 @@
         function initTable() {
             tableIns = febs.table.init({
                 elem: $view.find('table'),
-                id: 'pictureNewsTable',
-                url: ctx + 'pictureNews/pictureNews/list',
+                id: 'noticeTable',
+                url: ctx + 'notice/noticeAnnouncement/list',
                 cols: [[
                     {type: 'checkbox'},
-                    {field: 'newsTitle', title: '新闻标题', minWidth: 150},
-                    {field: 'newsContent', title: '新闻内容',minWidth: 100},
-                    {field: 'pictureUrl', title: '图片路径',minWidth: 100},
+                    {field: 'noticeTitle', title: '公告标题', minWidth: 150},
+                    {field: 'noticeContent', title: '公告内容',minWidth: 100},
+                    {field: 'noticePicture', title: '图片路径',minWidth: 100},
                     {field: 'editorName', title: '编辑人姓名',minWidth: 100},
-                    {field: 'publishTime', title: '发布时间',minWidth: 100},
-                    {title: '操作', toolbar: '#pictureNews-option', minWidth: 140}
+                    {field: 'noticeTime', title: '公告时间',minWidth: 100},
+                    {field: 'publishTime', title: '编辑时间',minWidth: 100},
+                    {title: '操作', toolbar: '#notice-option', minWidth: 140}
                 ]]
             });
         }
@@ -200,9 +201,9 @@
             };
         }
 
-        function deletePictureNews(pictureIds) {
-            febs.get(ctx + 'pictureNews/pictureNews/delete/' + pictureIds, null, function () {
-                febs.alert.success('删除新闻成功');
+        function deleteNotice(noticeIds) {
+            febs.get(ctx + 'notice/noticeAnnouncement/delete/' + noticeIds, null, function () {
+                febs.alert.success('删除公告成功');
                 $query.click();
             });
         }

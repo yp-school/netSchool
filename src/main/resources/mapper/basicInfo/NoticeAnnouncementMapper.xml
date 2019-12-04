@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.basicInfo.mapper.NoticeAnnouncementMapper">
+
+    <resultMap id="noticeAnnouncement" type="cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement">
+        <id column="notice_id" jdbcType="BIGINT" property="noticeId"/>
+        <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle"/>
+        <result column="notice_content" jdbcType="VARCHAR" property="noticeContent"/>
+        <result column="notice_time" jdbcType="DATE" property="noticeTime"/>
+        <result column="notice_picture" jdbcType="VARCHAR" property="noticePicture"/>
+        <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
+        <result column="editor_name" jdbcType="VARCHAR" property="editorName"/>
+        <result column="publish_time" jdbcType="DATE" property="publishTime"/>
+    </resultMap>
+</mapper>

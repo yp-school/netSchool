@@ -1,13 +1,13 @@
 <style>
-    #classInfo-add {
+    #schoolTeacher-add {
         padding: 20px 25px 25px 0;
     }
-    #classInfo-add .layui-treeSelect .ztree li a, .ztree li span {
+    #schoolTeacher-add .layui-treeSelect .ztree li a, .ztree li span {
         margin: 0 0 2px 3px !important;
     }
 </style>
-<div class="layui-fluid" id="classInfo-add">
-    <form class="layui-form" action="" lay-filter="classInfo-add-form" id="fm" enctype="multipart/form-data">
+<div class="layui-fluid" id="schoolTeacher-add">
+    <form class="layui-form" action="" lay-filter="schoolTeacher-add-form" id="fm" enctype="multipart/form-data">
         <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">教师名称：</label>
             <div class="layui-input-block">
@@ -65,10 +65,9 @@
             formSelects = layui.formSelects,
             form = layui.form,
             $form = $('form'),
-            $view = $('#classInfo-add'),
+            $view = $('#schoolTeacher-add'),
             layarea = layui.layarea,
             validate = layui.validate,
-            classInfo=$('#classInfo'),
             upload = layui.upload,
             treeSelect = layui.treeSelect,
             sortObject = {field: 'createTime', type: null};

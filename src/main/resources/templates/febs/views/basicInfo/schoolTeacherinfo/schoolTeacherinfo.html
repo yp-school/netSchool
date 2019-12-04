@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </form>
-                    <table lay-filter="gradeTable" lay-data="{id: 'gradeTable'}" id="LAY_table_user"></table>
+                    <table lay-filter="schoolTeacherTable" lay-data="{id: 'schoolTeacherTable'}" id="LAY_table_user"></table>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         dropdown.render({
             elem: $view.find('.action-more'),
             click: function (name, elem, event) {
-                var checkStatus = table.checkStatus('gradeTable');
+                var checkStatus = table.checkStatus('schoolTeacherTable');
                 if (name === 'add') {
                     febs.modal.open('新增教师', 'basicInfo/teacherInfo/teacherInfoAdd', {
                         area: $(window).width() <= 750 ? '95%' : '50%',
@@ -138,7 +138,7 @@
             ]
         });
 
-        table.on('tool(gradeTable)', function (obj) {
+        table.on('tool(schoolTeacherTable)', function (obj) {
             var data = obj.data;
                 layEvent = obj.event;
             if (layEvent === 'del') {
@@ -152,7 +152,7 @@
                 });
             }
         });
-        table.on('sort(gradeTable)', function (obj) {
+        table.on('sort(schoolTeacherTable)', function (obj) {
             sortObject = obj;
             tableIns.reload({
                 initSort: obj,
@@ -178,7 +178,7 @@
         function initTable() {
             tableIns = febs.table.init({
                 elem: $view.find('table'),
-                id: 'gradeTable',
+                id: 'schoolTeacherTable',
                 url: ctx + 'schoolTeacherinfo/schoolTeacherinfo/list',
                 cols: [[
                     {type: 'checkbox'},
