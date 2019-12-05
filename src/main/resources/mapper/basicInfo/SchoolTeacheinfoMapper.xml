@@ -10,4 +10,16 @@
         <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
         <result column="img_urls" jdbcType="VARCHAR" property="imgUrls"/>
     </resultMap>
+
+    <select id="selectSchoolTeacherList" resultMap="schoolTeacheinfo">
+        select
+        teacher_id,
+        teacher_name,
+        sex,
+        teacher_introduction,
+        telephone,
+        img_urls
+        from
+        school_teacher_info
+    </select>
 </mapper>

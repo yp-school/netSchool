@@ -1,7 +1,9 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
 import cc.mrbird.febs.basicInfo.entity.News;
+import cc.mrbird.febs.basicInfo.entity.School;
 import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
+import cc.mrbird.febs.basicInfo.entity.SchoolTimetable;
 import cc.mrbird.febs.basicInfo.mapper.SchoolTeacheinfoMapper;
 import cc.mrbird.febs.basicInfo.service.ISchoolTeacheinfoService;
 import cc.mrbird.febs.common.entity.QueryRequest;
@@ -75,5 +77,18 @@ public class SchoolTeacheinfoServiceImpl extends ServiceImpl<SchoolTeacheinfoMap
     public void deleteTeacherInfo(String teacherIds) {
         List<String> list = Arrays.asList(teacherIds.split(StringPool.COMMA));
         baseMapper.deleteBatchIds(list);
+    }
+
+    /**
+     * 学校教师下拉树
+     * @param request
+     * @param schoolTeacheinfo
+     * @return
+     */
+    @Override
+    public IPage<SchoolTeacheinfo> selectSchoolTeacherList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo) {
+        Page<SchoolTeacheinfo> page = new Page<>(request.getPageNum(), request.getPageSize());
+        IPage<SchoolTeacheinfo> pageList = this.baseMapper.selectSchoolTeacherList(page,schoolTeacheinfo);
+        return pageList;
     }
 }

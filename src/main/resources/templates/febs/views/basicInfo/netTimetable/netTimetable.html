@@ -1,0 +1,212 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-netTimetable" lay-title="网络课堂">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="netTimetable-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label layui-form-label-sm">教师名称</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="teacherName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <!--<div class="layui-inline">
+                                        <label class="layui-form-label layui-form-label-sm">年级</label>
+                                        <div class="layui-input-inline">
+                                            <select name="grade" id="grade">
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
+                                     shiro:hasAnyPermissions="netTimetable:add,netTimetable:update">
+                                    <i class="layui-icon">&#xe875;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table lay-filter="netTimetable" lay-data="{id: 'netTimetable'}" id="LAY_table_user"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="netTimetable-option">
+    <span shiro:lacksPermission="netTimetable:view,netTimetable:update,netTimetable:delete">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+
+    <a lay-event="update" shiro:hasPermission="netTimetable:update"><i
+            class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="del" shiro:hasPermission="netTimetable:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
+</script>
+<script data-th-inline="none" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-netTimetable'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            $searchForm = $view.find('form'),
+            grade=$('#grade'),
+            sortObject = {field: 'className', type: null},
+            tableIns;
+
+        form.render();
+        getGrade();
+        initTable();
+
+        laydate.render({
+            elem: '#createTime',
+            range: true,
+            trigger: 'click'
+        });
+        function getGrade() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=grade",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        grade.append('<option value="">'+'请选择'+'</option>');
+                    }else{
+                    	grade.append('<option value="">'+'请选择'+'</option>');
+                        for (var i=0;i<items.length;i++) {
+                            $('#grade').append('<option value="'+ items[i].v +'">'+items[i].v+'</option>');
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+        dropdown.render({
+            elem: $view.find('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('netTimetable');
+                if (name === 'add') {
+                    febs.modal.open('新增课程', 'basicInfo/netTimetable/netTimetableAdd', {
+                        area: $(window).width() <= 750 ? '95%' : '50%',
+                    });
+                }
+                if (name === 'delete') {
+                    if (!checkStatus.data.length) {
+                        febs.alert.warn('请选择需要删除的课程');
+                    } else {
+                        febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                            var courseIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                courseIds.push(item.courseId)
+                            });
+                            alert(courseIds);
+                            deleteNetTimetable(courseIds.join(','));
+                        });
+                    }
+                }
+                if (name === 'export') {
+                    var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+                    params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+                    params.pageNum = $view.find(".layui-laypage-em").next().html();
+                    febs.download(ctx + 'classInfo/excel', params, '班级信息表.xlsx');
+                }
+            },
+            options: [{
+                name: 'add',
+                title: '新增课程',
+                perms: 'netTimetable:add'
+            }, {
+                name: 'delete',
+                title: '删除课程',
+                perms: 'netTimetable:delete'
+            }
+            ]
+        });
+
+        table.on('tool(netTimetable)', function (obj) {
+            var data = obj.data;
+                layEvent = obj.event;
+            if (layEvent === 'del') {
+                febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                    deleteNetTimetable(data.courseId);
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改课程', 'basicInfo/netTimetable/update/' + data.courseId, {
+                    area: $(window).width() <= 750 ? '90%' : '50%'
+                });
+            }
+        });
+        table.on('sort(netTimetable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+
+
+        $query.on('click', function () {
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+/*             treeSelect.revokeNode('grade'); */
+            $searchForm[0].reset();
+            tableIns.reload({page: {curr: 1}});
+        });
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'netTimetable',
+                url: ctx + 'netTimetable/netTimetable/list',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'courseName', title: '课程名称', minWidth: 150},
+                    {field: 'beginDate', title: '开课时间',minWidth: 100},
+                    {field: 'courseIntroduction', title: '课程介绍',minWidth: 100},
+                    {field: 'createUserName', title: '创建人姓名',minWidth: 100},
+                    {field: 'syInteractionSchool', title: '同步互动学校',minWidth: 100},
+                    {field: 'syViewer', title: '同步观看直播学校',minWidth: 100},
+                    {field: 'teacherName', title: '上课教师',minWidth: 100},
+                    {title: '操作', toolbar: '#netTimetable-option', minWidth: 140}
+                ]]
+            });
+        }
+
+        function getQueryParams() {
+            return {
+                teacherName: $searchForm.find('input[name="teacherName"]').val(),
+                grade: $searchForm.find("select[name='grade']").val(),
+                invalidate_ie_cache: new Date()
+            };
+        }
+
+        function deleteNetTimetable(courseIds) {
+            febs.get(ctx + 'netTimetable/netTimetable/delete/' + courseIds, null, function () {
+                febs.alert.success('删除课程成功');
+                $query.click();
+            });
+        }
+    })
+</script>

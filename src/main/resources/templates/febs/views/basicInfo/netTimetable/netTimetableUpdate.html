@@ -1,0 +1,163 @@
+<style>
+    #netTimetable-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #netTimetable-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="netTimetable-update">
+    <form class="layui-form" action="" lay-filter="netTimetable-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">课程名称：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="courseId">
+                <input type="text" name="courseName" minlength="2" maxlength="10"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">开课时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="beginDate" lay-verify="beginDate" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">课程介绍：</label>
+            <div class="layui-input-block">
+                <textarea name="courseIntroduction" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">同步互动学校：</label>
+            <div class="layui-input-block">
+                <textarea name="syInteractionSchool" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">同步观看直播学校：</label>
+            <div class="layui-input-block">
+                <textarea name="syViewer" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">教师名称：</label>
+            <div class="layui-input-block">
+                <select name="teacherId" id="teacherId">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="text-align: right">
+            <button class="layui-btn" lay-submit="" lay-filter="netTimetable-update-form-submit" id="submit">提交</button>
+            <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+        </div>
+    </form>
+</div>
+<script src="./mods/layarea.js"></script>
+<script data-th-inline="javascript">
+
+
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $form = $('form'),
+            upload = layui.upload,
+            grade=$('#netTimetable'),
+            teacher = $('#teacherId'),
+            netTimetable = [[${netTimetable}]],
+            specialTime = [[${specialTime}]],
+            $view = $('#netTimetable-update'),
+            $remove=$view.find('#remove'),
+            validate = layui.validate;
+
+        getTeacher();
+        getGrade();
+        initUserValue();
+        form.verify(validate);
+        form.render();
+
+        function getTeacher() {
+            febs.get(ctx+'schoolTeacherinfo/schoolTeacherinfo/web/list',null,function (res) {
+                var items = res.data;
+                if (items.total==0){
+                    teacher.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //teacher.append('<option value="' + items.rows[0].teacherId + '">' + items.rows[0].teacherName+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                        if (items.rows[i].teacherId===netTimetable.teacherId){
+                            teacher.append('<option selected="selected" value=' + items.rows[i].teacherId + '>' + items.rows[i].teacherName+ '</option>');
+                        }
+                        else{
+                            teacher.append('<option value='+ items.rows[i].teacherId + '>' + items.rows[i].teacherName + '</option>');
+                        }
+                    }
+
+                }
+                form.render('select');
+            });
+        }
+
+        function getGrade() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=grade",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        grade.append('<option value="'+""+'">'+""+'</option>');
+                    }else{
+                        for (var i=0;i<items.length;i++) {
+                            if (items[i].v===netTimetable.grade){
+                                grade.append('<option selected="selected">' + items[i].v + '</option>');
+                            }
+                            else{grade.append('<option>' + items[i].v + '</option>');}
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+        function initUserValue() {
+            form.val("netTimetable-update-form", {
+                "courseId": netTimetable.courseId,
+                "courseName": netTimetable.courseName,
+                "beginDate": specialTime,
+                "courseIntroduction": netTimetable.courseIntroduction,
+                "syInteractionSchool": netTimetable.syInteractionSchool,
+                "syViewer": netTimetable.syViewer,
+                "teacherId": netTimetable.teacherId
+            });
+        }
+
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+        form.on('submit(netTimetable-update-form-submit)', function (data) {
+
+            if (febs.nativeEqual(data.field, netTimetable)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+
+            $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'netTimetable/netTimetable/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('课程修改成功');
+                $('#febs-netTimetable').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>
+<style>
+    .layui-form-select dl{
+        position: relative;
+        top:0;
+    }
+</style>

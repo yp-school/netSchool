@@ -65,6 +65,9 @@ public class ViewController extends BaseController {
     @Autowired
     private INoticeAnnouncementService noticeAnnouncementService;
 
+    @Autowired
+    private INetTimetableService netTimetableService;
+
     //==============================================START==================================================
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/classroomInfo")
@@ -230,6 +233,28 @@ public class ViewController extends BaseController {
     }
     //==============================================END==================================================
 
+    //==============================================START==================================================
+    //网络课堂
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable")
+    @RequiresPermissions("netTimetable:view")
+    public String basicInfoNetTimetable() {
+        return FebsUtil.view("basicInfo/netTimetable/netTimetable");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable/netTimetableAdd")
+    @RequiresPermissions("netTimetable:add")
+    private String netTimetableAdd(){
+        return FebsUtil.view("basicInfo/netTimetable/netTimetableAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable/update/{netTimetableId}")
+    @RequiresPermissions("netTimetable:update")
+    public String netTimetableUpdate(@PathVariable Integer netTimetableId, Model model) {
+        resolveNetTimetableModel(netTimetableId,model, true);
+        return FebsUtil.view("basicInfo/netTimetable/netTimetableUpdate");
+    }
+    //==============================================END==================================================
+
 
     //==============================================START==================================================
 
@@ -390,6 +415,13 @@ public class ViewController extends BaseController {
     private void resolvePictureNewsModel(Integer pictureNewsId, Model model, Boolean transform){
         PictureNews pictureNews = this.pictureNewsService.getById(pictureNewsId);
         model.addAttribute("pictureNews",pictureNews);
+    }
+
+    private void resolveNetTimetableModel(Integer netTimetableId, Model model, Boolean transform){
+        NetTimetable netTimetable = this.netTimetableService.getById(netTimetableId);
+        model.addAttribute("netTimetable",netTimetable);
+        if (netTimetable.getBeginDate() != null)
+            model.addAttribute("specialTime", netTimetable.getBeginDate().substring(0,netTimetable.getBeginDate().length()-3).replace(" ","T"));
     }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {

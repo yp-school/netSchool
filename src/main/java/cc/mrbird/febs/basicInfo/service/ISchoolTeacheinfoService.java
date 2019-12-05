@@ -54,4 +54,6 @@ public interface ISchoolTeacheinfoService extends IService<SchoolTeacheinfo> {
     void deleteSchoolTeacheinfo(SchoolTeacheinfo schoolTeacheinfo);
 
     void deleteTeacherInfo(String teacherIds);
+
+    IPage<SchoolTeacheinfo> selectSchoolTeacherList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo);
 }

@@ -1,5 +1,6 @@
 package cc.mrbird.febs.basicInfo.controller;
 
+import cc.mrbird.febs.basicInfo.entity.School;
 import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.service.ISchoolTeacheinfoService;
 import cc.mrbird.febs.common.annotation.Log;
@@ -9,6 +10,9 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.system.entity.Dept;
+import cc.mrbird.febs.system.entity.User;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +61,22 @@ public class SchoolTeacheinfoController extends BaseController {
     @RequiresPermissions("schoolTeacherinfo:view")
     public FebsResponse schoolTeacheinfoList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo) {
         Map<String, Object> dataTable = getDataTable(this.schoolTeacheinfoService.findSchoolTeacheinfos(request, schoolTeacheinfo));
+        return new FebsResponse().success().data(dataTable);
+    }
+
+    /**
+     * 教师下拉列表
+     * @param request
+     * @param schoolTeacheinfo
+     * @return
+     */
+    @GetMapping("schoolTeacherinfo/web/list")
+    @ResponseBody
+    @RequiresPermissions("schoolTeacherinfo:view")
+    public FebsResponse schoolTeacherinfoWebList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo) {
+
+        IPage<SchoolTeacheinfo> schoolTeacheinfoIPagePages = this.schoolTeacheinfoService.selectSchoolTeacherList(request, schoolTeacheinfo);
+        Map<String, Object> dataTable = getDataTable(schoolTeacheinfoIPagePages);
         return new FebsResponse().success().data(dataTable);
     }
 
