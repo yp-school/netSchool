@@ -48,6 +48,12 @@ public class VideoLive {
     private String videoPlayUrl;
 
     /**
+     * 播放时间
+     */
+    @TableField("video_play_time")
+    private String videoPlayTime;
+
+    /**
      * 是否已经播放
      */
     @TableField("is_play")

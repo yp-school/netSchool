@@ -8,6 +8,7 @@
         <result column="video_title" jdbcType="VARCHAR" property="videoTitle"/>
         <result column="video_content" jdbcType="VARCHAR" property="videoContent"/>
         <result column="video_play_url" jdbcType="VARCHAR" property="videoPlayUrl"/>
+        <result column="video_play_time" jdbcType="DATE" property="videoPlayTime"/>
         <result column="is_play" jdbcType="VARCHAR" property="isPlay"/>
         <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
         <result column="editor_name" jdbcType="VARCHAR" property="editorName"/>
@@ -21,6 +22,7 @@
         vl.video_title,
         vl.video_content,
         vl.video_play_url,
+        vl.video_play_time,
         vl.is_play,
         vl.editor_id,
         vl.editor_name,
@@ -30,5 +32,10 @@
         video_live vl
         left join
         net_timetable nt on vl.course_id = nt.course_id
+        <where>
+            <if test="videoLive.courseName != null and videoLive.courseName != ''">
+                nt.course_name = #{videoLive.courseName}
+            </if>
+        </where>
     </select>
 </mapper>

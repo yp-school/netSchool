@@ -1,11 +1,13 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
+import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.entity.PictureNews;
 import cc.mrbird.febs.basicInfo.mapper.PictureNewsMapper;
 import cc.mrbird.febs.basicInfo.service.IPictureNewsService;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.system.entity.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,9 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
     public IPage<PictureNews> findPictureNewss(QueryRequest request, PictureNews pictureNews) {
         LambdaQueryWrapper<PictureNews> queryWrapper = new LambdaQueryWrapper<>();
         // TODO 设置查询条件
+        if (StringUtils.isNotEmpty(pictureNews.getNewsTitle())) {
+            queryWrapper.eq(PictureNews::getNewsTitle, pictureNews.getNewsTitle());
+        }
         Page<PictureNews> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
     }

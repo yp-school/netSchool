@@ -1,11 +1,13 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
 import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
+import cc.mrbird.febs.basicInfo.entity.Timetable;
 import cc.mrbird.febs.basicInfo.mapper.NoticeAnnouncementMapper;
 import cc.mrbird.febs.basicInfo.service.INoticeAnnouncementService;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.system.entity.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,9 @@ public class NoticeAnnouncementServiceImpl extends ServiceImpl<NoticeAnnouncemen
     public IPage<NoticeAnnouncement> findNoticeAnnouncements(QueryRequest request, NoticeAnnouncement noticeAnnouncement) {
         LambdaQueryWrapper<NoticeAnnouncement> queryWrapper = new LambdaQueryWrapper<>();
         // TODO 设置查询条件
+        if (StringUtils.isNotEmpty(noticeAnnouncement.getNoticeTitle())) {
+            queryWrapper.eq(NoticeAnnouncement::getNoticeTitle, noticeAnnouncement.getNoticeTitle());
+        }
         Page<NoticeAnnouncement> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
     }

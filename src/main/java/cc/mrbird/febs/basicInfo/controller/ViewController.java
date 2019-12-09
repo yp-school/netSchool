@@ -452,6 +452,8 @@ public class ViewController extends BaseController {
     private void resolveVideoLiveModel(Integer videoLiveId, Model model, Boolean transform){
         VideoLive videoLive = this.videoLiveService.getById(videoLiveId);
         model.addAttribute("videoLive",videoLive);
+        if (videoLive.getVideoPlayTime() != null)
+            model.addAttribute("specialTime", videoLive.getVideoPlayTime().substring(0,videoLive.getVideoPlayTime().length()-3).replace(" ","T"));
     }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {

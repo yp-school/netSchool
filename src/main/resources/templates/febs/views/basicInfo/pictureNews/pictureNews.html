@@ -8,9 +8,9 @@
                             <div class="layui-col-md10">
                                 <div class="layui-form-item">
                                     <div class="layui-inline">
-                                        <label class="layui-form-label layui-form-label-sm">教师名称</label>
+                                        <label class="layui-form-label layui-form-label-sm">新闻标题</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="teacherName" autocomplete="off" class="layui-input">
+                                            <input type="text" name="newsTitle" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <!--<div class="layui-inline">
@@ -194,7 +194,7 @@
 
         function getQueryParams() {
             return {
-                teacherName: $searchForm.find('input[name="teacherName"]').val(),
+                newsTitle: $searchForm.find('input[name="newsTitle"]').val(),
                 grade: $searchForm.find("select[name='grade']").val(),
                 invalidate_ie_cache: new Date()
             };

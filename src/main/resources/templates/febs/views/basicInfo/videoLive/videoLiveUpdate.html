@@ -31,6 +31,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">开播时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="videoPlayTime" lay-verify="videoPlayTime" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">是否已经播放：</label>
             <div class="layui-input-block">
                 <input type="radio" name="isPlay"  value="1" title="是" checked >
@@ -65,6 +71,7 @@
             upload = layui.upload,
             grade=$('#videoLive'),
             course = $('#courseId'),
+            specialTime = [[${specialTime}]],
             videoLive = [[${videoLive}]],
             specialTime = [[${specialTime}]],
             $view = $('#videoLive-update'),
@@ -124,6 +131,7 @@
                 "videoContent": videoLive.videoContent,
                 "videoPlayUrl": videoLive.videoPlayUrl,
                 "isPlay": videoLive.isPlay,
+                "videoPlayTime": specialTime,
                 "syViewer": videoLive.syViewer,
                 "liveId": videoLive.liveId,
                 "courseId": videoLive.courseId
