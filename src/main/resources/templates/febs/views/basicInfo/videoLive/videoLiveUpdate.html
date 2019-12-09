@@ -1,0 +1,159 @@
+<style>
+    #videoLive-update {
+        padding: 20px 25px 25px 0;
+    }
+
+    #videoLive-update .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+</style>
+<div class="layui-fluid" id="videoLive-update">
+    <form class="layui-form" action="" lay-filter="videoLive-update-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">直播标题：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="liveId">
+                <input type="text" name="videoTitle" minlength="2" maxlength="10"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">直播简介：</label>
+            <div class="layui-input-block">
+                <textarea name="videoContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">播放地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="videoPlayUrl" minlength="2" maxlength="200"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">是否已经播放：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="isPlay"  value="1" title="是" checked >
+                <input type="radio" name="isPlay"  value="0" title="否" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">课程名称：</label>
+            <div class="layui-input-block">
+                <select name="courseId" id="courseId">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="text-align: right">
+            <button class="layui-btn" lay-submit="" lay-filter="videoLive-update-form-submit" id="submit">提交</button>
+            <button class="layui-btn layui-btn-primary" type="button" id="remove">取消</button>
+        </div>
+    </form>
+</div>
+<script src="./mods/layarea.js"></script>
+<script data-th-inline="javascript">
+
+
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $form = $('form'),
+            upload = layui.upload,
+            grade=$('#videoLive'),
+            course = $('#courseId'),
+            videoLive = [[${videoLive}]],
+            specialTime = [[${specialTime}]],
+            $view = $('#videoLive-update'),
+            $remove=$view.find('#remove'),
+            validate = layui.validate;
+
+        getCourse();
+        getGrade();
+        initUserValue();
+        form.verify(validate);
+        form.render();
+
+        function getCourse() {
+            febs.get(ctx+'netTimetable/netTimetable/web/list',null,function (res) {
+                var items = res.data;
+                if (items.total==0){
+                    course.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //course.append('<option value="' + items.rows[0].courseId + '">' + items.rows[0].courseName+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                        if (items.rows[i].courseId===videoLive.courseId){
+                            course.append('<option selected="selected" value=' + items.rows[i].courseId + '>' + items.rows[i].courseName+ '</option>');
+                        }
+                        else{
+                            course.append('<option value='+ items.rows[i].courseId + '>' + items.rows[i].courseName + '</option>');
+                        }
+                    }
+
+                }
+                form.render('select');
+            });
+        }
+
+        function getGrade() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=grade",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        grade.append('<option value="'+""+'">'+""+'</option>');
+                    }else{
+                        for (var i=0;i<items.length;i++) {
+                            if (items[i].v===videoLive.grade){
+                                grade.append('<option selected="selected">' + items[i].v + '</option>');
+                            }
+                            else{grade.append('<option>' + items[i].v + '</option>');}
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+        function initUserValue() {
+            form.val("videoLive-update-form", {
+                "videoTitle": videoLive.videoTitle,
+                "videoContent": videoLive.videoContent,
+                "videoPlayUrl": videoLive.videoPlayUrl,
+                "isPlay": videoLive.isPlay,
+                "syViewer": videoLive.syViewer,
+                "liveId": videoLive.liveId,
+                "courseId": videoLive.courseId
+            });
+        }
+
+        $remove.on("click",function(){
+            layer.closeAll();
+        })
+
+        form.on('submit(videoLive-update-form-submit)', function (data) {
+
+            if (febs.nativeEqual(data.field, videoLive)) {
+                febs.alert.warn('数据未作任何修改！');
+                return false;
+            }
+
+            $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
+            febs.post(ctx + 'videoLive/videoLive/update', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('课程修改成功');
+                $('#febs-videoLive').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>
+<style>
+    .layui-form-select dl{
+        position: relative;
+        top:0;
+    }
+</style>

@@ -54,4 +54,6 @@ public interface INetTimetableService extends IService<NetTimetable> {
     void deleteNetTimetable(NetTimetable netTimetable);
 
     void deleteNetTimetables(String courseIds);
+
+    IPage<NetTimetable> selectNetTimetableList(QueryRequest request, NetTimetable netTimetable);
 }

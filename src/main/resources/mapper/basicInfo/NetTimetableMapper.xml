@@ -32,4 +32,19 @@
         left join
         school_teacher_info sti on nt.teacher_id = sti.teacher_id
     </select>
+
+    <select id="selectNetTimetableList" resultMap="netTimetable">
+        select
+        course_id,
+        create_user_id,
+        create_user_name,
+        course_name,
+        begin_date,
+        course_introduction,
+        sy_interaction_school,
+        sy_viewer,
+        teacher_id
+        from
+        net_timetable
+    </select>
 </mapper>

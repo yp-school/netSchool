@@ -1,6 +1,7 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
 import cc.mrbird.febs.basicInfo.entity.NetTimetable;
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.mapper.NetTimetableMapper;
 import cc.mrbird.febs.basicInfo.service.INetTimetableService;
 import cc.mrbird.febs.common.entity.QueryRequest;
@@ -82,5 +83,18 @@ public class NetTimetableServiceImpl extends ServiceImpl<NetTimetableMapper, Net
     public void deleteNetTimetables(String courseIds) {
         List<String> list = Arrays.asList(courseIds.split(StringPool.COMMA));
         baseMapper.deleteBatchIds(list);
+    }
+
+    /**
+     * 教师下拉树
+     * @param request
+     * @param netTimetable
+     * @return
+     */
+    @Override
+    public IPage<NetTimetable> selectNetTimetableList(QueryRequest request, NetTimetable netTimetable) {
+        Page<NetTimetable> page = new Page<>(request.getPageNum(), request.getPageSize());
+        IPage<NetTimetable> pageList = this.baseMapper.selectNetTimetableList(page,netTimetable);
+        return pageList;
     }
 }

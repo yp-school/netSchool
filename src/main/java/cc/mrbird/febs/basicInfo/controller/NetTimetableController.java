@@ -1,6 +1,7 @@
 package cc.mrbird.febs.basicInfo.controller;
 
 import cc.mrbird.febs.basicInfo.entity.NetTimetable;
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.service.INetTimetableService;
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.utils.FebsUtil;
@@ -9,6 +10,7 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,6 +57,22 @@ public class NetTimetableController extends BaseController {
     @RequiresPermissions("netTimetable:view")
     public FebsResponse netTimetableList(QueryRequest request, NetTimetable netTimetable) {
         Map<String, Object> dataTable = getDataTable(this.netTimetableService.findNetTimetables(request, netTimetable));
+        return new FebsResponse().success().data(dataTable);
+    }
+
+    /**
+     * 教师下拉列表
+     * @param request
+     * @param netTimetable
+     * @return
+     */
+    @GetMapping("netTimetable/web/list")
+    @ResponseBody
+    @RequiresPermissions("netTimetable:view")
+    public FebsResponse netTimetableWebList(QueryRequest request, NetTimetable netTimetable) {
+
+        IPage<NetTimetable> netTimetableIPage = this.netTimetableService.selectNetTimetableList(request, netTimetable);
+        Map<String, Object> dataTable = getDataTable(netTimetableIPage);
         return new FebsResponse().success().data(dataTable);
     }
 

@@ -68,6 +68,9 @@ public class ViewController extends BaseController {
     @Autowired
     private INetTimetableService netTimetableService;
 
+    @Autowired
+    private IVideoLiveService videoLiveService;
+
     //==============================================START==================================================
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/classroomInfo")
@@ -255,6 +258,28 @@ public class ViewController extends BaseController {
     }
     //==============================================END==================================================
 
+    //==============================================START==================================================
+    //网络直播
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive")
+    @RequiresPermissions("videoLive:view")
+    public String basicInfoVideoLive() {
+        return FebsUtil.view("basicInfo/videoLive/videoLive");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive/videoLiveAdd")
+    @RequiresPermissions("videoLive:add")
+    private String videoLiveAdd(){
+        return FebsUtil.view("basicInfo/videoLive/videoLiveAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive/update/{liveId}")
+    @RequiresPermissions("videoLive:update")
+    public String videoLiveUpdate(@PathVariable Integer liveId, Model model) {
+        resolveVideoLiveModel(liveId,model, true);
+        return FebsUtil.view("basicInfo/videoLive/videoLiveUpdate");
+    }
+    //==============================================END==================================================
+
 
     //==============================================START==================================================
 
@@ -422,6 +447,11 @@ public class ViewController extends BaseController {
         model.addAttribute("netTimetable",netTimetable);
         if (netTimetable.getBeginDate() != null)
             model.addAttribute("specialTime", netTimetable.getBeginDate().substring(0,netTimetable.getBeginDate().length()-3).replace(" ","T"));
+    }
+
+    private void resolveVideoLiveModel(Integer videoLiveId, Model model, Boolean transform){
+        VideoLive videoLive = this.videoLiveService.getById(videoLiveId);
+        model.addAttribute("videoLive",videoLive);
     }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {
