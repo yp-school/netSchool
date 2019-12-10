@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -45,17 +46,30 @@ public class NoticeAnnouncementController extends BaseController {
 
     @GetMapping("noticeAnnouncement")
     @ResponseBody
-    @RequiresPermissions("noticeAnnouncement:view")
     public FebsResponse getAllNoticeAnnouncements(NoticeAnnouncement noticeAnnouncement) {
         return new FebsResponse().success().data(noticeAnnouncementService.findNoticeAnnouncements(noticeAnnouncement));
     }
 
     @GetMapping("noticeAnnouncement/list")
     @ResponseBody
-    @RequiresPermissions("noticeAnnouncement:view")
     public FebsResponse noticeAnnouncementList(QueryRequest request, NoticeAnnouncement noticeAnnouncement) {
         Map<String, Object> dataTable = getDataTable(this.noticeAnnouncementService.findNoticeAnnouncements(request, noticeAnnouncement));
         return new FebsResponse().success().data(dataTable);
+    }
+
+    @Log("noticeAnnouncement")
+    @GetMapping("noticeAnnouncement/selectInfById/{noticeId}")
+    @ResponseBody
+    public FebsResponse selectInfById(@NotNull(message = "{required}") @PathVariable Integer noticeId)
+            throws FebsException {
+        try {
+            NoticeAnnouncement noticeAnnouncement = this.noticeAnnouncementService.selectNoticeById(noticeId);
+            return new FebsResponse().success().data(noticeAnnouncement);
+        } catch (Exception e) {
+            String message = "查询noticeAnnouncement失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     @Log("新增NoticeAnnouncement")

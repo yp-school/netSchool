@@ -91,4 +91,9 @@ public class SchoolTeacheinfoServiceImpl extends ServiceImpl<SchoolTeacheinfoMap
         IPage<SchoolTeacheinfo> pageList = this.baseMapper.selectSchoolTeacherList(page,schoolTeacheinfo);
         return pageList;
     }
+
+    @Override
+    public SchoolTeacheinfo selectSchoolTeacherinfoById(Integer teacherId) {
+        return this.baseMapper.selectById(teacherId);
+    }
 }

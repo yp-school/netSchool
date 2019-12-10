@@ -1,5 +1,6 @@
 package cc.mrbird.febs.basicInfo.controller;
 
+import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.entity.PictureNews;
 import cc.mrbird.febs.basicInfo.service.IPictureNewsService;
 import cc.mrbird.febs.common.annotation.Log;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -45,17 +47,30 @@ public class PictureNewsController extends BaseController {
 
     @GetMapping("pictureNews")
     @ResponseBody
-    @RequiresPermissions("pictureNews:view")
     public FebsResponse getAllPictureNewss(PictureNews pictureNews) {
         return new FebsResponse().success().data(pictureNewsService.findPictureNewss(pictureNews));
     }
 
     @GetMapping("pictureNews/list")
     @ResponseBody
-    @RequiresPermissions("pictureNews:view")
     public FebsResponse pictureNewsList(QueryRequest request, PictureNews pictureNews) {
         Map<String, Object> dataTable = getDataTable(this.pictureNewsService.findPictureNewss(request, pictureNews));
         return new FebsResponse().success().data(dataTable);
+    }
+
+    @Log("pictureNews")
+    @GetMapping("pictureNews/selectInfById/{pictureId}")
+    @ResponseBody
+    public FebsResponse selectInfById(@NotNull(message = "{required}") @PathVariable Integer pictureId)
+            throws FebsException {
+        try {
+            PictureNews pictureNews = this.pictureNewsService.selectPictureNewsById(pictureId);
+            return new FebsResponse().success().data(pictureNews);
+        } catch (Exception e) {
+            String message = "查询pictureNews失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     @Log("新增PictureNews")

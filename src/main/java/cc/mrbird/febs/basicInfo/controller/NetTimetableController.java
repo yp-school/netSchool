@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -47,17 +48,30 @@ public class NetTimetableController extends BaseController {
 
     @GetMapping("netTimetable")
     @ResponseBody
-    @RequiresPermissions("netTimetable:view")
     public FebsResponse getAllNetTimetables(NetTimetable netTimetable) {
         return new FebsResponse().success().data(netTimetableService.findNetTimetables(netTimetable));
     }
 
     @GetMapping("netTimetable/list")
     @ResponseBody
-    @RequiresPermissions("netTimetable:view")
     public FebsResponse netTimetableList(QueryRequest request, NetTimetable netTimetable) {
         Map<String, Object> dataTable = getDataTable(this.netTimetableService.findNetTimetables(request, netTimetable));
         return new FebsResponse().success().data(dataTable);
+    }
+
+    @Log("NetTimetable")
+    @GetMapping("netTimetable/selectInfById/{courseId}")
+    @ResponseBody
+    public FebsResponse selectInfById(@NotNull(message = "{required}") @PathVariable Integer courseId)
+            throws FebsException {
+        try {
+            NetTimetable netTimetable = this.netTimetableService.selectNetTimetableById(courseId);
+            return new FebsResponse().success().data(netTimetable);
+        } catch (Exception e) {
+            String message = "查询netTimetable失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     /**
@@ -68,7 +82,6 @@ public class NetTimetableController extends BaseController {
      */
     @GetMapping("netTimetable/web/list")
     @ResponseBody
-    @RequiresPermissions("netTimetable:view")
     public FebsResponse netTimetableWebList(QueryRequest request, NetTimetable netTimetable) {
 
         IPage<NetTimetable> netTimetableIPage = this.netTimetableService.selectNetTimetableList(request, netTimetable);

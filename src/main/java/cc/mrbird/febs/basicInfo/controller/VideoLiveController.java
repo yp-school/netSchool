@@ -1,5 +1,6 @@
 package cc.mrbird.febs.basicInfo.controller;
 
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.entity.VideoLive;
 import cc.mrbird.febs.basicInfo.service.IVideoLiveService;
 import cc.mrbird.febs.common.annotation.Log;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -45,17 +47,30 @@ public class VideoLiveController extends BaseController {
 
     @GetMapping("videoLive")
     @ResponseBody
-    @RequiresPermissions("videoLive:view")
     public FebsResponse getAllVideoLives(VideoLive videoLive) {
         return new FebsResponse().success().data(videoLiveService.findVideoLives(videoLive));
     }
 
     @GetMapping("videoLive/list")
     @ResponseBody
-    @RequiresPermissions("videoLive:view")
     public FebsResponse videoLiveList(QueryRequest request, VideoLive videoLive) {
         Map<String, Object> dataTable = getDataTable(this.videoLiveService.findVideoLives(request, videoLive));
         return new FebsResponse().success().data(dataTable);
+    }
+
+    @Log("videoLive")
+    @GetMapping("videoLive/selectInfById/{liveId}")
+    @ResponseBody
+    public FebsResponse selectInfById(@NotNull(message = "{required}") @PathVariable Integer liveId)
+            throws FebsException {
+        try {
+            VideoLive videoLive = this.videoLiveService.selectVideoLiveById(liveId);
+            return new FebsResponse().success().data(videoLive);
+        } catch (Exception e) {
+            String message = "查询videoLive失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     @Log("新增VideoLive")

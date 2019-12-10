@@ -54,4 +54,6 @@ public interface IPictureNewsService extends IService<PictureNews> {
     void deletePictureNews(PictureNews pictureNews);
 
     void deletePictureNewsInfo(String pictureIds);
+
+    PictureNews selectPictureNewsById(Integer pictureId);
 }

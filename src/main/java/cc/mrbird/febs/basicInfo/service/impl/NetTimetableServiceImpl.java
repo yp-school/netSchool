@@ -97,4 +97,9 @@ public class NetTimetableServiceImpl extends ServiceImpl<NetTimetableMapper, Net
         IPage<NetTimetable> pageList = this.baseMapper.selectNetTimetableList(page,netTimetable);
         return pageList;
     }
+
+    @Override
+    public NetTimetable selectNetTimetableById(Integer courseId) {
+        return this.baseMapper.selectById(courseId);
+    }
 }

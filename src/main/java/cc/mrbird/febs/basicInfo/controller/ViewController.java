@@ -173,19 +173,16 @@ public class ViewController extends BaseController {
     //==============================================START==================================================
     //教师信息
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo")
-    @RequiresPermissions("schoolTeacherinfo:view")
     public String basicInfoTeacher() {
         return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherinfo");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo/teacherInfoAdd")
-    @RequiresPermissions("schoolTeacherinfo:add")
     private String teacherAdd(){
         return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherAdd");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/teacherInfo/update/{schoolTeacherinfoId}")
-    @RequiresPermissions("schoolTeacherinfo:update")
     public String schoolTeacherinfoUpdate(@PathVariable Integer schoolTeacherinfoId, Model model) {
         resolveTeacherModel(schoolTeacherinfoId,model, true);
         return FebsUtil.view("basicInfo/schoolTeacherinfo/schoolTeacherUpdate");
@@ -195,19 +192,16 @@ public class ViewController extends BaseController {
     //==============================================START==================================================
     //通知公告
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice")
-    @RequiresPermissions("noticeAnnouncement:view")
     public String basicInfoNotice() {
         return FebsUtil.view("basicInfo/notice/notice");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice/noticeAdd")
-    @RequiresPermissions("noticeAnnouncement:add")
     private String noticeAdd(){
         return FebsUtil.view("basicInfo/notice/noticeAdd");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/notice/update/{noticeId}")
-    @RequiresPermissions("noticeAnnouncement:update")
     public String noticeUpdate(@PathVariable Integer noticeId, Model model) {
         resolveNoticeModel(noticeId,model, true);
         return FebsUtil.view("basicInfo/notice/noticeUpdate");
@@ -217,19 +211,16 @@ public class ViewController extends BaseController {
     //==============================================START==================================================
     //图片新闻
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews")
-    @RequiresPermissions("pictureNews:view")
     public String basicInfoPictureNews() {
         return FebsUtil.view("basicInfo/pictureNews/pictureNews");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews/pictureNewsAdd")
-    @RequiresPermissions("pictureNews:add")
     private String pictureNewsAdd(){
         return FebsUtil.view("basicInfo/pictureNews/pictureNewsAdd");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/pictureNews/update/{pictureNewsId}")
-    @RequiresPermissions("schoolTeacherinfo:update")
     public String pictureNewsUpdate(@PathVariable Integer pictureNewsId, Model model) {
         resolvePictureNewsModel(pictureNewsId,model, true);
         return FebsUtil.view("basicInfo/pictureNews/pictureNewsUpdate");
@@ -239,19 +230,16 @@ public class ViewController extends BaseController {
     //==============================================START==================================================
     //网络课堂
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable")
-    @RequiresPermissions("netTimetable:view")
     public String basicInfoNetTimetable() {
         return FebsUtil.view("basicInfo/netTimetable/netTimetable");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable/netTimetableAdd")
-    @RequiresPermissions("netTimetable:add")
     private String netTimetableAdd(){
         return FebsUtil.view("basicInfo/netTimetable/netTimetableAdd");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/netTimetable/update/{netTimetableId}")
-    @RequiresPermissions("netTimetable:update")
     public String netTimetableUpdate(@PathVariable Integer netTimetableId, Model model) {
         resolveNetTimetableModel(netTimetableId,model, true);
         return FebsUtil.view("basicInfo/netTimetable/netTimetableUpdate");
@@ -261,19 +249,16 @@ public class ViewController extends BaseController {
     //==============================================START==================================================
     //网络直播
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive")
-    @RequiresPermissions("videoLive:view")
     public String basicInfoVideoLive() {
         return FebsUtil.view("basicInfo/videoLive/videoLive");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive/videoLiveAdd")
-    @RequiresPermissions("videoLive:add")
     private String videoLiveAdd(){
         return FebsUtil.view("basicInfo/videoLive/videoLiveAdd");
     }
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/videoLive/update/{liveId}")
-    @RequiresPermissions("videoLive:update")
     public String videoLiveUpdate(@PathVariable Integer liveId, Model model) {
         resolveVideoLiveModel(liveId,model, true);
         return FebsUtil.view("basicInfo/videoLive/videoLiveUpdate");

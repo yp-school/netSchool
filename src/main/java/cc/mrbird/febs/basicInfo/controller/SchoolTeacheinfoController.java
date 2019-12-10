@@ -1,5 +1,6 @@
 package cc.mrbird.febs.basicInfo.controller;
 
+import cc.mrbird.febs.basicInfo.entity.PictureNews;
 import cc.mrbird.febs.basicInfo.entity.School;
 import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.service.ISchoolTeacheinfoService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,17 +53,30 @@ public class SchoolTeacheinfoController extends BaseController {
 
     @GetMapping("schoolTeacherinfo")
     @ResponseBody
-    @RequiresPermissions("schoolTeacherinfo:view")
     public FebsResponse getAllSchoolTeacheinfos(SchoolTeacheinfo schoolTeacheinfo) {
         return new FebsResponse().success().data(schoolTeacheinfoService.findSchoolTeacheinfos(schoolTeacheinfo));
     }
 
     @GetMapping("schoolTeacherinfo/list")
     @ResponseBody
-    @RequiresPermissions("schoolTeacherinfo:view")
     public FebsResponse schoolTeacheinfoList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo) {
         Map<String, Object> dataTable = getDataTable(this.schoolTeacheinfoService.findSchoolTeacheinfos(request, schoolTeacheinfo));
         return new FebsResponse().success().data(dataTable);
+    }
+
+    @Log("schoolTeacherinfo")
+    @GetMapping("schoolTeacherinfo/selectInfById/{teacherId}")
+    @ResponseBody
+    public FebsResponse selectInfById(@NotNull(message = "{required}") @PathVariable Integer teacherId)
+            throws FebsException {
+        try {
+            SchoolTeacheinfo schoolTeacheinfo = this.schoolTeacheinfoService.selectSchoolTeacherinfoById(teacherId);
+            return new FebsResponse().success().data(schoolTeacheinfo);
+        } catch (Exception e) {
+            String message = "查询schoolTeacheinfo失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
     }
 
     /**
@@ -72,7 +87,6 @@ public class SchoolTeacheinfoController extends BaseController {
      */
     @GetMapping("schoolTeacherinfo/web/list")
     @ResponseBody
-    @RequiresPermissions("schoolTeacherinfo:view")
     public FebsResponse schoolTeacherinfoWebList(QueryRequest request, SchoolTeacheinfo schoolTeacheinfo) {
 
         IPage<SchoolTeacheinfo> schoolTeacheinfoIPagePages = this.schoolTeacheinfoService.selectSchoolTeacherList(request, schoolTeacheinfo);

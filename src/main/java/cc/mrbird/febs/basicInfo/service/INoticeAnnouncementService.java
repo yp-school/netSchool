@@ -54,4 +54,6 @@ public interface INoticeAnnouncementService extends IService<NoticeAnnouncement>
     void deleteNoticeAnnouncement(NoticeAnnouncement noticeAnnouncement);
 
     void deleteNoticeAnnouncementInfo(String noticeIds);
+
+    NoticeAnnouncement selectNoticeById(Integer noticeId);
 }

@@ -54,4 +54,6 @@ public interface IVideoLiveService extends IService<VideoLive> {
     void deleteVideoLive(VideoLive videoLive);
 
     void deleteVideoLives(String courseIds);
+
+    VideoLive selectVideoLiveById(Integer liveId);
 }

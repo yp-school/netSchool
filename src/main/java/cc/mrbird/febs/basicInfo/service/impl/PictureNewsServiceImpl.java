@@ -87,4 +87,9 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
         List<String> list = Arrays.asList(pictureIds.split(StringPool.COMMA));
         baseMapper.deleteBatchIds(list);
     }
+
+    @Override
+    public PictureNews selectPictureNewsById(Integer pictureId) {
+        return this.baseMapper.selectById(pictureId);
+    }
 }

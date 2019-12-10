@@ -83,4 +83,9 @@ public class NoticeAnnouncementServiceImpl extends ServiceImpl<NoticeAnnouncemen
         List<String> list = Arrays.asList(noticeIds.split(StringPool.COMMA));
         baseMapper.deleteBatchIds(list);
     }
+
+    @Override
+    public NoticeAnnouncement selectNoticeById(Integer noticeId) {
+        return baseMapper.selectById(noticeId);
+    }
 }

@@ -82,4 +82,9 @@ public class VideoLiveServiceImpl extends ServiceImpl<VideoLiveMapper, VideoLive
         List<String> list = Arrays.asList(courseIds.split(StringPool.COMMA));
         baseMapper.deleteBatchIds(list);
     }
+
+    @Override
+    public VideoLive selectVideoLiveById(Integer liveId) {
+        return baseMapper.selectById(liveId);
+    }
 }
