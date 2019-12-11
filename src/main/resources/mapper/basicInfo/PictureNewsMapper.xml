@@ -5,6 +5,7 @@
     <resultMap id="pictureNews" type="cc.mrbird.febs.basicInfo.entity.PictureNews">
         <id column="picture_id" jdbcType="BIGINT" property="pictureId"/>
         <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl"/>
+        <result column="news_url" jdbcType="VARCHAR" property="newsUrl"/>
         <result column="news_title" jdbcType="VARCHAR" property="newsTitle"/>
         <result column="news_content" jdbcType="VARCHAR" property="newsContent"/>
         <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>

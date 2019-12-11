@@ -31,6 +31,12 @@ public class PictureNews {
     private String pictureUrl;
 
     /**
+     * 新闻url
+     */
+    @TableField("news_url")
+    private String newsUrl;
+
+    /**
      * 新闻标题
      */
     @TableField("news_title")

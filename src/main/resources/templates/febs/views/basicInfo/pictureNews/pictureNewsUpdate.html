@@ -23,6 +23,13 @@
                 <textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">新闻地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="newsUrl" minlength="2" maxlength="1000"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">图片资源：</label>
             <div class="layui-input-block">
@@ -127,6 +134,7 @@
                 "pictureId": pictureNews.pictureId,
                 "newsTitle": pictureNews.newsTitle,
                 "newsContent": pictureNews.newsContent,
+                "newsUrl": pictureNews.newsUrl,
                 "pictureUrl": pictureNews.pictureUrl
             });
         }
