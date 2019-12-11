@@ -83,4 +83,16 @@ public class NetTimetable {
      */
     @TableField(exist = false)
     private String isPlay;
+
+    /**
+     * 播放地址
+     */
+    @TableField(exist = false)
+    private String videoPlayUrl;
+
+    /**
+     * 图片地址
+     */
+    @TableField(exist = false)
+    private String videoImageUrl;
 }
