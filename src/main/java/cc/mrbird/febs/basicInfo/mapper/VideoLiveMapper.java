@@ -15,4 +15,5 @@ import org.apache.ibatis.annotations.Param;
 public interface VideoLiveMapper extends BaseMapper<VideoLive> {
 
     IPage<VideoLive> selectVideoLiveList(Page<VideoLive> page, @Param("videoLive") VideoLive videoLive);
+
 }

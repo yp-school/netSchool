@@ -13,6 +13,7 @@
         <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
         <result column="editor_name" jdbcType="VARCHAR" property="editorName"/>
         <result column="edit_time" jdbcType="DATE" property="editTime"/>
+        <result column="video_image_url" jdbcType="VARCHAR" property="videoImageUrl"/>
     </resultMap>
     
     <select id="selectVideoLiveList" resultType="cc.mrbird.febs.basicInfo.entity.VideoLive">
@@ -27,6 +28,7 @@
         vl.editor_id,
         vl.editor_name,
         vl.edit_time,
+        vl.video_image_url,
         nt.course_name
         from
         video_live vl

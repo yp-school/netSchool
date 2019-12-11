@@ -77,4 +77,10 @@ public class NetTimetable {
      */
     @TableField(exist = false)
     private String teacherName;
+
+    /**
+     * 教师名称
+     */
+    @TableField(exist = false)
+    private String isPlay;
 }

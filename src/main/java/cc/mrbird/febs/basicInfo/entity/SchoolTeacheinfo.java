@@ -45,6 +45,12 @@ public class SchoolTeacheinfo {
     private String teacherIntroduction;
 
     /**
+     * 教师荣誉
+     */
+    @TableField("honour")
+    private String honour;
+
+    /**
      * 电话号码
      */
     @TableField("telephone")
