@@ -8,6 +8,7 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
         <result column="teacher_introduction" jdbcType="VARCHAR" property="teacherIntroduction"/>
         <result column="honour" jdbcType="VARCHAR" property="honour"/>
+        <result column="honour_image" jdbcType="VARCHAR" property="honourImage"/>
         <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
         <result column="img_urls" jdbcType="VARCHAR" property="imgUrls"/>
     </resultMap>
@@ -19,6 +20,7 @@
         sex,
         teacher_introduction,
         honour,
+        honour_image,
         telephone,
         img_urls
         from
