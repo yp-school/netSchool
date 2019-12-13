@@ -61,6 +61,12 @@ public class PictureNews {
     private String editorName;
 
     /**
+     * 上传人公司
+     */
+    @TableField("uploader_company")
+    private String uploaderCompany;
+
+    /**
      * 发布时间
      */
     @TableField("publish_time")

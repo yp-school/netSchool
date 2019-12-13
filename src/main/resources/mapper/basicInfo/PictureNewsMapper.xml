@@ -10,6 +10,7 @@
         <result column="news_content" jdbcType="VARCHAR" property="newsContent"/>
         <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
         <result column="editor_name" jdbcType="VARCHAR" property="editorName"/>
+        <result column="uploader_company" jdbcType="VARCHAR" property="uploaderCompany"/>
         <result column="publish_time" jdbcType="DATE" property="publishTime"/>
         <result column="course_id" jdbcType="BIGINT" property="courseId"/>
     </resultMap>
