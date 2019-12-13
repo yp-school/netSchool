@@ -7,15 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="497fa6a5-8565-4dd9-b039-61293b836ce3" name="Default Changelist" comment="微调">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/banner.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/febs.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/febs.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/generator/templates/controller.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generator/templates/controller.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/febs/lay/extends/treeSelect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/febs/lay/extends/treeSelect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/layui/lay/modules/laytpl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/layui/lay/modules/laytpl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/febs/views/job/job.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/febs/views/job/job.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/febs/views/system/dict/dict.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/febs/views/system/dict/dict.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/frontend2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/frontend2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEBS-Shiro.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FEBS-Shiro.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/FEBS-Shiro-2.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/FEBS-Shiro-2.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +65,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$/src/main/java/cc/mrbird/febs/dingding/util" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/mapper/basicInfo" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -82,11 +80,11 @@
       <recent name="cc.mrbird.febs.system.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\frontend2\src\main\resources\lib" />
-      <recent name="D:\frontend2\target" />
-      <recent name="D:\frontend2\src\main\resources\mapper\basicInfo" />
-      <recent name="D:\frontend2\src\main\java\cc\mrbird\febs\basicInfo\service\impl" />
-      <recent name="D:\frontend2\src\main\java\cc\mrbird\febs\basicInfo\service" />
+      <recent name="D:\netSchool2\src\main\resources\mapper\basicInfo" />
+      <recent name="D:\netSchool2\src\main\java\cc\mrbird\febs\basicInfo\service\impl" />
+      <recent name="D:\netSchool2\src\main\java\cc\mrbird\febs\basicInfo\service" />
+      <recent name="D:\netSchool2\src\main\java\cc\mrbird\febs\basicInfo\mapper" />
+      <recent name="D:\netSchool2\src\main\java\cc\mrbird\febs\basicInfo\entity" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -173,111 +171,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1566299566126</updated>
-    </task>
-    <task id="LOCAL-00037" summary="导出项目时更改的pom.xml">
-      <created>1570520000501</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1570520000501</updated>
-    </task>
-    <task id="LOCAL-00038" summary="学校下拉框数据">
-      <created>1570526901060</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1570526901060</updated>
-    </task>
-    <task id="LOCAL-00039" summary="去掉alert">
-      <created>1570527020653</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1570527020653</updated>
-    </task>
-    <task id="LOCAL-00040" summary="课程管理">
-      <created>1570594947695</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1570594947695</updated>
-    </task>
-    <task id="LOCAL-00041" summary="课程管理">
-      <created>1570595148346</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1570595148346</updated>
-    </task>
-    <task id="LOCAL-00042" summary="接口管理">
-      <created>1570867471893</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1570867471894</updated>
-    </task>
-    <task id="LOCAL-00043" summary="接口管理的补充">
-      <created>1571019678931</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1571019678931</updated>
-    </task>
-    <task id="LOCAL-00044" summary="用户管理显示部门下拉列表">
-      <created>1571214099443</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1571214099443</updated>
-    </task>
-    <task id="LOCAL-00045" summary="免登后台更改">
-      <created>1571384794073</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1571384794073</updated>
-    </task>
-    <task id="LOCAL-00046" summary="完善">
-      <created>1571385654417</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1571385654417</updated>
-    </task>
-    <task id="LOCAL-00047" summary="课程信息批量导入接口">
-      <created>1571391035182</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1571391035182</updated>
-    </task>
-    <task id="LOCAL-00048" summary="根据id查询接口管理">
-      <created>1571618887264</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1571618887264</updated>
-    </task>
-    <task id="LOCAL-00049" summary="课程信息翻新">
-      <created>1571823870324</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1571823870324</updated>
-    </task>
-    <task id="LOCAL-00050" summary="教室管理更改">
-      <created>1571990362386</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1571990362386</updated>
-    </task>
-    <task id="LOCAL-00051" summary="教室管理批量上传功能">
-      <created>1572224174689</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1572224174689</updated>
     </task>
     <task id="LOCAL-00052" summary="设备管理的批量导入和导出">
       <created>1572229632908</created>
@@ -517,7 +410,112 @@
       <option name="project" value="LOCAL" />
       <updated>1574914001105</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="教师信息展示">
+      <created>1575280239153</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1575280239154</updated>
+    </task>
+    <task id="LOCAL-00087" summary="上传教师图片">
+      <created>1575336759058</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1575336759058</updated>
+    </task>
+    <task id="LOCAL-00088" summary="少了东西">
+      <created>1575422144339</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1575422144343</updated>
+    </task>
+    <task id="LOCAL-00089" summary="通知公告">
+      <created>1575447167823</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1575447167823</updated>
+    </task>
+    <task id="LOCAL-00090" summary="网络课堂管理">
+      <created>1575532869947</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1575532869947</updated>
+    </task>
+    <task id="LOCAL-00091" summary="...">
+      <created>1575594145201</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1575594145201</updated>
+    </task>
+    <task id="LOCAL-00092" summary="...">
+      <created>1575594259564</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1575594259564</updated>
+    </task>
+    <task id="LOCAL-00093" summary="直播管理">
+      <created>1575853480201</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1575853480202</updated>
+    </task>
+    <task id="LOCAL-00094" summary="直播时间的更改和一些未提交文件">
+      <created>1575883769065</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1575883769065</updated>
+    </task>
+    <task id="LOCAL-00095" summary="查询调整">
+      <created>1575963055444</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1575963055446</updated>
+    </task>
+    <task id="LOCAL-00096" summary="细节更改">
+      <created>1576045881129</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1576045881131</updated>
+    </task>
+    <task id="LOCAL-00097" summary="微调">
+      <created>1576049450137</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1576049450137</updated>
+    </task>
+    <task id="LOCAL-00098" summary="微调">
+      <created>1576049889090</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1576049889091</updated>
+    </task>
+    <task id="LOCAL-00099" summary="图片新闻增加新闻链接地址">
+      <created>1576053825788</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1576053825788</updated>
+    </task>
+    <task id="LOCAL-00100" summary="微调">
+      <created>1576198747390</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1576198747390</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1158,6 +1156,56 @@
             </State>
           </value>
         </entry>
+        <entry key="32">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="33">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="4">
           <value>
             <State>
@@ -1350,21 +1398,12 @@
         <option value="29" />
         <option value="30" />
         <option value="31" />
+        <option value="32" />
+        <option value="33" />
       </set>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="用户管理完善" />
-    <MESSAGE value="字典管理完善" />
-    <MESSAGE value="部门管理完善" />
-    <MESSAGE value="去掉设备管理使用次数" />
-    <MESSAGE value="免登后台更改" />
-    <MESSAGE value="userid改string" />
-    <MESSAGE value="第三方移动应用接入的唯一标识添加" />
-    <MESSAGE value="解决修改取消后出现的问题" />
-    <MESSAGE value="鉴权" />
-    <MESSAGE value="鉴权jar包和依赖" />
-    <MESSAGE value="鉴权补充" />
     <MESSAGE value="完善" />
     <MESSAGE value="依赖补充" />
     <MESSAGE value="deptId相关的内容更改" />
@@ -1375,11 +1414,22 @@
     <MESSAGE value="统计" />
     <MESSAGE value="接口管理部分更改" />
     <MESSAGE value="跨域注解的添加" />
-    <MESSAGE value="微调" />
     <MESSAGE value="用户只能看见自已部门权限下的数据" />
     <MESSAGE value="资源查询和课表查询sql更改" />
     <MESSAGE value="专题列表微调" />
-    <option name="LAST_COMMIT_MESSAGE" value="专题列表微调" />
+    <MESSAGE value="教师信息展示" />
+    <MESSAGE value="上传教师图片" />
+    <MESSAGE value="少了东西" />
+    <MESSAGE value="通知公告" />
+    <MESSAGE value="网络课堂管理" />
+    <MESSAGE value="..." />
+    <MESSAGE value="直播管理" />
+    <MESSAGE value="直播时间的更改和一些未提交文件" />
+    <MESSAGE value="查询调整" />
+    <MESSAGE value="细节更改" />
+    <MESSAGE value="图片新闻增加新闻链接地址" />
+    <MESSAGE value="微调" />
+    <option name="LAST_COMMIT_MESSAGE" value="微调" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1566,7 +1616,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
-          <line>113</line>
+          <line>127</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1791,7 +1841,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
-          <line>281</line>
+          <line>391</line>
           <option name="timeStamp" value="190" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2101,7 +2151,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
-          <line>123</line>
+          <line>137</line>
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2201,7 +2251,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
-          <line>203</line>
+          <line>313</line>
           <option name="timeStamp" value="308" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2380,16 +2430,6 @@
           <option name="timeStamp" value="350" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/FebsApplication.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="352" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/FebsApplication.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="353" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/resource/controller/ResourceController.java</url>
           <line>72</line>
           <option name="timeStamp" value="354" />
@@ -2398,6 +2438,111 @@
           <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/resource/controller/ResourceController.java</url>
           <line>194</line>
           <option name="timeStamp" value="355" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/generator/controller/GeneratorController.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="356" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/generator/controller/GeneratorController.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="357" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/SchoolTeacheinfoController.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="358" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/SchoolTeacheinfoServiceImpl.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="359" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/SchoolTeacheinfoController.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="360" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/SchoolTeacheinfoController.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="361" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/SchoolTeacheinfoServiceImpl.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="362" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/SchoolTeacheinfoController.java</url>
+          <line>148</line>
+          <option name="timeStamp" value="363" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/PictureNewsServiceImpl.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="364" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/PictureNewsController.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="365" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/NoticeAnnouncementController.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="366" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
+          <line>418</line>
+          <option name="timeStamp" value="367" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/NetTimetableController.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="368" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/NetTimetableServiceImpl.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="369" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/VideoLiveServiceImpl.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="370" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/VideoLiveServiceImpl.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="371" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/VideoLiveController.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="372" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
+          <line>252</line>
+          <option name="timeStamp" value="373" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/controller/ViewController.java</url>
+          <line>233</line>
+          <option name="timeStamp" value="374" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/VideoLiveServiceImpl.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="375" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cc/mrbird/febs/basicInfo/service/impl/VideoLiveServiceImpl.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="376" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
