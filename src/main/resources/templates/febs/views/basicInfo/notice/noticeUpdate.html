@@ -20,7 +20,8 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">公告内容：</label>
             <div class="layui-input-block">
-                <textarea name="noticeContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <!--<textarea name="noticeContent" placeholder="请输入内容" class="layui-textarea"></textarea>-->
+                <textarea id="demo" name="noticeContent" style="display: none;"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -59,7 +60,7 @@
 <script data-th-inline="javascript">
 
 
-    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect'], function () {
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate', 'upload', 'treeSelect','layedit'], function () {
         var $ = layui.$,
             febs = layui.febs,
             layer = layui.layer,
@@ -78,6 +79,17 @@
         initUserValue();
         form.verify(validate);
         form.render();
+
+        //通知公告编辑器
+        var layedit = layui.layedit;
+        layedit.set({
+            uploadImage: {
+                url: 'pictureNews/upload' //接口url
+                ,type: 'POST' //默认post
+            }
+        });
+        var index=layedit.build('demo'); //建立编辑器
+
         var noticePictureSelect = "";
         //拖拽上传
         var uploadInst = upload.render({
@@ -147,7 +159,7 @@
                 febs.alert.warn('数据未作任何修改！');
                 return false;
             }
-
+            data.field.noticeContent=layedit.getContent(index);
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
             febs.post(ctx + 'notice/noticeAnnouncement/update', data.field, function () {
                 layer.closeAll();

@@ -11,16 +11,23 @@
         <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">新闻标题：</label>
             <div class="layui-input-block">
-                <input type="text" name="newsTitle" minlength="2" maxlength="10"
+                <input type="text" name="newsTitle" minlength="2" maxlength="100"
                        autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">新闻内容：</label>
             <div class="layui-input-block">
-                <textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <!--<textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>-->
+                <textarea id="demo" name="newsContent" style="display: none;"></textarea>
             </div>
         </div>
+       <!-- <div class="layui-form-item layui-form-text" >
+            <div class="layui-input-block">
+                &lt;!&ndash;<script id="editor" type="text/plain"  style="height:500px;"></script>&ndash;&gt;
+                <textarea id="demo" style="display: none;"></textarea>
+            </div>
+        </div>-->
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">新闻地址：</label>
             <div class="layui-input-block">
@@ -50,9 +57,13 @@
         </div>
     </form>
 </div>
+<!--<script type="text/javascript">
+    //实例化编辑器
+    var ue = UE.getEditor('editor', {});
+</script>-->
 <script src="./mods/layarea.js"></script>
 <script>
-    layui.use(['febs', 'form', 'formSelects', 'laydate','validate','upload', 'treeSelect'], function () {
+    layui.use(['febs', 'form', 'formSelects', 'laydate','validate','upload', 'treeSelect','layedit'], function () {
         var $ = layui.$,
             febs = layui.febs,
             layer = layui.layer,
@@ -70,11 +81,22 @@
         form.render();
         formSelects.render();
 
+        //新闻内容编辑器
+        var layedit = layui.layedit;
+        layedit.set({
+            uploadImage: {
+                url: 'pictureNews/upload' //接口url
+                ,type: 'POST' //默认post
+            }
+        });
+        var index=layedit.build('demo'); //建立编辑器
+
+
         $("#cleanImgs").click(function(){
-            //alert("222");
             $('#demo2').html("");
             $('#pictureUrl').val("");
         });
+
 
         var pictureUrl = "";
         //拖拽上传
@@ -104,6 +126,7 @@
         });
 
         form.on('submit(grade-add-form-submit)', function (data) {
+            data.field.newsContent=layedit.getContent(index);
             data.field.grade=$("#classInfo option:selected").val();
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
             febs.post(ctx+'pictureNews/pictureNews',data.field,function () {
@@ -114,6 +137,7 @@
 
             return false;
         });
+
     });
 </script>
 <style>
