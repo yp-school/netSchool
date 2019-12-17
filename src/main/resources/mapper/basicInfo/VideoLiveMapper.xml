@@ -38,6 +38,9 @@
             <if test="videoLive.courseName != null and videoLive.courseName != ''">
                 nt.course_name = #{videoLive.courseName}
             </if>
+            <if test="videoLive.isPlay != null and videoLive.isPlay != ''">
+                vl.is_play = #{videoLive.isPlay}
+            </if>
         </where>
     </select>
 </mapper>

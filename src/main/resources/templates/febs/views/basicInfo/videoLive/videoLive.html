@@ -143,7 +143,7 @@
                 layEvent = obj.event;
             if (layEvent === 'del') {
                 febs.modal.confirm('删除课程', '确定删除该课程？', function () {
-                    deleteVideoLive(data.courseId);
+                    deleteVideoLive(data.liveId);
                 });
             }
             if (layEvent === 'update') {

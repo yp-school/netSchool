@@ -31,6 +31,13 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">图片地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="videoImageUrl" minlength="2" maxlength="200"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">开播时间：</label>
             <div class="layui-input-block">
                 <input type="datetime-local" name="videoPlayTime" lay-verify="videoPlayTime" autocomplete="off" class="layui-input">
@@ -130,6 +137,7 @@
                 "videoTitle": videoLive.videoTitle,
                 "videoContent": videoLive.videoContent,
                 "videoPlayUrl": videoLive.videoPlayUrl,
+                "videoImageUrl": videoLive.videoImageUrl,
                 "isPlay": videoLive.isPlay,
                 "videoPlayTime": specialTime,
                 "syViewer": videoLive.syViewer,

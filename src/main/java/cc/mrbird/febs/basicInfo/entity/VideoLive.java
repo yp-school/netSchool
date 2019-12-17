@@ -48,7 +48,7 @@ public class VideoLive {
     private String videoPlayUrl;
 
     /**
-     *
+     * 图片地址
      */
     @TableField("video_image_url")
     private String videoImageUrl;

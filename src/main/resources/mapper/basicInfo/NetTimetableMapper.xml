@@ -45,7 +45,7 @@
                 and vl.is_play = #{netTimetable.isPlay}
             </if>
         </where>
-        order by nt.begin_date desc
+        order by nt.begin_date asc
     </select>
 
     <select id="selectNetTimetableList" resultMap="netTimetable">
