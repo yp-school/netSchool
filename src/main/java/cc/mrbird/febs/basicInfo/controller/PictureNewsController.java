@@ -10,6 +10,7 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.Tools;
 import com.alibaba.fastjson.JSONObject;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
@@ -159,36 +160,26 @@ public class PictureNewsController extends BaseController {
     @RequestMapping(value="upload",method = RequestMethod.POST)
     @ResponseBody
     public String uploadFile(HttpServletRequest request, @Param("file") MultipartFile file) throws IOException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
-        String res = sdf.format(new Date());
-        //服务器上使用
-         String rootPath =request.getServletContext().getRealPath("");//target的目录
-        //本地使用
-        //String rootPath ="E:\\";
-        //原始名称
-        String originalFilename = file.getOriginalFilename();
         //新的文件名称
-        String newFileName = res+originalFilename.substring(originalFilename.lastIndexOf("."));
-        //新文件
-        File newFile = new File(rootPath+ File.separator+newFileName);
-        //判断目标文件所在的目录是否存在
-        if(!newFile.getParentFile().exists()) {
-            //如果目标文件所在的目录不存在，则创建父目录
-            newFile.getParentFile().mkdirs();
-        }
-        System.out.println(newFile);
-        //将内存中的数据写入磁盘
-        file.transferTo(newFile);
-        //完整的url
+        String newFileName = null;
         String fileUrl =  newFileName;
         Map<String,Object> map = new HashMap<String,Object>();
         Map<String,Object> map2 = new HashMap<String,Object>();
-        map.put("code",0);//0表示成功，1失败
-        map.put("msg","上传成功");//提示消息
-        map.put("data",map2);
-        map2.put("src",fileUrl);//图片url
-        map2.put("title",newFileName);//图片名称，这个会显示在输入框里
-        String result = new JSONObject(map).toString();
-        return result;
+        try {
+            newFileName = Tools.saveFile(file, "school");
+            map.put("code",0);//0表示成功，1失败
+            map.put("msg","上传成功");//提示消息
+            map.put("data",map2);
+            map2.put("src",fileUrl);//图片url
+            map2.put("title",newFileName);//图片名称，这个会显示在输入框里
+            String result = new JSONObject(map).toString();
+            return result;
+        } catch (FebsException e) {
+            System.out.println(newFileName + "图片保存失败");
+            map.put("code",1);
+            map.put("msg","上传失败");//提示消息
+            String result = new JSONObject(map).toString();
+            return result;
+        }
     }
 }
