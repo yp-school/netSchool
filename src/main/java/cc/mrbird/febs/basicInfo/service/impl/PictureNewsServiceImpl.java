@@ -50,7 +50,7 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
 
     @Override
     public IPage<PictureNews> findPictureNewsHide(QueryRequest request, PictureNews pictureNews) {
-        Page<PictureNews> page = new Page<>(request.getPageNum(), request.getPageSize());
+        Page<PictureNews> page = new Page<>(request.getPageNum()+1, request.getPageSize());
         IPage<PictureNews> pageList = this.baseMapper.findPictureNewsHide(page,pictureNews);
         return pageList;
     }

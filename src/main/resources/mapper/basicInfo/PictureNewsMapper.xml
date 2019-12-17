@@ -29,6 +29,5 @@
         course_id
         from
         picture_news
-        limit 5,20000
     </select>
 </mapper>
