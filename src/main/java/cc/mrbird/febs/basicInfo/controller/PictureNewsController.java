@@ -162,6 +162,7 @@ public class PictureNewsController extends BaseController {
     public String uploadFile(HttpServletRequest request, @Param("file") MultipartFile file) throws IOException {
         //新的文件名称
         String newFileName = null;
+        String url = "http://47.97.74.226:8888/febs/images";
         String fileUrl =  newFileName;
         Map<String,Object> map = new HashMap<String,Object>();
         Map<String,Object> map2 = new HashMap<String,Object>();
@@ -169,9 +170,9 @@ public class PictureNewsController extends BaseController {
             newFileName = Tools.saveFile(file, "school");
             map.put("code",0);//0表示成功，1失败
             map.put("msg","上传成功");//提示消息
-            map.put("data",map2);
-            map2.put("src",fileUrl);//图片url
+            map2.put("src",url + newFileName);//图片url
             map2.put("title",newFileName);//图片名称，这个会显示在输入框里
+            map.put("data",map2);
             String result = new JSONObject(map).toString();
             return result;
         } catch (FebsException e) {
