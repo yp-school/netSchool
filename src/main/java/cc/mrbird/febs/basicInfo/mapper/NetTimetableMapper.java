@@ -18,4 +18,6 @@ public interface NetTimetableMapper extends BaseMapper<NetTimetable> {
     IPage<NetTimetable> findNetTimetables(Page<NetTimetable> page, @Param("netTimetable") NetTimetable netTimetable);
 
     IPage<NetTimetable> selectNetTimetableList(Page<NetTimetable> page, @Param("netTimetable") NetTimetable netTimetable);
+
+    NetTimetable selectNetTimetableById(Integer courseId);
 }

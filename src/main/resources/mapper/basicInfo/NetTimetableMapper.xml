@@ -73,4 +73,29 @@
         vl.is_play = '0'
         order by nt.begin_date desc
     </select>
+
+    <select id="selectNetTimetableById" parameterType="Integer" resultType="cc.mrbird.febs.basicInfo.entity.NetTimetable">
+        select
+        nt.course_id,
+        nt.create_user_id,
+        nt.create_user_name,
+        nt.course_name,
+        nt.begin_date,
+        nt.course_introduction,
+        nt.sy_interaction_school,
+        nt.sy_viewer,
+        nt.teacher_id,
+        sti.teacher_name,
+        vl.is_play,
+        vl.video_play_url,
+        vl.video_image_url
+        from
+        net_timetable nt
+        left join
+        school_teacher_info sti on nt.teacher_id = sti.teacher_id
+        left join
+        video_live vl on nt.course_id = vl.course_id
+        where
+        nt.course_id = #{courseId}
+    </select>
 </mapper>

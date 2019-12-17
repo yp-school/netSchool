@@ -100,6 +100,6 @@ public class NetTimetableServiceImpl extends ServiceImpl<NetTimetableMapper, Net
 
     @Override
     public NetTimetable selectNetTimetableById(Integer courseId) {
-        return this.baseMapper.selectById(courseId);
+        return this.baseMapper.selectNetTimetableById(courseId);
     }
 }
