@@ -2,6 +2,7 @@ package cc.mrbird.febs.basicInfo.service.impl;
 
 import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.entity.PictureNews;
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.mapper.PictureNewsMapper;
 import cc.mrbird.febs.basicInfo.service.IPictureNewsService;
 import cc.mrbird.febs.common.entity.QueryRequest;
@@ -45,6 +46,13 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
         }
         Page<PictureNews> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
+    }
+
+    @Override
+    public IPage<PictureNews> findPictureNewsHide(QueryRequest request, PictureNews pictureNews) {
+        Page<PictureNews> page = new Page<>(request.getPageNum(), request.getPageSize());
+        IPage<PictureNews> pageList = this.baseMapper.findPictureNewsHide(page,pictureNews);
+        return pageList;
     }
 
     @Override
@@ -92,4 +100,5 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
     public PictureNews selectPictureNewsById(Integer pictureId) {
         return this.baseMapper.selectById(pictureId);
     }
+
 }

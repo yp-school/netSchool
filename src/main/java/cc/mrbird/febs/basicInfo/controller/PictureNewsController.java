@@ -68,6 +68,13 @@ public class PictureNewsController extends BaseController {
         return new FebsResponse().success().data(dataTable);
     }
 
+    @GetMapping("pictureNews/hideList")
+    @ResponseBody
+    public FebsResponse pictureNewsListHide(QueryRequest request, PictureNews pictureNews) {
+        Map<String, Object> dataTable = getDataTable(this.pictureNewsService.findPictureNewsHide(request, pictureNews));
+        return new FebsResponse().success().data(dataTable);
+    }
+
     @Log("pictureNews")
     @GetMapping("pictureNews/selectInfById/{pictureId}")
     @ResponseBody

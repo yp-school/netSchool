@@ -56,4 +56,6 @@ public interface IPictureNewsService extends IService<PictureNews> {
     void deletePictureNewsInfo(String pictureIds);
 
     PictureNews selectPictureNewsById(Integer pictureId);
+
+    IPage<PictureNews> findPictureNewsHide(QueryRequest request, PictureNews pictureNews);
 }
