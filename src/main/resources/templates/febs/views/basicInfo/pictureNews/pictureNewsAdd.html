@@ -26,15 +26,11 @@
             <label class="layui-form-label">新闻内容：</label>
             <div class="layui-input-block">
                 <!--<textarea name="newsContent" placeholder="请输入内容" class="layui-textarea"></textarea>-->
-                <textarea id="demo" name="newsContent" style="display: none;"></textarea>
+                <!--<textarea id="demo" name="newsContent" style="display: none;"></textarea>-->
+                <div id="contentDiv"></div>
+                <textarea name="newsContent" id="content" style="display:none" ></textarea>
             </div>
         </div>
-       <!-- <div class="layui-form-item layui-form-text" >
-            <div class="layui-input-block">
-                &lt;!&ndash;<script id="editor" type="text/plain"  style="height:500px;"></script>&ndash;&gt;
-                <textarea id="demo" style="display: none;"></textarea>
-            </div>
-        </div>-->
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">新闻地址：</label>
             <div class="layui-input-block">
@@ -64,10 +60,6 @@
         </div>
     </form>
 </div>
-<!--<script type="text/javascript">
-    //实例化编辑器
-    var ue = UE.getEditor('editor', {});
-</script>-->
 <script src="./mods/layarea.js"></script>
 <script>
     layui.use(['febs', 'form', 'formSelects', 'laydate','validate','upload', 'treeSelect','layedit'], function () {
@@ -88,15 +80,19 @@
         form.render();
         formSelects.render();
 
-        //新闻内容编辑器
-        var layedit = layui.layedit;
-        layedit.set({
-            uploadImage: {
-                url: 'pictureNews/upload' //接口url
-                ,type: 'POST' //默认post
+        var E = window.wangEditor;
+        var editor = new E('#contentDiv')
+        var $text1 = $('#content');
+        editor.customConfig.uploadImgServer = 'pictureNews/upload';	//自定义上传图片（改成自己写的图片上传方法的路径）
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            customInsert: function (insertImg, result, editor) {
+                var url = result.data.src
+                insertImg(url)
             }
-        });
-        var index=layedit.build('demo'); //建立编辑器
+        }
+        editor.create();
+        $text1.val(editor.txt.html(pictureNews.newsContent));
 
 
         $("#cleanImgs").click(function(){
@@ -133,7 +129,7 @@
         });
 
         form.on('submit(grade-add-form-submit)', function (data) {
-            data.field.newsContent=layedit.getContent(index);
+            data.field.newsContent=editor.txt.html();
             data.field.grade=$("#classInfo option:selected").val();
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
             febs.post(ctx+'pictureNews/pictureNews',data.field,function () {
