@@ -21,7 +21,9 @@
             <label class="layui-form-label">公告内容：</label>
             <div class="layui-input-block">
                 <!--<textarea name="noticeContent" placeholder="请输入内容" class="layui-textarea"></textarea>-->
-                <textarea id="demo" name="noticeContent" style="display: none;"></textarea>
+                <!--<textarea id="demo" name="noticeContent" style="display: none;"></textarea>-->
+                <div id="contentDiv"></div>
+                <textarea name="noticeContent" id="noticeContent" style="display:none" ></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -81,14 +83,19 @@
         form.render();
 
         //通知公告编辑器
-        var layedit = layui.layedit;
-        layedit.set({
-            uploadImage: {
-                url: 'pictureNews/upload' //接口url
-                ,type: 'POST' //默认post
+        var E = window.wangEditor;
+        var editor = new E('#contentDiv')
+        var $text1 = $('#noticeContent');
+        editor.customConfig.uploadImgServer = 'pictureNews/upload';	//自定义上传图片（改成自己写的图片上传方法的路径）
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            customInsert: function (insertImg, result, editor) {
+                var url = result.data.src
+                insertImg(url)
             }
-        });
-        var index=layedit.build('demo'); //建立编辑器
+        }
+        editor.create();
+        $text1.val(editor.txt.html(notice.noticeContent));
 
         var noticePictureSelect = "";
         //拖拽上传
@@ -159,7 +166,7 @@
                 febs.alert.warn('数据未作任何修改！');
                 return false;
             }
-            data.field.noticeContent=layedit.getContent(index);
+            data.field.noticeContent=editor.txt.html();
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
             febs.post(ctx + 'notice/noticeAnnouncement/update', data.field, function () {
                 layer.closeAll();
