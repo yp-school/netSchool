@@ -92,7 +92,8 @@
             }
         }
         editor.create();
-        $text1.val(editor.txt.html(pictureNews.newsContent));
+        var newsContent=$("#newsContent").val();
+        $text1.val(editor.txt.html(newsContent));
 
 
         $("#cleanImgs").click(function(){

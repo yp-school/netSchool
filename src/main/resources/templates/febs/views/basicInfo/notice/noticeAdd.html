@@ -63,7 +63,6 @@
             $form = $('form'),
             $view = $('#notice-add'),
             layarea = layui.layarea,
-            notice = [[${notice}]],
             validate = layui.validate,
             upload = layui.upload,
             treeSelect = layui.treeSelect,
@@ -86,7 +85,8 @@
             }
         }
         editor.create();
-        $text1.val(editor.txt.html(notice.noticeContent));
+        var noticeContent=$("#noticeContent").val();
+        $text1.val(editor.txt.html(noticeContent));
 
         $("#cleanImgs").click(function(){
             //alert("222");
