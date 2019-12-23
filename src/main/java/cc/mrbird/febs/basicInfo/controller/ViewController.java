@@ -71,6 +71,9 @@ public class ViewController extends BaseController {
     @Autowired
     private IVideoLiveService videoLiveService;
 
+    @Autowired
+    private IAlicdnResourceService iAlicdnResourceService;
+
     //==============================================START==================================================
 
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/classroomInfo")
@@ -265,6 +268,25 @@ public class ViewController extends BaseController {
     }
     //==============================================END==================================================
 
+    //==============================================START==================================================
+    //钉钉新闻推送
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/alicdnResource")
+    public String basicInfoAlicdnResource() {
+        return FebsUtil.view("basicInfo/alicdnResource/alicdnResource");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/alicdnResource/alicdnResourceAdd")
+    private String AlicdnResourceAdd(){
+        return FebsUtil.view("basicInfo/alicdnResource/alicdnResourceAdd");
+    }
+
+    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/alicdnResource/update/{resourceId}")
+    public String AlicdnResourceUpdate(@PathVariable Integer resourceId, Model model) {
+        resolveAlicdnResourceModel(resourceId,model, true);
+        return FebsUtil.view("basicInfo/alicdnResource/alicdnResourceUpdate");
+    }
+    //==============================================END==================================================
+
 
     //==============================================START==================================================
 
@@ -439,6 +461,13 @@ public class ViewController extends BaseController {
         model.addAttribute("videoLive",videoLive);
         if (videoLive.getVideoPlayTime() != null)
             model.addAttribute("specialTime", videoLive.getVideoPlayTime().substring(0,videoLive.getVideoPlayTime().length()-3).replace(" ","T"));
+    }
+
+    private void resolveAlicdnResourceModel(Integer resourceId, Model model, Boolean transform){
+        AlicdnResource alicdnResource = this.iAlicdnResourceService.getById(resourceId);
+        model.addAttribute("alicdnResource",alicdnResource);
+        if (alicdnResource.getDateTime() != null)
+            model.addAttribute("specialTime", alicdnResource.getDateTime().substring(0,alicdnResource.getDateTime().length()-3).replace(" ","T"));
     }
 
     private void resolveClassModel(Integer classInfoId, Model model, Boolean transform) {

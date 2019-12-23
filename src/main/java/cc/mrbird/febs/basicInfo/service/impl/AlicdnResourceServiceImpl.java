@@ -1,9 +1,12 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
 import cc.mrbird.febs.basicInfo.entity.AlicdnResource;
+import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.mapper.AlicdnResourceMapper;
 import cc.mrbird.febs.basicInfo.service.IAlicdnResourceService;
 import cc.mrbird.febs.common.entity.QueryRequest;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,6 +17,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,15 +37,17 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
     public IPage<AlicdnResource> findAlicdnResources(QueryRequest request, AlicdnResource alicdnResource) {
         LambdaQueryWrapper<AlicdnResource> queryWrapper = new LambdaQueryWrapper<>();
         // TODO 设置查询条件
+        if (StringUtils.isNotEmpty(alicdnResource.getTitle())) {
+            queryWrapper.like(AlicdnResource::getTitle, alicdnResource.getTitle());
+        }
         Page<AlicdnResource> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
     }
 
     @Override
     public List<AlicdnResource> findAlicdnResources(AlicdnResource alicdnResource) {
-	    LambdaQueryWrapper<AlicdnResource> queryWrapper = new LambdaQueryWrapper<>();
-		// TODO 设置查询条件
-		return this.baseMapper.selectList(queryWrapper);
+	    List<AlicdnResource> alicdnResourceList = this.baseMapper.findAlicdnResources(alicdnResource);
+		return alicdnResourceList;
     }
 
     @Override
@@ -63,4 +69,10 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
 	    // TODO 设置删除条件
 	    this.remove(wapper);
 	}
+
+    @Override
+    public void deleteAlicdnResource2(String resourceIds) {
+        List<String> list = Arrays.asList(resourceIds.split(StringPool.COMMA));
+        baseMapper.deleteBatchIds(list);
+    }
 }

@@ -37,8 +37,8 @@ public class AlicdnResource {
     /**
      * 时间
      */
-    @TableField("datetime")
-    private String datetime;
+    @TableField("dateTime")
+    private String dateTime;
 
     /**
      * 资源
