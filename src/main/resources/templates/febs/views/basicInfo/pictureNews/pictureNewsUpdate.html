@@ -118,7 +118,7 @@
                 });
             }
             , done: function (res) {
-                pictureUrlSelect = pictureUrlSelect + "" + res.data.src + ",";
+                pictureUrlSelect = pictureUrlSelect + "" + res.data.src;
                 $('#pictureUrlSelect').val(pictureUrlSelect);
                 if(pictureUrlSelect != ""){
                     $('#pictureUrl').val(pictureUrlSelect);

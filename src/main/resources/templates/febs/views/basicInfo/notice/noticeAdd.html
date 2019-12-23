@@ -111,7 +111,7 @@
                 });
             }
             , done: function (res) {
-                noticePicture = noticePicture + "" + res.data.src + ",";
+                noticePicture = noticePicture + "" + res.data.src;
                 $('#noticePicture').val(noticePicture);
             }
             , error: function () {

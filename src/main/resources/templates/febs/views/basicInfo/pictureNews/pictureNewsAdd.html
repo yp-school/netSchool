@@ -119,7 +119,7 @@
                 });
             }
             , done: function (res) {
-                pictureUrl = pictureUrl + "" + res.data.src + ",";
+                pictureUrl = pictureUrl + "" + res.data.src;
                 $('#pictureUrl').val(pictureUrl);
             }
             , error: function () {
