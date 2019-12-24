@@ -1,0 +1,210 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-alicdnResource" lay-title="网络课堂">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="alicdnResource-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label layui-form-label-sm">课程名称</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="title" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <!--<div class="layui-inline">
+                                        <label class="layui-form-label layui-form-label-sm">年级</label>
+                                        <div class="layui-input-inline">
+                                            <select name="grade" id="grade">
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action action-more"
+                                     shiro:hasAnyPermissions="alicdnResource:add,alicdnResource:update">
+                                    <i class="layui-icon">&#xe875;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table lay-filter="alicdnResource" lay-data="{id: 'alicdnResource'}" id="LAY_table_user"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="alicdnResource-option">
+    <span shiro:lacksPermission="alicdnResource:view,alicdnResource:update,alicdnResource:delete">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+
+    <a lay-event="update" shiro:hasPermission="alicdnResource:update"><i
+            class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="del" shiro:hasPermission="alicdnResource:delete"><i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
+</script>
+<script data-th-inline="none" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-alicdnResource'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            $searchForm = $view.find('form'),
+            grade=$('#grade'),
+            sortObject = {field: 'className', type: null},
+            tableIns;
+
+        form.render();
+        getGrade();
+        initTable();
+
+        laydate.render({
+            elem: '#createTime',
+            range: true,
+            trigger: 'click'
+        });
+        function getGrade() {
+            $.ajax({
+                type:'get',
+                url: ctx+"dict?field=grade",
+                success:function (res) {
+                    var items=res.data;
+                    if (res.data.length==0){
+                        grade.append('<option value="">'+'请选择'+'</option>');
+                    }else{
+                    	grade.append('<option value="">'+'请选择'+'</option>');
+                        for (var i=0;i<items.length;i++) {
+                            $('#grade').append('<option value="'+ items[i].v +'">'+items[i].v+'</option>');
+                        }
+                    }
+                    form.render('select');
+                }
+            });
+        }
+        dropdown.render({
+            elem: $view.find('.action-more'),
+            click: function (name, elem, event) {
+                var checkStatus = table.checkStatus('alicdnResource');
+                if (name === 'add') {
+                    febs.modal.open('新增资源', 'basicInfo/alicdnResource/alicdnResourceAdd', {
+                        area: $(window).width() <= 750 ? '95%' : '50%',
+                    });
+                }
+                if (name === 'delete') {
+                    if (!checkStatus.data.length) {
+                        febs.alert.warn('请选择需要删除的课程');
+                    } else {
+                        febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                            var resourceIds = [];
+                            layui.each(checkStatus.data, function (key, item) {
+                                resourceIds.push(item.resourceId)
+                            });
+                            alert(resourceIds);
+                            deleteResource(resourceIds.join(','));
+                        });
+                    }
+                }
+                if (name === 'export') {
+                    var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+                    params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+                    params.pageNum = $view.find(".layui-laypage-em").next().html();
+                    febs.download(ctx + 'classInfo/excel', params, '班级信息表.xlsx');
+                }
+            },
+            options: [{
+                name: 'add',
+                title: '新增课程',
+                perms: 'alicdnResource:add'
+            }, {
+                name: 'delete',
+                title: '删除课程',
+                perms: 'alicdnResource:delete'
+            }
+            ]
+        });
+
+        table.on('tool(alicdnResource)', function (obj) {
+            var data = obj.data;
+                layEvent = obj.event;
+            if (layEvent === 'del') {
+                febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                    deleteResource(data.resourceId);
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改课程', 'basicInfo/alicdnResource/update/' + data.resourceId, {
+                    area: $(window).width() <= 750 ? '90%' : '50%'
+                });
+            }
+        });
+        table.on('sort(alicdnResource)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+
+
+        $query.on('click', function () {
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+/*             treeSelect.revokeNode('grade'); */
+            $searchForm[0].reset();
+            tableIns.reload({page: {curr: 1}});
+        });
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'alicdnResource',
+                url: ctx + 'alicdnResource/alicdnResource/list',
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'title', title: '资源标题', minWidth: 150},
+                    {field: 'image', title: '图片',minWidth: 100},
+                    {field: 'dateTime', title: '时间',minWidth: 100},
+                    {field: 'source', title: '上传人',minWidth: 100},
+                    {field: 'link', title: '链接地址',minWidth: 100},
+                    {title: '操作', toolbar: '#alicdnResource-option', minWidth: 140}
+                ]]
+            });
+        }
+
+        function getQueryParams() {
+            return {
+                title: $searchForm.find('input[name="title"]').val(),
+                grade: $searchForm.find("select[name='grade']").val(),
+                invalidate_ie_cache: new Date()
+            };
+        }
+
+        function deleteResource(resourceIds) {
+            febs.get(ctx + 'alicdnResource/alicdnResource/delete/' + resourceIds, null, function () {
+                febs.alert.success('删除课程成功');
+                $query.click();
+            });
+        }
+    })
+</script>

@@ -52,4 +52,6 @@ public interface IAlicdnResourceService extends IService<AlicdnResource> {
      * @param alicdnResource alicdnResource
      */
     void deleteAlicdnResource(AlicdnResource alicdnResource);
+
+    void deleteAlicdnResource2(String resourceIds);
 }

@@ -15,13 +15,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +45,8 @@ public class AlicdnResourceController extends BaseController {
 
     @GetMapping("alicdnResource")
     @ResponseBody
-    public FebsResponse getAllAlicdnResources(AlicdnResource alicdnResource) {
-        return new FebsResponse().success().data(alicdnResourceService.findAlicdnResources(alicdnResource));
+    public List<AlicdnResource> getAllAlicdnResources(AlicdnResource alicdnResource) {
+        return alicdnResourceService.findAlicdnResources(alicdnResource);
     }
 
     @GetMapping("alicdnResource/list")
@@ -81,6 +79,21 @@ public class AlicdnResourceController extends BaseController {
             return new FebsResponse().success();
         } catch (Exception e) {
             String message = "删除AlicdnResource失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("删除AlicdnResource")
+    @GetMapping("alicdnResource/delete/{resourceIds}")
+    @ResponseBody
+    public FebsResponse deleteAlicdnResource2(@NotBlank(message = "{required}") @PathVariable String resourceIds)
+            throws FebsException {
+        try {
+            this.alicdnResourceService.deleteAlicdnResource2(resourceIds);
+            return new FebsResponse().success();
+        } catch (Exception e) {
+            String message = "删除alicdnResource失败";
             log.error(message, e);
             throw new FebsException(message);
         }

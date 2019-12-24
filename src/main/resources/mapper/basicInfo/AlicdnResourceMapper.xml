@@ -6,8 +6,19 @@
         <id column="resource_id" jdbcType="BIGINT" property="resourceId"/>
         <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
-        <result column="datetime" jdbcType="DATE" property="datetime"/>
-        <result column="source" jdbcType="DATE" property="source"/>
-        <result column="link" jdbcType="DATE" property="link"/>
+        <result column="dateTime" jdbcType="DATE" property="dateTime"/>
+        <result column="source" jdbcType="VARCHAR" property="source"/>
+        <result column="link" jdbcType="VARCHAR" property="link"/>
     </resultMap>
+
+    <select id="findAlicdnResources" parameterType="cc.mrbird.febs.basicInfo.entity.AlicdnResource" resultType="java.util.HashMap">
+        select
+        image,
+        title,
+        dateTime,
+        source,
+        link
+        from
+        alicdn_resource
+    </select>
 </mapper>

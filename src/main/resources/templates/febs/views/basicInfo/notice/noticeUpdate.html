@@ -114,7 +114,7 @@
                 });
             }
             , done: function (res) {
-                noticePictureSelect = noticePictureSelect + "" + res.data.src + ",";
+                noticePictureSelect = noticePictureSelect + "" + res.data.src;
                 $('#noticePictureSelect').val(noticePictureSelect);
                 if(noticePictureSelect != ""){
                     $('#noticePicture').val(noticePictureSelect);

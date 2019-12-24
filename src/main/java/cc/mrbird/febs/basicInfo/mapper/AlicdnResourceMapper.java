@@ -3,6 +3,8 @@ package cc.mrbird.febs.basicInfo.mapper;
 import cc.mrbird.febs.basicInfo.entity.AlicdnResource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  *  Mapper
  *
@@ -11,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AlicdnResourceMapper extends BaseMapper<AlicdnResource> {
 
+    List<AlicdnResource> findAlicdnResources(AlicdnResource alicdnResource);
 }
