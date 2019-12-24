@@ -17,6 +17,13 @@
                        autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">发行单位：</label>
+            <div class="layui-input-block">
+                <input type="text" name="publishCompany" minlength="2" maxlength="100"
+                       autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">公告内容：</label>
             <div class="layui-input-block">
@@ -153,7 +160,8 @@
                 "noticeTitle": notice.noticeTitle,
                 "noticeContent": notice.noticeContent,
                 "noticeTime": specialTime,
-                "noticePicture":notice.noticePicture
+                "noticePicture":notice.noticePicture,
+                "publishCompany":notice.publishCompany
             });
         }
 

@@ -11,5 +11,6 @@
         <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
         <result column="editor_name" jdbcType="VARCHAR" property="editorName"/>
         <result column="publish_time" jdbcType="DATE" property="publishTime"/>
+        <result column="publish_company" jdbcType="VARCHAR" property="publishCompany"/>
     </resultMap>
 </mapper>

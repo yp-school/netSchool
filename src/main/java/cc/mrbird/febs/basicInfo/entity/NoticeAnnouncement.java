@@ -65,4 +65,10 @@ public class NoticeAnnouncement {
      */
     @TableField("publish_time")
     private Date publishTime;
+
+    /**
+     * 发布时间
+     */
+    @TableField("publish_company")
+    private String publishCompany;
 }
