@@ -35,11 +35,11 @@
                        autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">链接地址：</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">链接地址：</label>
             <div class="layui-input-block">
-                <input type="text" name="link" minlength="2" maxlength="100"
-                       autocomplete="off" class="layui-input" lay-verify="required">
+                <select name="link" id="link">
+                </select>
             </div>
         </div>
 
@@ -63,15 +63,30 @@
             $view = $('#alicdnResource-add'),
             layarea = layui.layarea,
             validate = layui.validate,
+            link = $('#link'),
             upload = layui.upload,
             treeSelect = layui.treeSelect,
             sortObject = {field: 'createTime', type: null};
 
         form.verify(validate);
+        getLink();
         form.render();
         formSelects.render();
 
-
+        function getLink() {
+            febs.get(ctx+'pictureNews/pictureNews/web/list',null,function (res) {
+                var items = res.data;
+                if (items.total == 0){
+                    link.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //link.append('<option value="' + items.rows[0].pictureId + '">' + items.rows[0].newsTitle+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                            link.append('<option value='+ items.rows[i].pictureId + '>' + items.rows[i].newsTitle + '</option>');
+                    }
+                }
+                form.render('select');
+            });
+        }
 
         form.on('submit(alicdnResource-add-form-submit)', function (data) {
             data.field.grade=$("#classInfo option:selected").val();

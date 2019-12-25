@@ -1,5 +1,6 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
+import cc.mrbird.febs.basicInfo.config.Constant;
 import cc.mrbird.febs.basicInfo.entity.AlicdnResource;
 import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.mapper.AlicdnResourceMapper;
@@ -53,12 +54,16 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
     @Override
     @Transactional
     public void createAlicdnResource(AlicdnResource alicdnResource) {
+        String realLink = Constant.linkUrl + alicdnResource.getLink();
+        alicdnResource.setLink(realLink);
         this.save(alicdnResource);
     }
 
     @Override
     @Transactional
     public void updateAlicdnResource(AlicdnResource alicdnResource) {
+        String realLink = Constant.linkUrl + alicdnResource.getLink();
+        alicdnResource.setLink(realLink);
         this.saveOrUpdate(alicdnResource);
     }
 

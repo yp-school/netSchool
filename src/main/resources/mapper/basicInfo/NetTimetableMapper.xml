@@ -59,18 +59,13 @@
         nt.sy_interaction_school,
         nt.sy_viewer,
         nt.teacher_id,
-        sti.teacher_name,
-        vl.is_play,
-        vl.video_play_url,
-        vl.video_image_url
+        sti.teacher_name
         from
         net_timetable nt
         left join
         school_teacher_info sti on nt.teacher_id = sti.teacher_id
-        left join
-        video_live vl on nt.course_id = vl.course_id
-        where
-        vl.is_play = '0'
+
+
         order by nt.begin_date desc
     </select>
 

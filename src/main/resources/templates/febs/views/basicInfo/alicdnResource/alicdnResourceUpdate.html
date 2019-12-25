@@ -37,11 +37,11 @@
                        autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">链接地址：</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">链接地址：</label>
             <div class="layui-input-block">
-                <input type="text" name="link" minlength="2" maxlength="100"
-                       autocomplete="off" class="layui-input" lay-verify="required">
+                <select name="link" id="link">
+                </select>
             </div>
         </div>
 
@@ -65,38 +65,42 @@
             upload = layui.upload,
             grade=$('#alicdnResource'),
             alicdnResource = [[${alicdnResource}]],
+            link = $('#link'),
             specialTime = [[${specialTime}]],
             $view = $('#alicdnResource-update'),
             $remove=$view.find('#remove'),
             validate = layui.validate;
 
-        getGrade();
+        getLink();
         initUserValue();
         form.verify(validate);
         form.render();
 
-
-
-        function getGrade() {
-            $.ajax({
-                type:'get',
-                url: ctx+"dict?field=grade",
-                success:function (res) {
-                    var items=res.data;
-                    if (res.data.length==0){
-                        grade.append('<option value="'+""+'">'+""+'</option>');
-                    }else{
-                        for (var i=0;i<items.length;i++) {
-                            if (items[i].v===alicdnResource.grade){
-                                grade.append('<option selected="selected">' + items[i].v + '</option>');
-                            }
-                            else{grade.append('<option>' + items[i].v + '</option>');}
+        function getLink() {
+            febs.get(ctx+'pictureNews/pictureNews/web/list',null,function (res) {
+                var items = res.data;
+                if (items.total==0){
+                    link.append('<option value="'+""+'">'+""+'</option>');
+                }else{
+                    //link.append('<option value="' + items.rows[0].pictureId + '">' + items.rows[0].newsTitle+ '</option>');
+                    for (var i=0;i<items.rows.length;i++) {
+                        var linkConstant = alicdnResource.link;
+                        var linkIndex = linkConstant.indexOf('=');
+                        var compareLink = linkConstant.substr(linkIndex+1,linkConstant.length);
+                        if (items.rows[i].pictureId===compareLink){
+                            link.append('<option selected="selected" value=' + items.rows[i].pictureId + '>' + items.rows[i].newsTitle+ '</option>');
+                        }
+                        else{
+                            link.append('<option value='+ items.rows[i].pictureId + '>' + items.rows[i].newsTitle + '</option>');
                         }
                     }
-                    form.render('select');
+
                 }
+                form.render('select');
             });
         }
+
+
         function initUserValue() {
             form.val("alicdnResource-update-form", {
                 "resourceId": alicdnResource.resourceId,

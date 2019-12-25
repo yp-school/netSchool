@@ -30,4 +30,20 @@
         from
         picture_news
     </select>
+
+    <select id="selectPictureNewsinfoWebList" resultType="cc.mrbird.febs.basicInfo.entity.PictureNews">
+        select
+        picture_id,
+        picture_url,
+        news_url,
+        news_title,
+        news_content,
+        editor_id,
+        editor_name,
+        uploader_company,
+        publish_time,
+        course_id
+        from
+        picture_news
+    </select>
 </mapper>
