@@ -56,6 +56,13 @@ public class PictureNewsServiceImpl extends ServiceImpl<PictureNewsMapper, Pictu
     }
 
     @Override
+    public IPage<PictureNews> selectPictureNewsinfoWebList(QueryRequest request, PictureNews pictureNews) {
+        Page<PictureNews> page = new Page<>(request.getPageNum(), request.getPageSize());
+        IPage<PictureNews> pageList = this.baseMapper.selectPictureNewsinfoWebList(page,pictureNews);
+        return pageList;
+    }
+
+    @Override
     public List<PictureNews> findPictureNewss(PictureNews pictureNews) {
 	    LambdaQueryWrapper<PictureNews> queryWrapper = new LambdaQueryWrapper<>();
 		// TODO 设置查询条件

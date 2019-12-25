@@ -2,6 +2,7 @@ package cc.mrbird.febs.basicInfo.controller;
 
 import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
 import cc.mrbird.febs.basicInfo.entity.PictureNews;
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.basicInfo.service.IPictureNewsService;
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.utils.FebsUtil;
@@ -12,6 +13,7 @@ import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.Tools;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -88,6 +90,19 @@ public class PictureNewsController extends BaseController {
             log.error(message, e);
             throw new FebsException(message);
         }
+    }
+
+    /**
+     * 图片新闻下拉列表
+     * @param request
+     * @param pictureNews
+     */
+    @GetMapping("pictureNews/web/list")
+    @ResponseBody
+    public FebsResponse pictureNewsinfoWebList(QueryRequest request, PictureNews pictureNews) {
+        IPage<PictureNews> pictureNewsinfoIPagePages = this.pictureNewsService.selectPictureNewsinfoWebList(request, pictureNews);
+        Map<String, Object> dataTable = getDataTable(pictureNewsinfoIPagePages);
+        return new FebsResponse().success().data(dataTable);
     }
 
     @Log("新增PictureNews")
@@ -169,7 +184,7 @@ public class PictureNewsController extends BaseController {
     public String uploadFile(HttpServletRequest request, @Param("file") MultipartFile file) throws IOException {
         //新的文件名称
         String newFileName = null;
-        String url = "http://47.97.74.226:8888/febs/images";
+        String url = "http://175.6.23.25:8888/febs/images";
         String fileUrl =  newFileName;
         Map<String,Object> map = new HashMap<String,Object>();
         Map<String,Object> map2 = new HashMap<String,Object>();

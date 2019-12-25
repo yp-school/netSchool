@@ -313,7 +313,7 @@ public class SchoolController extends BaseController {
     public ImgResult uplpad(MultipartFile file, HttpServletRequest request){
         String desFilePath = "";
         String oriName = "";
-        String url = "http://47.97.74.226:8888/febs/images";
+        String url = "http://175.6.23.25:8888/febs/images";
         ImgResult result = new ImgResult();
         Map<String, String> dataMap = new HashMap<>();
         ImgResult imgResult = new ImgResult();

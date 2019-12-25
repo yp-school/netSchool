@@ -2,6 +2,7 @@ package cc.mrbird.febs.basicInfo.service;
 
 
 import cc.mrbird.febs.basicInfo.entity.PictureNews;
+import cc.mrbird.febs.basicInfo.entity.SchoolTeacheinfo;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -58,4 +59,6 @@ public interface IPictureNewsService extends IService<PictureNews> {
     PictureNews selectPictureNewsById(Integer pictureId);
 
     IPage<PictureNews> findPictureNewsHide(QueryRequest request, PictureNews pictureNews);
+
+    IPage<PictureNews> selectPictureNewsinfoWebList(QueryRequest request, PictureNews pictureNews);
 }

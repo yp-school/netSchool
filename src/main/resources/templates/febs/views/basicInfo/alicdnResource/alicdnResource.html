@@ -1,4 +1,4 @@
-<div class="layui-fluid layui-anim febs-anim" id="febs-alicdnResource" lay-title="网络课堂">
+<div class="layui-fluid layui-anim febs-anim" id="febs-alicdnResource" lay-title="钉钉新闻推送">
     <div class="layui-row febs-container">
         <div class="layui-col-md12">
             <div class="layui-card">
@@ -107,9 +107,9 @@
                 }
                 if (name === 'delete') {
                     if (!checkStatus.data.length) {
-                        febs.alert.warn('请选择需要删除的课程');
+                        febs.alert.warn('请选择需要删除的新闻');
                     } else {
-                        febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                        febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
                             var resourceIds = [];
                             layui.each(checkStatus.data, function (key, item) {
                                 resourceIds.push(item.resourceId)
@@ -128,11 +128,11 @@
             },
             options: [{
                 name: 'add',
-                title: '新增课程',
+                title: '新增新闻',
                 perms: 'alicdnResource:add'
             }, {
                 name: 'delete',
-                title: '删除课程',
+                title: '删除新闻',
                 perms: 'alicdnResource:delete'
             }
             ]
@@ -142,12 +142,12 @@
             var data = obj.data;
                 layEvent = obj.event;
             if (layEvent === 'del') {
-                febs.modal.confirm('删除课程', '确定删除该课程？', function () {
+                febs.modal.confirm('删除新闻', '确定删除该新闻？', function () {
                     deleteResource(data.resourceId);
                 });
             }
             if (layEvent === 'update') {
-                febs.modal.open('修改课程', 'basicInfo/alicdnResource/update/' + data.resourceId, {
+                febs.modal.open('修改新闻', 'basicInfo/alicdnResource/update/' + data.resourceId, {
                     area: $(window).width() <= 750 ? '90%' : '50%'
                 });
             }
@@ -202,7 +202,7 @@
 
         function deleteResource(resourceIds) {
             febs.get(ctx + 'alicdnResource/alicdnResource/delete/' + resourceIds, null, function () {
-                febs.alert.success('删除课程成功');
+                febs.alert.success('删除新闻成功');
                 $query.click();
             });
         }

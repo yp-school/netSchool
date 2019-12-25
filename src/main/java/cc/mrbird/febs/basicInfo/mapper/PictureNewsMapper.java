@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
 public interface PictureNewsMapper extends BaseMapper<PictureNews> {
 
     IPage<PictureNews> findPictureNewsHide(Page<PictureNews> page, @Param("pictureNews") PictureNews pictureNews);
+
+    IPage<PictureNews> selectPictureNewsinfoWebList(Page<PictureNews> page,@Param("pictureNews") PictureNews pictureNews);
 }
