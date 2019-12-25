@@ -34,6 +34,13 @@
                 <textarea name="honour" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">教师风采：</label>
+            <div class="layui-input-block">
+                <div id="contentDiv"></div>
+                <textarea name="honourImage" style="display:none" id="honourImage"></textarea>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">联系电话：</label>
             <div class="layui-input-block">
@@ -41,7 +48,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">上传照片</label>
+            <label class="layui-form-label">教师照片</label>
             <div class="layui-input-inline uploadHeadImage">
                 <div class="layui-upload-drag" id="headImg">
                     <i class="layui-icon">&#xe67c;</i>
@@ -82,6 +89,23 @@
         form.render();
         formSelects.render();
 
+
+        //教师风采辑器
+        var E = window.wangEditor;
+        var editor = new E('#contentDiv')
+        var $text1 = $('#honourImage');
+        editor.customConfig.uploadImgServer = 'pictureNews/upload';	//自定义上传图片（改成自己写的图片上传方法的路径）
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            customInsert: function (insertImg, result, editor) {
+                var url = result.data.src
+                insertImg(url)
+            }
+        }
+        editor.create();
+        var honourImage=$("#honourImage").val();
+        $text1.val(editor.txt.html(honourImage));
+
         $("#cleanImgs").click(function(){
             //alert("222");
             $('#demo2').html("");
@@ -116,6 +140,7 @@
         });
 
         form.on('submit(grade-add-form-submit)', function (data) {
+            data.field.honourImage=editor.txt.html();
             data.field.grade=$("#classInfo option:selected").val();
             $("#submit").addClass("layui-btn layui-btn-radius layui-btn-disabled").prop("disabled",true);
             febs.post(ctx+'schoolTeacherinfo/schoolTeacherinfo',data.field,function () {

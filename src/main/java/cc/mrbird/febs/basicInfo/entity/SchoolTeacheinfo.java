@@ -51,7 +51,7 @@ public class SchoolTeacheinfo {
     private String honour;
 
     /**
-     * 教师荣誉图片
+     * 教师风采
      */
     @TableField("honour_image")
     private String honourImage;
