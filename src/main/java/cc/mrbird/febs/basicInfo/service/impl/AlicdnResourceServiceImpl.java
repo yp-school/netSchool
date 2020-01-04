@@ -3,7 +3,9 @@ package cc.mrbird.febs.basicInfo.service.impl;
 import cc.mrbird.febs.basicInfo.config.Constant;
 import cc.mrbird.febs.basicInfo.entity.AlicdnResource;
 import cc.mrbird.febs.basicInfo.entity.NoticeAnnouncement;
+import cc.mrbird.febs.basicInfo.entity.PictureNews;
 import cc.mrbird.febs.basicInfo.mapper.AlicdnResourceMapper;
+import cc.mrbird.febs.basicInfo.mapper.PictureNewsMapper;
 import cc.mrbird.febs.basicInfo.service.IAlicdnResourceService;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -33,6 +35,8 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
 
     @Autowired
     private AlicdnResourceMapper alicdnResourceMapper;
+    @Autowired
+    private PictureNewsMapper pictureNewsMapper;
 
     @Override
     public IPage<AlicdnResource> findAlicdnResources(QueryRequest request, AlicdnResource alicdnResource) {
@@ -55,16 +59,22 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
     @Override
     @Transactional
     public void createAlicdnResource(AlicdnResource alicdnResource) {
+        PictureNews pictureNews = pictureNewsMapper.selectById(alicdnResource.getLink());
         String realLink = Constant.linkUrl + alicdnResource.getLink();
         alicdnResource.setLink(realLink);
+        //link实际存的是pictureId，根据这个id查找到图片新闻对应的图片,并存储
+        alicdnResource.setImage(pictureNews.getPictureUrl());
         this.save(alicdnResource);
     }
 
     @Override
     @Transactional
     public void updateAlicdnResource(AlicdnResource alicdnResource) {
+        PictureNews pictureNews = pictureNewsMapper.selectById(alicdnResource.getLink());
         String realLink = Constant.linkUrl + alicdnResource.getLink();
         alicdnResource.setLink(realLink);
+        //link实际存的是pictureId，根据这个id查找到图片新闻对应的图片,并存储
+        alicdnResource.setImage(pictureNews.getPictureUrl());
         this.saveOrUpdate(alicdnResource);
     }
 
