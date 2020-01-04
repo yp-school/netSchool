@@ -41,6 +41,7 @@ public class AlicdnResourceServiceImpl extends ServiceImpl<AlicdnResourceMapper,
         if (StringUtils.isNotEmpty(alicdnResource.getTitle())) {
             queryWrapper.like(AlicdnResource::getTitle, alicdnResource.getTitle());
         }
+        queryWrapper.orderByDesc(AlicdnResource::getDateTime);
         Page<AlicdnResource> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
     }

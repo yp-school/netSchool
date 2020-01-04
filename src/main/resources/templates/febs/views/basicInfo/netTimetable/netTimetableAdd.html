@@ -18,7 +18,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">开课时间：</label>
             <div class="layui-input-block">
-                <input type="datetime-local" name="beginDate" lay-verify="beginDate" autocomplete="off" class="layui-input">
+                <input type="text" class="layui-input" name="beginDate" id="beginDate" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -63,6 +63,7 @@
             formSelects = layui.formSelects,
             form = layui.form,
             $form = $('form'),
+            laydate = layui.laydate,
             $view = $('#netTimetable-add'),
             layarea = layui.layarea,
             validate = layui.validate,
@@ -75,6 +76,12 @@
         getTeacher();
         form.render();
         formSelects.render();
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#beginDate'
+            ,type: 'datetime'
+        });
 
         function getTeacher() {
             febs.get(ctx+'schoolTeacherinfo/schoolTeacherinfo/web/list',null,function (res) {

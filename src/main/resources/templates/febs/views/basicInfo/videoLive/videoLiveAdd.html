@@ -29,16 +29,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label febs-form-item-require">图片地址：</label>
-            <div class="layui-input-block">
-                <input type="text" name="videoImageUrl" minlength="2" maxlength="200"
-                       autocomplete="off" class="layui-input" lay-verify="required">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">开播时间：</label>
             <div class="layui-input-block">
-                <input type="datetime-local" name="videoPlayTime" lay-verify="videoPlayTime" autocomplete="off" class="layui-input">
+                <input type="text" class="layui-input" name="videoPlayTime" id="videoPlayTime" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
         <div class="layui-form-item">
@@ -47,6 +40,21 @@
                 <input type="radio" name="isPlay"  value="1" title="是" checked >
                 <input type="radio" name="isPlay"  value="0" title="否" >
             </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传图片</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+                <button type="button" class="layui-btn" id="cleanImgs"> <i class="fa fa-trash-o fa-lg"></i>清空图片预览</button>
+            </div>
+            预览图：
+            <div class="layui-upload-list" id="demo2"></div>
+
+            <input type="text" id="videoImageUrl" name="videoImageUrl" style="display: none;" class="layui-input">
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">课程名称：</label>
@@ -72,6 +80,7 @@
             formSelects = layui.formSelects,
             form = layui.form,
             $form = $('form'),
+            laydate = layui.laydate,
             $view = $('#videoLive-add'),
             layarea = layui.layarea,
             validate = layui.validate,
@@ -84,6 +93,44 @@
         getCourse();
         form.render();
         formSelects.render();
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#videoPlayTime'
+            ,type: 'datetime'
+        });
+
+        $("#cleanImgs").click(function(){
+            $('#demo2').html("");
+            $('#videoImageUrl').val("");
+        });
+
+        var videoImageUrl = "";
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload'
+            , size: 1000
+            , multiple: true
+            , number: 7
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    // $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name
+                        + '"height="100px" width="100px" class="layui-upload-img uploadImgPreView">')
+                });
+            }
+            , done: function (res) {
+                videoImageUrl = videoImageUrl + "" + res.data.src;
+                $('#videoImageUrl').val(videoImageUrl);
+            }
+            , error: function () {
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
 
         function getCourse() {
             febs.get(ctx+'netTimetable/netTimetable/web/list',null,function (res) {

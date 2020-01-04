@@ -33,10 +33,16 @@
                 <textarea name="noticeContent" id="noticeContent" style="display:none" ></textarea>
             </div>
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">公告时间：</label>
             <div class="layui-input-block">
                 <input type="datetime-local" name="noticeTime" lay-verify="noticeTime" autocomplete="off" class="layui-input">
+            </div>
+        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">公告时间：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="noticeTime" id="noticeTime" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
         <div class="layui-form-item">
@@ -75,6 +81,7 @@
             layer = layui.layer,
             formSelects = layui.formSelects,
             form = layui.form,
+            laydate = layui.laydate,
             $form = $('form'),
             upload = layui.upload,
             grade=$('#notice'),
@@ -88,6 +95,12 @@
         initUserValue();
         form.verify(validate);
         form.render();
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#noticeTime'
+            ,type: 'datetime'
+        });
 
         //通知公告编辑器
         var E = window.wangEditor;
@@ -159,7 +172,7 @@
                 "noticeId": notice.noticeId,
                 "noticeTitle": notice.noticeTitle,
                 "noticeContent": notice.noticeContent,
-                "noticeTime": specialTime,
+                "noticeTime": notice.noticeTime,
                 "noticePicture":notice.noticePicture,
                 "publishCompany":notice.publishCompany
             });

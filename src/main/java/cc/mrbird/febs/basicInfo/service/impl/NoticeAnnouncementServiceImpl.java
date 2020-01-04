@@ -43,6 +43,7 @@ public class NoticeAnnouncementServiceImpl extends ServiceImpl<NoticeAnnouncemen
         if (StringUtils.isNotEmpty(noticeAnnouncement.getNoticeTitle())) {
             queryWrapper.eq(NoticeAnnouncement::getNoticeTitle, noticeAnnouncement.getNoticeTitle());
         }
+        queryWrapper.orderByDesc(NoticeAnnouncement::getNoticeTime);
         Page<NoticeAnnouncement> page = new Page<>(request.getPageNum(), request.getPageSize());
         return this.page(page, queryWrapper);
     }

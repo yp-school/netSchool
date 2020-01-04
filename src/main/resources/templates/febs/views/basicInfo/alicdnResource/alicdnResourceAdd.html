@@ -18,7 +18,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label febs-form-item-require">开课时间：</label>
             <div class="layui-input-block">
-                <input type="datetime-local" name="dateTime" lay-verify="dateTime" autocomplete="off" class="layui-input">
+                <input type="text" class="layui-input" name="dateTime" id="dateTime" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -58,6 +58,7 @@
             febs = layui.febs,
             layer = layui.layer,
             formSelects = layui.formSelects,
+            laydate = layui.laydate,
             form = layui.form,
             $form = $('form'),
             $view = $('#alicdnResource-add'),
@@ -73,15 +74,21 @@
         form.render();
         formSelects.render();
 
+        //日期时间选择器
+        laydate.render({
+            elem: '#dateTime'
+            ,type: 'datetime'
+        });
+
         function getLink() {
             febs.get(ctx+'pictureNews/pictureNews/web/list',null,function (res) {
                 var items = res.data;
-                if (items.total == 0){
+                if (items.length == 0){
                     link.append('<option value="'+""+'">'+""+'</option>');
                 }else{
-                    //link.append('<option value="' + items.rows[0].pictureId + '">' + items.rows[0].newsTitle+ '</option>');
-                    for (var i=0;i<items.rows.length;i++) {
-                            link.append('<option value='+ items.rows[i].pictureId + '>' + items.rows[i].newsTitle + '</option>');
+                    //link.append('<option value="' + items[0].pictureId + '">' + items[0].newsTitle+ '</option>');
+                    for (var i=0;i<items.length;i++) {
+                            link.append('<option value='+ items[i].pictureId + '>' + items[i].newsTitle + '</option>');
                     }
                 }
                 form.render('select');

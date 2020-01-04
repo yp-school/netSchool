@@ -100,9 +100,7 @@ public class PictureNewsController extends BaseController {
     @GetMapping("pictureNews/web/list")
     @ResponseBody
     public FebsResponse pictureNewsinfoWebList(QueryRequest request, PictureNews pictureNews) {
-        IPage<PictureNews> pictureNewsinfoIPagePages = this.pictureNewsService.selectPictureNewsinfoWebList(request, pictureNews);
-        Map<String, Object> dataTable = getDataTable(pictureNewsinfoIPagePages);
-        return new FebsResponse().success().data(dataTable);
+        return new FebsResponse().success().data(pictureNewsService.findPictureNewss(pictureNews));
     }
 
     @Log("新增PictureNews")
