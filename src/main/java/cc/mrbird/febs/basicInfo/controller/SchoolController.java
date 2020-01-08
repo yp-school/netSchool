@@ -3,7 +3,6 @@ package cc.mrbird.febs.basicInfo.controller;
 import cc.mrbird.febs.basicInfo.entity.ImgResult;
 import cc.mrbird.febs.basicInfo.service.IClassInfoService;
 import cc.mrbird.febs.basicInfo.service.IClassroomInfoService;
-import cc.mrbird.febs.basicInfo.service.IDeviceInfoService;
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.utils.CommonConstant;
 import cc.mrbird.febs.common.utils.Tools;
@@ -56,9 +55,6 @@ public class SchoolController extends BaseController {
 
     @Autowired
     private ISchoolService schoolService;
-
-    @Autowired
-    private IDeviceInfoService deviceInfoService;
 
     @Autowired
     private IClassroomInfoService classroomInfoService;
@@ -228,7 +224,6 @@ public class SchoolController extends BaseController {
             for (String schoolId:schools) {
                 list.add(schoolId);
             }
-            this.deviceInfoService.deleteDeviceInfoByschoolId(list);
             this.classInfoService.deleteClassInfosByschoolId(list);
             this.classroomInfoService.deleteClassroomInfosByschoolId(list);
             this.schoolService.deleteSchool(schoolIds);

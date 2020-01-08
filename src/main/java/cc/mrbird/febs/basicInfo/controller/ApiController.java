@@ -62,9 +62,6 @@ import static cc.mrbird.febs.dingding.config.URLConstant.URL_CHAT_GET;
 public class ApiController extends BaseController {
 
     @Autowired
-    private IDeviceInfoService deviceInfoService;
-
-    @Autowired
     private IOnlineClassService onlineClassService;
 
     @Autowired
@@ -99,20 +96,6 @@ public class ApiController extends BaseController {
 
     @Autowired
     private IDingChatService dingChatService;
-
-    /**
-     * 根据查询条件获取设备列表
-     *
-     * @param deviceInfo
-     * @param request
-     * @return
-     */
-    @GetMapping("device/list")
-    @RequiresPermissions("device:list")
-    public FebsResponse getDeviceInfoList(DeviceInfo deviceInfo, QueryRequest request) {
-        Map<String, Object> dataTable = getDataTable(this.deviceInfoService.findDeviceInfos(request, deviceInfo));
-        return new FebsResponse().success().data(dataTable);
-    }
 
     /**
      * 根据学校编号或学校名称获取巡课数据
@@ -333,110 +316,6 @@ public class ApiController extends BaseController {
         }
     }
 
-/*    *//**
-     * 省级数量统计接口
-     *
-     * @param request
-     * @param field
-     * @return
-     *//*
-    @GetMapping("province/statistical")
-    @RequiresPermissions("province:statistical")
-    public FebsResponse provinceStatistical(QueryRequest request, String field) {
-        //school、user、device、classNum-开课次数
-        long num = 0;
-        if (field != null) {
-            switch (field) {
-                case "school":
-                    num = this.schoolService.count();
-                    break;
-                case "user":
-                    num = this.userService.count();
-                    break;
-                case "device":
-                    num = this.deviceInfoService.count();
-                    break;
-                case "classNum":  //开课次数
-
-                    break;
-            }
-        }
-        FebsResponse febsResponse = new FebsResponse();
-        return new FebsResponse().num(num).success();
-    }
-
-    @GetMapping("city/statistical")
-    @RequiresPermissions("city:statistical")
-    public FebsResponse cityStatistical(QueryRequest request, String field, String city) {
-        //school、user、device、classNum-开课次数
-        Integer num = 0;
-        if (field != null) {
-            switch (field) {
-                case "school":
-                    num = this.schoolService.getCountOfCity(city);
-                    break;
-                case "user":
-                    num = this.userService.countUserNumByDept(city);
-                    break;
-                case "device":
-                    num = this.deviceInfoService.countDeviceByDept(city);
-                    break;
-                case "classNum":  //开课次数
-
-                    break;
-            }
-        }
-        FebsResponse febsResponse = new FebsResponse();
-        return new FebsResponse().num(num).success();
-    }
-
-    @GetMapping("country/statistical")
-    @RequiresPermissions("country:statistical")
-    public FebsResponse countryStatistical(QueryRequest request, String field, String country) {
-        //school、user、device、classNum-开课次数
-        Integer num = 0;
-        if (field != null) {
-            switch (field) {
-                case "school":
-                    num = this.schoolService.getCountOfCountry(country);
-                    break;
-                case "user":
-//                    num = this.userService.countUserNumByDept(country);
-                    break;
-                case "device":
-                    //该区县有多少所学校，对应统计有多少设备
-                    num = this.deviceInfoService.countDeviceByDept(country);
-                    break;
-                case "classNum":  //开课次数
-
-                    break;
-            }
-        }
-        FebsResponse febsResponse = new FebsResponse();
-        return new FebsResponse().num(num).success();
-    }
-
-    @GetMapping("school/statistical")
-    @RequiresPermissions("school:statistical")
-    public FebsResponse schoolStatistical(QueryRequest request, String field, String school) {
-        //school、user、device、classNum-开课次数
-        Integer num = 0;
-        if (field != null) {
-            switch (field) {
-                case "user":
-                    num = this.userService.countUserNumByDept(school);
-                    break;
-                case "device":
-                    num = this.deviceInfoService.countDeviceBySchool(school);
-                    break;
-                case "classNum":  //开课次数
-
-                    break;
-            }
-        }
-        FebsResponse febsResponse = new FebsResponse();
-        return new FebsResponse().num(num).success();
-    }*/
 
     /**
      * 根据省市区条件进行统计开课数量统计

@@ -1,6 +1,5 @@
 package cc.mrbird.febs.basicInfo.service.impl;
 
-import cc.mrbird.febs.basicInfo.entity.DeviceInfo;
 import cc.mrbird.febs.basicInfo.entity.Timetable;
 import cc.mrbird.febs.basicInfo.mapper.TimetableMapper;
 import cc.mrbird.febs.basicInfo.service.ITimetableService;

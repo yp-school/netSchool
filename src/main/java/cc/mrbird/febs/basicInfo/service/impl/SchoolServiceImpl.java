@@ -5,7 +5,6 @@ import cc.mrbird.febs.basicInfo.entity.SchoolTimetable;
 import cc.mrbird.febs.basicInfo.mapper.SchoolMapper;
 import cc.mrbird.febs.basicInfo.service.IClassInfoService;
 import cc.mrbird.febs.basicInfo.service.IClassroomInfoService;
-import cc.mrbird.febs.basicInfo.service.IDeviceInfoService;
 import cc.mrbird.febs.basicInfo.service.ISchoolService;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.resource.entity.Resource;
@@ -52,9 +51,6 @@ public class SchoolServiceImpl extends ServiceImpl<SchoolMapper, School> impleme
   
     @Autowired
     private IClassroomInfoService classroomInfoService;
-    
-    @Autowired
-    private IDeviceInfoService deviceInfoService;
 
     @Autowired
     private IDeptService deptService;
@@ -164,7 +160,6 @@ public class SchoolServiceImpl extends ServiceImpl<SchoolMapper, School> impleme
     	if(list.size()>0){
 //	        classInfoService.deleteClassInfosByschoolId(list); // 删除班级关联
 //	        classroomInfoService.deleteClassroomInfosByschoolId(list);// 删除教室关联
-//	        deviceInfoService.deleteDeviceInfoByschoolId(list);// 删除教室设备关联
 	        this.baseMapper.delete(new QueryWrapper<School>().lambda().in(School::getSchoolId, list));
 
     	}

@@ -36,9 +36,6 @@ import java.util.Date;
 public class ViewController extends BaseController {
 
     @Autowired
-    private IDeviceInfoService deviceInfoService;
-
-    @Autowired
     private ISchoolTimetableService schoolTimetableService;
 
     @Autowired
@@ -52,9 +49,6 @@ public class ViewController extends BaseController {
 
     @Autowired
     private ShiroHelper shiroHelper;
-
-    @Autowired
-    private ThirdAppAbutmentService thirdAppAbutmentService;
 
     @Autowired
     private ISchoolTeacheinfoService schoolTeacheinfoService;
@@ -290,31 +284,6 @@ public class ViewController extends BaseController {
 
     //==============================================START==================================================
 
-    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/deviceInfo")
-    @RequiresPermissions("deviceInfo:view")
-    public String basicInfoDeviceInfo() {
-
-        return FebsUtil.view("basicInfo/deviceInfo/deviceInfo");
-    }
-
-    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/deviceInfo/add")
-    @RequiresPermissions("deviceInfo:add")
-    public String basicInfoDeviceInfoAdd() {
-
-        return FebsUtil.view("basicInfo/deviceInfo/deviceInfoAdd");
-    }
-
-    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/deviceInfo/update/{deviceId}")
-    @RequiresPermissions("deviceInfo:update")
-    public String basicInfoDeviceInfoUpdate(@PathVariable Integer deviceId, Model model) {
-        resolveDeviceModel(deviceId, model, false);
-        return FebsUtil.view("basicInfo/deviceInfo/deviceInfoUpdate");
-    }
-
-    //==============================================END==================================================
-
-    //==============================================START==================================================
-
     @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/schoolTimetable")
     @RequiresPermissions("schoolTimetable:view")
     public String basicInfoSchoolTimetable() {
@@ -372,43 +341,10 @@ public class ViewController extends BaseController {
         return FebsUtil.view("basicInfo/abutment/abutment");
     }
 
-    /**
-     * 第三方移动应用详情信息
-     * @param abutmentId
-     * @param model
-     * @return
-     */
-    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/abutment/detail/{abutmentId}")
-//  @RequiresPermissions("abutment:view")
-    public String abutMentDetail(@PathVariable Long abutmentId, Model model) {
-        resolveAbutmentModel(abutmentId,model, true);
-        return FebsUtil.view("basicInfo/abutment/abutmentDetail");
-    }
-
-    /**
-     * 修改第三方移动应用
-     * @param abutmentId
-     * @param model
-     * @return
-     */
-    @GetMapping(FebsConstant.VIEW_PREFIX + "basicInfo/abutment/update/{abutmentId}")
-    //@RequiresPermissions("abutment:update")
-    public String abutmentUpdate(@PathVariable Long abutmentId, Model model) {
-        resolveAbutmentModel(abutmentId,model, true);
-        return FebsUtil.view("basicInfo/abutment/abutmentUpdate");
-    }
-
 
     //==============================================END==================================================
 
 
-    private void resolveDeviceModel(Integer deviceId, Model model, Boolean transform) {
-        DeviceInfo deviceInfo = deviceInfoService.findDeviceById(deviceId);
-        model.addAttribute("deviceInfo", deviceInfo);
-
-        if (deviceInfo.getBuytTime() != null)
-            model.addAttribute("buytTime", DateUtil.getDateFormat(deviceInfo.getBuytTime(), DateUtil.FULL_TIME_PATTERN_NO_DETAIL));
-    }
 
     private void resolveSchoolTimetableModel(Integer courseId, Model model, Boolean transform) throws ParseException {
         SchoolTimetable schoolTimetable = schoolTimetableService.selectSchooltimetableInfo(courseId);
@@ -420,11 +356,6 @@ public class ViewController extends BaseController {
     private void resolveSchoolrModel(Long schoolId, Model model, Boolean transform) {
         School school = this.schoolService.getById(schoolId);
         model.addAttribute("school", school);
-    }
-
-    private void resolveAbutmentModel(Long abutmentId, Model model, Boolean transform) {
-        Abutment abutment = this.thirdAppAbutmentService.getById(abutmentId);
-        model.addAttribute("abutment", abutment);
     }
 
     private void resolveClassrModel(Integer classroomInfoId, Model model, Boolean transform) {

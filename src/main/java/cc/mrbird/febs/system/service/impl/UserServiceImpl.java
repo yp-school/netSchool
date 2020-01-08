@@ -1,6 +1,5 @@
 package cc.mrbird.febs.system.service.impl;
 
-import cc.mrbird.febs.basicInfo.entity.DeviceInfo;
 import cc.mrbird.febs.common.authentication.ShiroRealm;
 import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.QueryRequest;
